@@ -344,7 +344,8 @@
                 <h2 class="font-bangers text-6xl text-slate-800 mb-4 uppercase">Sediakan Buzzer Anda</h2>
                 <p class="text-xl text-slate-600 mb-8 font-bold">Sila imbas kod QR di bawah dan pilih <span class="bg-slate-200 px-2 rounded border border-slate-800">Mod Pelajar</span>.</p>
                 <div class="bg-white p-6 border-4 border-slate-800 shadow-[8px_8px_0px_#1e293b] inline-block mb-6">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.href)}" class="w-64 h-64 mx-auto">
+                    <!-- ID "join-qr" ditambah untuk auto-detect URL rasmi menggunakan JavaScript -->
+                    <img id="join-qr" src="" class="w-64 h-64 mx-auto" alt="Sila tunggu...">
                 </div>
             </div>
         </div>
@@ -454,7 +455,7 @@
                 <h2 class="font-bangers text-6xl uppercase mb-8"><i class="fas fa-paw text-amber-600"></i> Keluarga & Haiwan Peliharaan</h2>
                 <div class="grid grid-cols-2 gap-8">
                     <div class="bg-slate-50 p-6 border-4 border-slate-800 rounded-xl">
-                        <h3 class="font-bangers text-3xl text-slate-700 mb-4">Ahli Keluarga (Family)</h3>
+                        <h3 class="font-bangers text-3xl text-slate-700 mb-4 border-b-2 border-slate-300 pb-2">Ahli Keluarga (Family)</h3>
                         <div class="grid grid-cols-2 gap-4 text-xl font-bold text-slate-600">
                             <div><i class="fas fa-male text-blue-500"></i> Bapa</div>
                             <div><i class="fas fa-female text-pink-500"></i> Ibu</div>
@@ -686,6 +687,19 @@
         const totalSlides = 15;
         let pollingInterval = null;
         let myStudentName = "";
+
+        // TUGASAN AUTO-DETECT QR CODE BERDASARKAN URL SEBENAR
+        window.addEventListener('load', () => {
+            const qrImg = document.getElementById('join-qr');
+            if (qrImg) {
+                // Check kalau preview dalam canvas iframe, kita guna dummy URL. Kalau web sebenar guna href asal.
+                let targetUrl = window.location.href;
+                if (targetUrl === 'about:srcdoc' || targetUrl.includes('blob:')) {
+                    targetUrl = "https://pautan-kelas-cikgu-izan.com"; 
+                }
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetUrl)}`;
+            }
+        });
 
         // Rawak Kod Penjana (7 Huruf Alphabets)
         function generateRandomPass(length = 7) {
