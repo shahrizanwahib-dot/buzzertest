@@ -342,10 +342,16 @@
                     <i class="fas fa-link"></i> Penyambungan Peranti Buzzer
                 </div>
                 <h2 class="font-bangers text-6xl text-slate-800 mb-4 uppercase">Sediakan Buzzer Anda</h2>
-                <p class="text-xl text-slate-600 mb-8 font-bold">Sila imbas kod QR di bawah dan pilih <span class="bg-slate-200 px-2 rounded border border-slate-800">Mod Pelajar</span>.</p>
-                <div class="bg-white p-6 border-4 border-slate-800 shadow-[8px_8px_0px_#1e293b] inline-block mb-6">
-                    <!-- ID "join-qr" ditambah untuk auto-detect URL rasmi menggunakan JavaScript -->
-                    <img id="join-qr" src="" class="w-64 h-64 mx-auto" alt="Sila tunggu...">
+                <p class="text-xl text-slate-600 mb-6 font-bold">Pilih <span class="bg-slate-200 px-2 rounded border border-slate-800">Mod Pelajar</span> di telefon anda.</p>
+                
+                <!-- Kotak Input URL Baru Untuk Cikgu -->
+                <div class="mb-6 flex flex-col items-center bg-slate-50 p-4 border-2 border-slate-200 rounded-lg">
+                    <label class="text-sm font-black text-blue-600 mb-2 uppercase tracking-widest"><i class="fas fa-edit"></i> Cikgu: Sila masukkan pautan (URL) kelas anda di sini</label>
+                    <input type="text" id="teacher-url-input" value="https://shahrizanwahib-dot.github.io/buzzertest/" oninput="updateQRCode()" class="w-full max-w-md p-3 border-4 border-slate-800 rounded-lg text-center text-lg font-bold text-slate-700 focus:border-blue-600 outline-none">
+                </div>
+
+                <div class="bg-white p-6 border-4 border-slate-800 shadow-[8px_8px_0px_#1e293b] inline-block mb-2">
+                    <img id="join-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https%3A%2F%2Fshahrizanwahib-dot.github.io%2Fbuzzertest%2F" class="w-64 h-64 mx-auto" alt="Sila tunggu...">
                 </div>
             </div>
         </div>
@@ -688,17 +694,26 @@
         let pollingInterval = null;
         let myStudentName = "";
 
-        // TUGASAN AUTO-DETECT QR CODE BERDASARKAN URL SEBENAR
-        window.addEventListener('load', () => {
+        // Fungsi Kemaskini QR Code Berdasarkan Input Cikgu
+        function updateQRCode() {
+            let url = document.getElementById('teacher-url-input').value.trim();
+            if (!url) {
+                url = "https://shahrizanwahib-dot.github.io/buzzertest/";
+            } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                // Tambah https:// kalau cikgu lupa letak supaya phone cam ni pautan website
+                url = 'https://' + url;
+            }
+            
             const qrImg = document.getElementById('join-qr');
             if (qrImg) {
-                // Check kalau preview dalam canvas iframe, kita guna dummy URL. Kalau web sebenar guna href asal.
-                let targetUrl = window.location.href;
-                if (targetUrl === 'about:srcdoc' || targetUrl.includes('blob:')) {
-                    targetUrl = "https://pautan-kelas-cikgu-izan.com"; 
-                }
-                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetUrl)}`;
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
             }
+        }
+
+        // TUGASAN AUTO-DETECT QR CODE BERDASARKAN URL SEBENAR
+        window.addEventListener('load', () => {
+            // Kita panggil updateQRCode bila slaid pertama kali buka supaya ia jana QR default
+            updateQRCode();
         });
 
         // Rawak Kod Penjana (7 Huruf Alphabets)
