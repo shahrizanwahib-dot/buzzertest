@@ -259,19 +259,20 @@
                 </div>
             </div>
 
-            <!-- Menunggu & Input Password -->
             <div id="pass-section" class="w-full animate-popIn">
+                <!-- Status & Screens Controller by JS -->
                 <div id="status-wait" class="mb-6 flex flex-col items-center">
                     <div class="w-16 h-16 border-8 border-slate-200 border-t-emerald-600 rounded-full animate-spin mb-4"></div>
                     <h2 class="font-bangers text-3xl text-slate-600 uppercase tracking-wider">Tunggu Arahan Cikgu...</h2>
                 </div>
+                
                 <div class="content-box p-6 w-full mb-8">
                     <p class="text-sm font-black text-slate-500 mb-3 uppercase tracking-widest">Kunci Slaid (7 Huruf)</p>
                     <input type="text" id="stu-pass" maxlength="10" placeholder="Cth: ABCDEFG" oninput="checkPassInput()" class="w-full h-24 text-center text-4xl md:text-5xl font-bangers uppercase border-4 border-slate-800 rounded-xl focus:border-emerald-500 focus:outline-none bg-slate-50 text-emerald-700 tracking-widest">
                 </div>
             </div>
 
-            <!-- BUTANG BUZZER 3D SHJ (Kotak taip dibuang) -->
+            <!-- BUTANG BUZZER 3D -->
             <div id="buzzer-section" class="hidden w-full flex-col items-center animate-popIn">
                 <p class="font-bangers text-emerald-600 text-4xl mb-4 animate-pulse uppercase tracking-widest">Buzzer Dibuka!</p>
                 
@@ -293,8 +294,8 @@
 
             <!-- WINNER: TYPE ANSWER SECTION (Hanya untuk pemenang) -->
             <div id="type-answer-section" class="hidden w-full content-box border-emerald-500 shadow-[8px_8px_0px_#059669] flex-col items-center animate-popIn">
-                <h2 class="font-bangers text-4xl md:text-5xl text-emerald-700 mb-2 uppercase">TAHNIAH! ANDA TERPANTAS</h2>
-                <p class="text-slate-600 font-bold mb-6 text-sm uppercase tracking-widest text-center">Tunggu soalan dan taip jawapan.</p>
+                <h2 class="font-bangers text-4xl md:text-5xl text-emerald-700 mb-2 uppercase text-center">TAHNIAH!<br>ANDA TERPANTAS</h2>
+                <p class="text-slate-600 font-bold mb-6 text-sm uppercase tracking-widest text-center mt-2">Sila taip jawapan anda sekarang.</p>
                 <input type="text" id="stu-final-answer" placeholder="Jawapan anda..." class="w-full p-4 border-4 border-slate-800 rounded-lg text-center text-3xl uppercase font-black focus:border-emerald-500 focus:outline-none shadow-inner bg-slate-50 mb-6">
                 <button onclick="submitAnswer()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-3xl rounded-lg border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Hantar Jawapan</button>
             </div>
@@ -304,7 +305,7 @@
                 <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-times text-4xl"></i></div>
                 <h2 class="font-bangers text-4xl md:text-5xl mb-2 text-red-800 uppercase">ALAMAK, TERLAMBAT!</h2>
                 <p class="text-slate-700 font-bold text-lg mb-4">Pemain <span id="fastest-player-name" class="text-blue-600 font-black">NAMA</span> lebih pantas.</p>
-                <button onclick="resetToBuzzer()" class="mt-4 w-full py-4 bg-white border-4 border-slate-800 font-bangers text-2xl uppercase rounded hover:bg-slate-100 transition shadow-[4px_4px_0px_#1e293b]">Tunggu Soalan Seterusnya / Reset</button>
+                <p class="text-slate-500 text-sm font-bold uppercase tracking-widest mt-4 animate-pulse"><i class="fas fa-satellite-dish"></i> Sedia untuk Rebound jika jawapan salah...</p>
             </div>
 
             <!-- SUCCESS SECTION -->
@@ -312,7 +313,7 @@
                 <div class="w-20 h-20 bg-emerald-600 text-white rounded-full flex items-center justify-center mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-check text-4xl"></i></div>
                 <h2 class="font-bangers text-5xl mb-2 text-emerald-800 uppercase">Dihantar!</h2>
                 <p class="text-slate-700 font-bold text-lg mb-4 text-center">Jawapan dipaparkan di skrin kelas.</p>
-                <button onclick="resetToBuzzer()" class="mt-6 w-full py-4 bg-white border-4 border-slate-800 font-bangers text-2xl uppercase rounded hover:bg-slate-100 transition shadow-[4px_4px_0px_#1e293b]">Tunggu Soalan Seterusnya / Reset</button>
+                <p class="text-emerald-600 text-sm font-bold uppercase tracking-widest mt-4"><i class="fas fa-sync"></i> Menunggu pusingan seterusnya...</p>
             </div>
         </div>
     </div>
@@ -524,12 +525,12 @@
                 <h2 class="font-bangers text-6xl text-slate-900 mb-6 uppercase">Sedia Untuk Berebut!</h2>
                 <p class="text-2xl font-bold text-slate-600 mb-8">Sila masukkan kod rawak ini di telefon anda sekarang:</p>
                 
-                <!-- Kotak Password (Akan disembunyikan bila ada pemenang) -->
+                <!-- Kotak Password -->
                 <div id="pass-container-10" class="bg-amber-300 p-8 rounded-2xl border-8 border-slate-900 shadow-[8px_8px_0px_rgba(0,0,0,0.2)] inline-block mb-10 transform -rotate-2 transition-all">
                     <span id="prep-pass-11" class="text-[5rem] md:text-[6rem] font-bangers text-slate-900 leading-none drop-shadow-lg tracking-widest">ABCDEFG</span>
                 </div>
                 
-                <!-- Kotak Nama Pemenang (Keluar bila ada budak tekan buzzer) -->
+                <!-- Kotak Nama Pemenang -->
                 <div id="winner-container-10" class="hidden bg-emerald-400 p-8 rounded-2xl border-8 border-slate-900 shadow-[8px_8px_0px_rgba(0,0,0,0.2)] mb-10 transform rotate-2 flex-col items-center animate-popIn">
                     <p class="text-slate-900 font-black uppercase tracking-widest text-xl mb-2"><i class="fas fa-bolt"></i> Terpantas!</p>
                     <span id="winner-name-10" class="text-[5rem] md:text-[6rem] font-bangers text-slate-900 leading-none drop-shadow-lg tracking-widest uppercase">NAMA</span>
@@ -562,6 +563,13 @@
                         
                         <div id="typing-status-11" class="text-2xl font-bold text-slate-600 bg-white p-4 rounded-xl border-2 border-slate-300">
                             <i class="fas fa-keyboard text-amber-500 animate-pulse"></i> Menunggu jawapan dihantar...
+                        </div>
+
+                        <!-- BUTANG REBOUND -->
+                        <div class="mt-6 border-t-2 border-slate-300 pt-6 w-full flex justify-center">
+                            <button onclick="reboundSlide11()" class="bg-red-500 hover:bg-red-600 text-white font-bangers tracking-widest text-2xl px-8 py-3 rounded-lg shadow-[4px_4px_0px_#7f1d1d] uppercase transition-all hover:translate-y-1 hover:shadow-none">
+                                <i class="fas fa-redo-alt mr-2"></i> SALAH! Buka Semula Buzzer
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -646,8 +654,10 @@
                         <button onclick="startFeudBuzzer()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-900 border-4 border-slate-900 px-6 py-2 rounded-lg font-bangers text-2xl uppercase shadow-[4px_4px_0px_#0f172a] transition-all hover:translate-y-1 hover:shadow-none">
                             <i class="fas fa-lock-open"></i> Buka Laluan
                         </button>
+                        
+                        <!-- BUTANG REBOUND FEUD -->
                         <button onclick="resetFeudBuzzer()" class="bg-amber-500 hover:bg-amber-400 text-slate-900 border-4 border-slate-900 px-6 py-2 rounded-lg font-bangers text-2xl uppercase shadow-[4px_4px_0px_#0f172a] transition-all hover:translate-y-1 hover:shadow-none">
-                            <i class="fas fa-redo"></i> Sedia Pelajar Baru
+                            <i class="fas fa-redo"></i> Rebound (Buka Semula)
                         </button>
                     </div>
                     
@@ -704,10 +714,13 @@
         let currentSlide = 1;
         const totalSlides = 15;
         let pollingInterval = null;
+        
+        // Pembolehubah Pelajar
         let studentPollInterval = null;
         let myStudentName = "";
-        
+        let currentStudentPass = ""; 
         let isBuzzing = false; 
+        
         window.feudAnswerRevealed = false;
 
         function updateQRCode() {
@@ -717,11 +730,8 @@
             } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 url = 'https://' + url;
             }
-            
             const qrImg = document.getElementById('join-qr');
-            if (qrImg) {
-                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
-            }
+            if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
         }
 
         window.addEventListener('load', () => { updateQRCode(); });
@@ -749,7 +759,30 @@
             }
         }
 
-        // --- LOGIK PELAJAR ---
+        // --- LOGIK PELAJAR: STATE CONTROLLER ---
+        function setStudentUI(activeId) {
+            const sections = ['status-wait', 'buzzer-section', 'wait-result-section', 'type-answer-section', 'loser-section', 'success-section'];
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === activeId) {
+                        el.classList.remove('hidden');
+                        if (id !== 'status-wait') el.classList.add('flex'); // status-wait is managed inside pass-section
+                    } else {
+                        el.classList.add('hidden');
+                        el.classList.remove('flex');
+                    }
+                }
+            });
+            
+            // Bila patah balik ke buzzer, buang lock effect
+            if (activeId === 'buzzer-section') {
+                const btn = document.getElementById('main-buzzer');
+                btn.classList.remove('pressed', 'locked');
+                isBuzzing = false;
+            }
+        }
+
         function joinClass() {
             const nameInput = document.getElementById('stu-name').value.trim();
             if (!nameInput) return;
@@ -763,13 +796,74 @@
         function checkPassInput() {
             const pass = document.getElementById('stu-pass').value.trim().toUpperCase();
             if (pass.length >= 7) { 
-                document.getElementById('status-wait').classList.add('hidden');
-                document.getElementById('buzzer-section').classList.remove('hidden');
-                document.getElementById('buzzer-section').classList.add('flex');
+                if (currentStudentPass !== pass) {
+                    currentStudentPass = pass;
+                    startContinuousStudentPolling(pass);
+                }
             } else {
-                document.getElementById('status-wait').classList.remove('hidden');
-                document.getElementById('buzzer-section').classList.add('hidden');
-                document.getElementById('buzzer-section').classList.remove('flex');
+                currentStudentPass = "";
+                stopContinuousStudentPolling();
+                setStudentUI('status-wait');
+            }
+        }
+
+        // POLLING BERTERUSAN PELAJAR (Untuk detect auto-rebound cikgu)
+        function startContinuousStudentPolling(pass) {
+            stopContinuousStudentPolling();
+            if (!isBuzzing) setStudentUI('buzzer-section'); // Mula-mula tunjuk buzzer terus
+
+            studentPollInterval = setInterval(async () => {
+                if (!GAS_WEB_APP_URL) {
+                    // Demo mode handling
+                    let demoWinner = localStorage.getItem('demoBuzzerWinner_' + pass);
+                    processStudentPollData(demoWinner);
+                    return;
+                }
+                
+                try {
+                    let response = await fetch(GAS_WEB_APP_URL + "?action=check&pass=" + pass);
+                    let data = await response.json();
+                    processStudentPollData(data.winner);
+                } catch(e) {}
+            }, 1000); 
+        }
+
+        function processStudentPollData(winnerData) {
+            if (!winnerData) {
+                // REBOUND BERLAKU! Cikgu dah clear data.
+                // Semua pelajar kembali ke mode Buzzer (Kecuali yang baru je tekan tunggu loading)
+                if (isBuzzing && document.getElementById('wait-result-section').classList.contains('flex')) {
+                    // Biar kejap kalau dia baru sangat tekan
+                } else {
+                    setStudentUI('buzzer-section');
+                    document.getElementById('stu-final-answer').value = ''; 
+                }
+            } else {
+                // ADA PEMENANG
+                isBuzzing = false; // Boleh clear lock
+                let parts = winnerData.split('|');
+                let wName = parts[0];
+                let wAns = parts[1] || "";
+
+                if (wName === myStudentName) {
+                    // Ini pemenangnya
+                    if (!wAns) {
+                        setStudentUI('type-answer-section');
+                    } else {
+                        setStudentUI('success-section');
+                    }
+                } else {
+                    // Pelajar lain
+                    document.getElementById('fastest-player-name').innerText = wName;
+                    setStudentUI('loser-section');
+                }
+            }
+        }
+
+        function stopContinuousStudentPolling() {
+            if (studentPollInterval) {
+                clearInterval(studentPollInterval);
+                studentPollInterval = null;
             }
         }
 
@@ -777,144 +871,55 @@
             if (isBuzzing) return; 
             isBuzzing = true;
 
-            const pass = document.getElementById('stu-pass').value.trim().toUpperCase();
             const btn = document.getElementById('main-buzzer');
-
             btn.classList.add('pressed', 'locked');
-            
-            // UI ke Waiting Screen
-            document.getElementById('buzzer-section').classList.add('hidden');
-            document.getElementById('buzzer-section').classList.remove('flex');
-            document.getElementById('wait-result-section').classList.remove('hidden');
-            document.getElementById('wait-result-section').classList.add('flex');
+            setStudentUI('wait-result-section'); // Tunjuk loading menyemak
 
             if (!GAS_WEB_APP_URL) {
-                localStorage.setItem('demoBuzzerWinner_' + pass, myStudentName);
-                setTimeout(() => { showTypeAnswerSection(); }, 800); 
+                localStorage.setItem('demoBuzzerWinner_' + currentStudentPass, myStudentName);
                 return;
             }
 
             try {
-                // 1. Hantar Nama (Buzzer sahaja)
-                const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(myStudentName)}&pass=${encodeURIComponent(pass)}`;
+                const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(myStudentName)}&pass=${encodeURIComponent(currentStudentPass)}`;
                 await fetch(url, { mode: 'no-cors' });
-                
-                // 2. Mula poll siapa yang dapat (Setiap 1000ms)
-                startStudentPolling(pass);
-
+                // Tak perlu panggil apa-apa, continuous polling akan catch perubahan!
             } catch(e) {
                 alert("Rangkaian bermasalah. Sila cuba lagi.");
-                resetToBuzzer();
+                isBuzzing = false;
+                setStudentUI('buzzer-section');
             }
-        }
-
-        function startStudentPolling(pass) {
-            if(studentPollInterval) clearInterval(studentPollInterval);
-            
-            studentPollInterval = setInterval(async () => {
-                try {
-                    let response = await fetch(GAS_WEB_APP_URL + "?action=check&pass=" + pass);
-                    let data = await response.json();
-                    
-                    if (data.winner) {
-                        clearInterval(studentPollInterval);
-                        let winnerName = data.winner.split('|')[0];
-                        
-                        if (winnerName === myStudentName) {
-                            showTypeAnswerSection();
-                        } else {
-                            showLoserSection(winnerName);
-                        }
-                    }
-                } catch(e) {}
-            }, 1000); 
-        }
-
-        function showTypeAnswerSection() {
-            document.getElementById('wait-result-section').classList.add('hidden');
-            document.getElementById('wait-result-section').classList.remove('flex');
-            document.getElementById('type-answer-section').classList.remove('hidden');
-            document.getElementById('type-answer-section').classList.add('flex');
-        }
-
-        function showLoserSection(winnerName) {
-            document.getElementById('wait-result-section').classList.add('hidden');
-            document.getElementById('wait-result-section').classList.remove('flex');
-            document.getElementById('fastest-player-name').innerText = winnerName;
-            document.getElementById('loser-section').classList.remove('hidden');
-            document.getElementById('loser-section').classList.add('flex');
         }
 
         async function submitAnswer() {
-            const pass = document.getElementById('stu-pass').value.trim().toUpperCase();
             const ans = document.getElementById('stu-final-answer').value.trim().toUpperCase();
-            
             if(!ans) return;
 
             const payloadName = myStudentName + '|' + ans;
-            
-            document.getElementById('type-answer-section').classList.add('hidden');
-            document.getElementById('type-answer-section').classList.remove('flex');
+            setStudentUI('wait-result-section'); // Pura-pura loading kejap hantar
 
             if (!GAS_WEB_APP_URL) {
-                localStorage.setItem('demoBuzzerWinner_' + pass, payloadName);
-                showBuzzerSuccess();
+                localStorage.setItem('demoBuzzerWinner_' + currentStudentPass, payloadName);
                 return;
             }
 
             try {
-                const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(payloadName)}&pass=${encodeURIComponent(pass)}`;
+                const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(payloadName)}&pass=${encodeURIComponent(currentStudentPass)}`;
                 await fetch(url, { mode: 'no-cors' });
-                showBuzzerSuccess();
+                // Biarkan polling catch success screen
             } catch(e) {
                 alert("Gagal menghantar jawapan.");
-                showTypeAnswerSection();
+                setStudentUI('type-answer-section');
             }
         }
 
-        function showBuzzerSuccess() {
-            document.getElementById('success-section').classList.remove('hidden');
-            document.getElementById('success-section').classList.add('flex');
-        }
-
-        function resetToBuzzer() {
-            // Kembali ke skrin Buzzer untuk soalan baru (tanpa taip kod slide)
-            isBuzzing = false;
-            if(studentPollInterval) clearInterval(studentPollInterval);
-            
-            document.getElementById('wait-result-section').classList.add('hidden');
-            document.getElementById('wait-result-section').classList.remove('flex');
-            document.getElementById('type-answer-section').classList.add('hidden');
-            document.getElementById('type-answer-section').classList.remove('flex');
-            document.getElementById('loser-section').classList.add('hidden');
-            document.getElementById('loser-section').classList.remove('flex');
-            document.getElementById('success-section').classList.add('hidden');
-            document.getElementById('success-section').classList.remove('flex');
-
-            const btn = document.getElementById('main-buzzer');
-            btn.classList.remove('pressed', 'locked');
-
-            document.getElementById('stu-final-answer').value = ''; 
-            
-            document.getElementById('buzzer-section').classList.remove('hidden');
-            document.getElementById('buzzer-section').classList.add('flex');
-        }
-
         function hardResetBuzzer() {
-            // Cancel semua dan kembali ke page letak Slide Key
+            // Pelajar nak tukar bilik / password
             isBuzzing = false;
-            if(studentPollInterval) clearInterval(studentPollInterval);
+            stopContinuousStudentPolling();
             document.getElementById('stu-pass').value = '';
             document.getElementById('stu-final-answer').value = ''; 
-            
-            document.getElementById('buzzer-section').classList.add('hidden');
-            document.getElementById('buzzer-section').classList.remove('flex');
-            document.getElementById('pass-section').classList.remove('hidden');
-            
-            const btn = document.getElementById('main-buzzer');
-            btn.classList.remove('pressed', 'locked');
-            
-            checkPassInput();
+            setStudentUI('status-wait');
         }
 
         // --- LOGIK GURU & POLLING ---
@@ -952,7 +957,6 @@
                 apiDot.className = "w-3 h-3 rounded-full bg-slate-400";
             }
 
-            // TRIGGER BUZZER POLLING PADA SLAID 10 (Sedia Untuk Berebut)
             if (currentSlide === 10) {
                 // Reset UI Slaid 10
                 document.getElementById('pass-container-10').classList.remove('hidden');
@@ -969,8 +973,8 @@
                     startBuzzerPolling(passNormal, 10);
                 }
             } 
-            // TERUSKAN POLLING PADA SLAID 11 (Untuk semak jawapan yang ditaip)
             else if (currentSlide === 11) {
+                // Kalau masuk slaid 11 dan nama dah ada, tunjuk kotak menaip. Kalau belum, biar je.
                 document.getElementById('winner-ui-11').classList.remove('hidden');
                 document.getElementById('winner-ui-11').classList.add('flex');
                 startBuzzerPolling(passNormal, 11);
@@ -982,6 +986,21 @@
             if (currentSlide < 1) currentSlide = 1;
             if (currentSlide > totalSlides) currentSlide = totalSlides;
             updateSlide();
+        }
+
+        // ==========================================
+        // FUNGSI REBOUND (COLD CALL REBOUND)
+        // ==========================================
+        function reboundSlide11() {
+            // Clear API
+            if (GAS_WEB_APP_URL) {
+                fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passNormal}`, {mode: 'no-cors'});
+            } else {
+                localStorage.removeItem('demoBuzzerWinner_' + passNormal);
+            }
+            
+            // Visual reset utk Cikgu: patah balik slaid 10 tunggu budak buzz
+            changeSlide(-1);
         }
 
         async function fetchWinnerFromGAS(passLetter, slideIndex) {
@@ -1002,6 +1021,13 @@
                 
                 if (data.winner) {
                     showBuzzerWinner(data.winner, slideIndex);
+                } else {
+                    // Kalau tiba-tiba null (cikgu tekan rebound)
+                    if (slideIndex === 11) {
+                         document.getElementById('winner-ui-11').classList.add('hidden');
+                    } else if (slideIndex === 15) {
+                         document.getElementById('feud-winner-display').classList.add('hidden');
+                    }
                 }
             } catch (error) {
                 document.getElementById('api-text').innerText = "RALAT RANGKAIAN";
@@ -1011,11 +1037,10 @@
 
         function startBuzzerPolling(passLetter, slideIndex) {
             if(pollingInterval) clearInterval(pollingInterval);
-            window.feudAnswerRevealed = false; // Reset state
+            window.feudAnswerRevealed = false; 
             document.getElementById('api-text').innerText = "SEDIA IMBAS";
             document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-amber-500 animate-pulse";
             
-            // LAJUKAN POLLING -> 1 SAAT
             pollingInterval = setInterval(() => { fetchWinnerFromGAS(passLetter, slideIndex); }, 1000);
             fetchWinnerFromGAS(passLetter, slideIndex);
         }
@@ -1032,7 +1057,7 @@
                 if(ans) hasAnswer = true;
             }
 
-            if (slideIndex === 15) { // Slaid Famili
+            if (slideIndex === 15) { 
                 document.getElementById('feud-winner-name').innerText = name;
                 document.getElementById('feud-winner-display').classList.remove('hidden');
 
@@ -1040,8 +1065,7 @@
                     document.getElementById('feud-winner-ans').innerHTML = '<span class="text-amber-500 animate-pulse text-xl"><i class="fas fa-keyboard"></i> Sedang menaip...</span>';
                 } else {
                     document.getElementById('feud-winner-ans').innerText = ans;
-                    if(pollingInterval) clearInterval(pollingInterval); // Stop polling
-                    document.getElementById('api-text').innerText = "TAMAT";
+                    document.getElementById('api-text').innerText = "JAWAPAN DITERIMA";
                     document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
 
                     // AUTO-DETECT
@@ -1073,7 +1097,6 @@
 
             } 
             else if (slideIndex === 10) { 
-                // Slaid 10: Tunjuk nama pemenang menggantikan password
                 document.getElementById('pass-container-10').classList.add('hidden');
                 document.getElementById('pass-container-10').classList.remove('inline-block');
                 
@@ -1085,7 +1108,8 @@
                 document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
             }
             else if (slideIndex === 11) { 
-                // Slaid 11: Tunjuk status menaip / jawapan
+                document.getElementById('winner-ui-11').classList.remove('hidden');
+                document.getElementById('winner-ui-11').classList.add('flex');
                 document.getElementById('winner-name-11').innerText = name;
                 let statusEl = document.getElementById('typing-status-11');
                 
@@ -1093,7 +1117,6 @@
                     statusEl.innerHTML = '<i class="fas fa-keyboard text-amber-500 animate-pulse"></i> Menunggu jawapan ditaip...';
                 } else {
                     statusEl.innerHTML = `<span class="bg-emerald-100 text-emerald-800 px-6 py-3 rounded-lg border-4 border-emerald-500 font-bangers tracking-widest text-4xl shadow-[4px_4px_0px_#059669] inline-block mt-2">${ans}</span>`;
-                    if(pollingInterval) clearInterval(pollingInterval); // Stop polling bila jawapan masuk
                     document.getElementById('api-text').innerText = "SELESAI";
                     document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
                 }
@@ -1119,7 +1142,7 @@
         }
 
         // ==========================================
-        // SENGKETA FAMILI LOGIC (10 SOALAN FOKUS)
+        // SENGKETA FAMILI LOGIC 
         // ==========================================
         const feudData = [
             {
@@ -1266,6 +1289,7 @@
             }
         }
 
+        // FUNGSI REBOUND FEUD
         function resetFeudBuzzer() {
             document.getElementById('feud-winner-display').classList.add('hidden');
             window.feudAnswerRevealed = false;
