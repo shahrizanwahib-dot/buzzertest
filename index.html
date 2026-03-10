@@ -294,7 +294,7 @@
             <!-- WINNER: TYPE ANSWER SECTION (Hanya untuk pemenang) -->
             <div id="type-answer-section" class="hidden w-full content-box border-emerald-500 shadow-[8px_8px_0px_#059669] flex-col items-center animate-popIn">
                 <h2 class="font-bangers text-4xl md:text-5xl text-emerald-700 mb-2 uppercase">TAHNIAH! ANDA TERPANTAS</h2>
-                <p class="text-slate-600 font-bold mb-6 text-sm uppercase tracking-widest text-center">Sila taip jawapan anda sekarang.</p>
+                <p class="text-slate-600 font-bold mb-6 text-sm uppercase tracking-widest text-center">Tunggu soalan dan taip jawapan.</p>
                 <input type="text" id="stu-final-answer" placeholder="Jawapan anda..." class="w-full p-4 border-4 border-slate-800 rounded-lg text-center text-3xl uppercase font-black focus:border-emerald-500 focus:outline-none shadow-inner bg-slate-50 mb-6">
                 <button onclick="submitAnswer()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-3xl rounded-lg border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Hantar Jawapan</button>
             </div>
@@ -524,13 +524,21 @@
                 <h2 class="font-bangers text-6xl text-slate-900 mb-6 uppercase">Sedia Untuk Berebut!</h2>
                 <p class="text-2xl font-bold text-slate-600 mb-8">Sila masukkan kod rawak ini di telefon anda sekarang:</p>
                 
-                <div class="bg-amber-300 p-8 rounded-2xl border-8 border-slate-900 shadow-[8px_8px_0px_rgba(0,0,0,0.2)] inline-block mb-10 transform -rotate-2">
+                <!-- Kotak Password (Akan disembunyikan bila ada pemenang) -->
+                <div id="pass-container-10" class="bg-amber-300 p-8 rounded-2xl border-8 border-slate-900 shadow-[8px_8px_0px_rgba(0,0,0,0.2)] inline-block mb-10 transform -rotate-2 transition-all">
                     <span id="prep-pass-11" class="text-[5rem] md:text-[6rem] font-bangers text-slate-900 leading-none drop-shadow-lg tracking-widest">ABCDEFG</span>
                 </div>
                 
-                <div class="p-6 bg-red-50 border-4 border-red-600 rounded-xl max-w-2xl mx-auto text-left">
-                    <p class="text-red-700 font-black uppercase text-xl mb-2"><i class="fas fa-exclamation-triangle"></i> Amaran Keras</p>
-                    <p class="text-red-800 font-bold text-lg">Jangan tekan butang merah selagi slaid soalan tidak dipaparkan! Sistem ada penalti automatik.</p>
+                <!-- Kotak Nama Pemenang (Keluar bila ada budak tekan buzzer) -->
+                <div id="winner-container-10" class="hidden bg-emerald-400 p-8 rounded-2xl border-8 border-slate-900 shadow-[8px_8px_0px_rgba(0,0,0,0.2)] mb-10 transform rotate-2 flex-col items-center animate-popIn">
+                    <p class="text-slate-900 font-black uppercase tracking-widest text-xl mb-2"><i class="fas fa-bolt"></i> Terpantas!</p>
+                    <span id="winner-name-10" class="text-[5rem] md:text-[6rem] font-bangers text-slate-900 leading-none drop-shadow-lg tracking-widest uppercase">NAMA</span>
+                    <p class="text-slate-800 font-bold mt-2 bg-white/50 px-4 py-1 rounded border-2 border-slate-900 uppercase tracking-widest text-sm">Cikgu: Sila ke slaid sebelah</p>
+                </div>
+
+                <div class="p-6 bg-red-50 border-4 border-red-600 rounded-xl max-w-2xl mx-auto text-left mt-2">
+                    <p class="text-red-700 font-black uppercase text-xl mb-2"><i class="fas fa-exclamation-triangle"></i> Arahan</p>
+                    <p class="text-red-800 font-bold text-lg">Pemain terpantas akan dipilih di sini. Sila ke Slaid 11 selepas nama anda tertera.</p>
                 </div>
             </div>
         </div>
@@ -540,25 +548,21 @@
             <div class="content-box max-w-5xl w-full border-blue-600 shadow-[10px_10px_0px_#2563eb] text-center">
                 <div class="inline-block px-6 py-2 bg-blue-600 text-white rounded-full font-black uppercase tracking-[0.3em] mb-8">Ujian Translasi Pantas</div>
                 
-                <h2 class="font-bangers text-5xl md:text-6xl mb-12 text-slate-900 leading-tight">
+                <h2 class="font-bangers text-5xl md:text-6xl mb-8 text-slate-900 leading-tight">
                     Terjemahkan ayat ini ke Bahasa Melayu: <br><br>
-                    <span class="text-amber-600 bg-amber-50 px-4 py-2 border-4 border-amber-600 rounded">"My mother is cooking in the evening."</span>
+                    <span class="text-amber-600 bg-amber-50 px-4 py-2 border-4 border-amber-600 rounded inline-block mt-4">"My mother is cooking in the evening."</span>
                 </h2>
                 
-                <!-- Wait State -->
-                <div id="wait-ui-11" class="flex flex-col items-center justify-center p-12 bg-slate-50 border-4 border-dashed border-slate-300 rounded-2xl animate-pulse w-full max-w-2xl mx-auto">
-                    <div class="bg-red-500 w-20 h-20 rounded-full flex items-center justify-center text-white mb-6 border-4 border-slate-900 animate-bounce">
-                        <i class="fas fa-hand-pointer text-4xl"></i>
-                    </div>
-                    <h3 class="font-bangers text-5xl text-slate-700 uppercase mb-2">Buzzer Dibuka!</h3>
-                    <p class="text-slate-500 font-bold text-xl uppercase tracking-widest">Sila tekan butang merah sekarang!</p>
-                </div>
-
-                <!-- Winner State -->
-                <div id="winner-ui-11" class="hidden flex-col items-center w-full mt-4">
-                    <div class="text-center bg-emerald-50 px-12 py-8 rounded-2xl border-4 border-emerald-600 w-full max-w-3xl shadow-[8px_8px_0px_#059669] mx-auto">
-                        <p class="text-sm font-black text-emerald-700 uppercase tracking-widest mb-4"><i class="fas fa-bolt"></i> Terpantas Menjawab</p>
-                        <h2 id="winner-name-11" class="font-bangers text-[5rem] text-slate-900 uppercase leading-none truncate">NAMA</h2>
+                <!-- Status Pemenang Menjawab -->
+                <div id="winner-ui-11" class="hidden flex-col items-center w-full mt-4 animate-popIn">
+                    <div class="text-center bg-slate-50 px-12 py-8 rounded-2xl border-4 border-emerald-600 w-full max-w-3xl shadow-[8px_8px_0px_#059669] mx-auto relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-emerald-500 animate-pulse"></div>
+                        <p class="text-sm font-black text-emerald-700 uppercase tracking-widest mb-2"><i class="fas fa-user-edit"></i> Pemain Menjawab</p>
+                        <h2 id="winner-name-11" class="font-bangers text-[4rem] text-slate-900 uppercase leading-none truncate mb-6">NAMA</h2>
+                        
+                        <div id="typing-status-11" class="text-2xl font-bold text-slate-600 bg-white p-4 rounded-xl border-2 border-slate-300">
+                            <i class="fas fa-keyboard text-amber-500 animate-pulse"></i> Menunggu jawapan dihantar...
+                        </div>
                     </div>
                 </div>
             </div>
@@ -681,16 +685,6 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-
-        <!-- Modal Pemenang Gergasi (Buzzer - Slaid 11) -->
-        <div id="winner-announcement-modal" class="absolute inset-0 z-[100] hidden flex-col items-center justify-center bg-slate-900/95 p-4 text-center">
-            <div class="animate-popIn content-box bg-slate-800 border-emerald-500 shadow-[15px_15px_0px_#059669] max-w-4xl w-full py-16 flex flex-col items-center">
-                <div class="w-24 h-24 bg-emerald-500 text-white rounded-full flex items-center justify-center mb-6 animate-pulse border-4 border-slate-900"><i class="fas fa-bolt text-5xl"></i></div>
-                <p class="text-emerald-400 font-bangers tracking-[0.3em] uppercase mb-4 text-3xl">Pemenang Terpantas</p>
-                <h2 id="giant-winner-name" class="text-[6rem] md:text-[8rem] font-bangers text-white uppercase mb-12 truncate w-full">NAMA</h2>
-                <button onclick="closeWinnerModal()" class="btn-nav py-4 px-10 font-bangers uppercase text-3xl bg-white text-slate-900 hover:bg-slate-200">Tutup Skrin</button>
             </div>
         </div>
 
@@ -958,18 +952,28 @@
                 apiDot.className = "w-3 h-3 rounded-full bg-slate-400";
             }
 
-            if (currentSlide === 11) {
-                document.getElementById('winner-ui-11').classList.add('hidden');
-                document.getElementById('wait-ui-11').style.display = 'flex';
+            // TRIGGER BUZZER POLLING PADA SLAID 10 (Sedia Untuk Berebut)
+            if (currentSlide === 10) {
+                // Reset UI Slaid 10
+                document.getElementById('pass-container-10').classList.remove('hidden');
+                document.getElementById('pass-container-10').classList.add('inline-block');
+                document.getElementById('winner-container-10').classList.add('hidden');
+                document.getElementById('winner-container-10').classList.remove('flex');
                 
                 if (GAS_WEB_APP_URL) {
                     fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passNormal}`, {mode: 'no-cors'}).then(() => {
-                        startBuzzerPolling(passNormal, 11);
+                        startBuzzerPolling(passNormal, 10);
                     });
                 } else {
                     localStorage.removeItem('demoBuzzerWinner_' + passNormal);
-                    startBuzzerPolling(passNormal, 11);
+                    startBuzzerPolling(passNormal, 10);
                 }
+            } 
+            // TERUSKAN POLLING PADA SLAID 11 (Untuk semak jawapan yang ditaip)
+            else if (currentSlide === 11) {
+                document.getElementById('winner-ui-11').classList.remove('hidden');
+                document.getElementById('winner-ui-11').classList.add('flex');
+                startBuzzerPolling(passNormal, 11);
             }
         }
 
@@ -998,7 +1002,6 @@
                 
                 if (data.winner) {
                     showBuzzerWinner(data.winner, slideIndex);
-                    // DONT CLEAR INTERVAL YET. We wait for answer to be submitted.
                 }
             } catch (error) {
                 document.getElementById('api-text').innerText = "RALAT RANGKAIAN";
@@ -1012,7 +1015,7 @@
             document.getElementById('api-text').innerText = "SEDIA IMBAS";
             document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-amber-500 animate-pulse";
             
-            // LAJUKAN POLLING -> 1 SAAT!
+            // LAJUKAN POLLING -> 1 SAAT
             pollingInterval = setInterval(() => { fetchWinnerFromGAS(passLetter, slideIndex); }, 1000);
             fetchWinnerFromGAS(passLetter, slideIndex);
         }
@@ -1068,44 +1071,31 @@
                     }
                 }
 
-            } else { // Slide 11
-                document.getElementById('giant-winner-name').innerText = name;
-                document.getElementById('winner-announcement-modal').style.display = 'flex';
+            } 
+            else if (slideIndex === 10) { 
+                // Slaid 10: Tunjuk nama pemenang menggantikan password
+                document.getElementById('pass-container-10').classList.add('hidden');
+                document.getElementById('pass-container-10').classList.remove('inline-block');
                 
-                let statusEl = document.getElementById('giant-winner-status');
-                if (!statusEl) {
-                    statusEl = document.createElement('p');
-                    statusEl.id = 'giant-winner-status';
-                    statusEl.className = 'text-3xl font-bangers text-amber-400 animate-pulse mt-4';
-                    document.getElementById('giant-winner-name').after(statusEl);
-                }
-
-                if (!hasAnswer) {
-                    statusEl.innerHTML = '<i class="fas fa-keyboard"></i> Sedang menaip jawapan...';
-                } else {
-                    statusEl.innerHTML = `<span class="text-white">Jawapan:</span> <span class="text-emerald-400">${ans}</span>`;
-                    if(pollingInterval) clearInterval(pollingInterval); // Stop polling
-                    document.getElementById('api-text').innerText = "TAMAT";
-                    document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
-                }
-                window.currentWinnerSlide = slideIndex;
+                document.getElementById('winner-container-10').classList.remove('hidden');
+                document.getElementById('winner-container-10').classList.add('flex');
+                document.getElementById('winner-name-10').innerText = name;
+                
+                document.getElementById('api-text').innerText = "PEMENANG DITEMUI";
+                document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
             }
-        };
-
-        window.closeWinnerModal = function() {
-            document.getElementById('winner-announcement-modal').style.display = 'none';
-            if (window.currentWinnerSlide) {
-                const idx = window.currentWinnerSlide;
-                const name = document.getElementById('giant-winner-name').innerText;
-                const waitingArea = document.getElementById(`wait-ui-${idx}`);
-                const winnerArea = document.getElementById(`winner-ui-${idx}`);
-                const winnerText = document.getElementById(`winner-name-${idx}`);
-
-                if (waitingArea && winnerArea && winnerText) {
-                    waitingArea.style.display = 'none';
-                    winnerText.innerText = name;
-                    winnerArea.classList.remove('hidden');
-                    winnerArea.classList.add('flex', 'animate-popIn');
+            else if (slideIndex === 11) { 
+                // Slaid 11: Tunjuk status menaip / jawapan
+                document.getElementById('winner-name-11').innerText = name;
+                let statusEl = document.getElementById('typing-status-11');
+                
+                if (!hasAnswer) {
+                    statusEl.innerHTML = '<i class="fas fa-keyboard text-amber-500 animate-pulse"></i> Menunggu jawapan ditaip...';
+                } else {
+                    statusEl.innerHTML = `<span class="bg-emerald-100 text-emerald-800 px-6 py-3 rounded-lg border-4 border-emerald-500 font-bangers tracking-widest text-4xl shadow-[4px_4px_0px_#059669] inline-block mt-2">${ans}</span>`;
+                    if(pollingInterval) clearInterval(pollingInterval); // Stop polling bila jawapan masuk
+                    document.getElementById('api-text').innerText = "SELESAI";
+                    document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
                 }
             }
         };
