@@ -709,7 +709,7 @@
         // ==========================================
         // 🚀 URL GOOGLE APPS SCRIPT DIMASUKKAN DI SINI
         // ==========================================
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxfm42fmMkJloiyPhXD8sZSSIapbMfHMhqHNYzS_Ebut3oXy974pVQskIy59ZjzVnQKQw/exec"; 
+        const GAS_WEB_APP_URL = ""; // Biarkan kosong untuk mod demo localStorage
 
         let currentSlide = 1;
         const totalSlides = 15;
@@ -767,7 +767,7 @@
                 if (el) {
                     if (id === activeId) {
                         el.classList.remove('hidden');
-                        if (id !== 'status-wait') el.classList.add('flex'); // status-wait is managed inside pass-section
+                        if (id !== 'status-wait') el.classList.add('flex');
                     } else {
                         el.classList.add('hidden');
                         el.classList.remove('flex');
@@ -807,14 +807,13 @@
             }
         }
 
-        // POLLING BERTERUSAN PELAJAR (Untuk detect auto-rebound cikgu)
+        // POLLING BERTERUSAN PELAJAR
         function startContinuousStudentPolling(pass) {
             stopContinuousStudentPolling();
-            if (!isBuzzing) setStudentUI('buzzer-section'); // Mula-mula tunjuk buzzer terus
+            if (!isBuzzing) setStudentUI('buzzer-section'); 
 
             studentPollInterval = setInterval(async () => {
                 if (!GAS_WEB_APP_URL) {
-                    // Demo mode handling
                     let demoWinner = localStorage.getItem('demoBuzzerWinner_' + pass);
                     processStudentPollData(demoWinner);
                     return;
@@ -831,29 +830,26 @@
         function processStudentPollData(winnerData) {
             if (!winnerData) {
                 // REBOUND BERLAKU! Cikgu dah clear data.
-                // Semua pelajar kembali ke mode Buzzer (Kecuali yang baru je tekan tunggu loading)
                 if (isBuzzing && document.getElementById('wait-result-section').classList.contains('flex')) {
-                    // Biar kejap kalau dia baru sangat tekan
+                    // Biarkan kejap (tengah loading buzz)
                 } else {
                     setStudentUI('buzzer-section');
                     document.getElementById('stu-final-answer').value = ''; 
                 }
             } else {
                 // ADA PEMENANG
-                isBuzzing = false; // Boleh clear lock
+                isBuzzing = false;
                 let parts = winnerData.split('|');
                 let wName = parts[0];
                 let wAns = parts[1] || "";
 
                 if (wName === myStudentName) {
-                    // Ini pemenangnya
                     if (!wAns) {
                         setStudentUI('type-answer-section');
                     } else {
                         setStudentUI('success-section');
                     }
                 } else {
-                    // Pelajar lain
                     document.getElementById('fastest-player-name').innerText = wName;
                     setStudentUI('loser-section');
                 }
@@ -873,7 +869,7 @@
 
             const btn = document.getElementById('main-buzzer');
             btn.classList.add('pressed', 'locked');
-            setStudentUI('wait-result-section'); // Tunjuk loading menyemak
+            setStudentUI('wait-result-section'); 
 
             if (!GAS_WEB_APP_URL) {
                 localStorage.setItem('demoBuzzerWinner_' + currentStudentPass, myStudentName);
@@ -883,7 +879,6 @@
             try {
                 const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(myStudentName)}&pass=${encodeURIComponent(currentStudentPass)}`;
                 await fetch(url, { mode: 'no-cors' });
-                // Tak perlu panggil apa-apa, continuous polling akan catch perubahan!
             } catch(e) {
                 alert("Rangkaian bermasalah. Sila cuba lagi.");
                 isBuzzing = false;
@@ -896,7 +891,7 @@
             if(!ans) return;
 
             const payloadName = myStudentName + '|' + ans;
-            setStudentUI('wait-result-section'); // Pura-pura loading kejap hantar
+            setStudentUI('wait-result-section'); 
 
             if (!GAS_WEB_APP_URL) {
                 localStorage.setItem('demoBuzzerWinner_' + currentStudentPass, payloadName);
@@ -906,7 +901,6 @@
             try {
                 const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(payloadName)}&pass=${encodeURIComponent(currentStudentPass)}`;
                 await fetch(url, { mode: 'no-cors' });
-                // Biarkan polling catch success screen
             } catch(e) {
                 alert("Gagal menghantar jawapan.");
                 setStudentUI('type-answer-section');
@@ -914,7 +908,6 @@
         }
 
         function hardResetBuzzer() {
-            // Pelajar nak tukar bilik / password
             isBuzzing = false;
             stopContinuousStudentPolling();
             document.getElementById('stu-pass').value = '';
@@ -958,7 +951,7 @@
             }
 
             if (currentSlide === 10) {
-                // Reset UI Slaid 10
+                // Slaid Sedia Untuk Berebut (Tunjuk Password)
                 document.getElementById('pass-container-10').classList.remove('hidden');
                 document.getElementById('pass-container-10').classList.add('inline-block');
                 document.getElementById('winner-container-10').classList.add('hidden');
@@ -974,7 +967,7 @@
                 }
             } 
             else if (currentSlide === 11) {
-                // Kalau masuk slaid 11 dan nama dah ada, tunjuk kotak menaip. Kalau belum, biar je.
+                // Masuk Slaid 11, UI pemenang akan ditunjukkan (jika ada) atau MENUNGGU
                 document.getElementById('winner-ui-11').classList.remove('hidden');
                 document.getElementById('winner-ui-11').classList.add('flex');
                 startBuzzerPolling(passNormal, 11);
@@ -989,18 +982,23 @@
         }
 
         // ==========================================
-        // FUNGSI REBOUND (COLD CALL REBOUND)
+        // FUNGSI REBOUND (COLD CALL REBOUND) 1000% FIX
         // ==========================================
         function reboundSlide11() {
-            // Clear API
+            // Clear Data API/Local Storage
             if (GAS_WEB_APP_URL) {
                 fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passNormal}`, {mode: 'no-cors'});
             } else {
                 localStorage.removeItem('demoBuzzerWinner_' + passNormal);
             }
             
-            // Visual reset utk Cikgu: patah balik slaid 10 tunggu budak buzz
-            changeSlide(-1);
+            // FIX TERBESAR: JANGAN changeSlide(-1). Kita KEKAL di Slaid 11!
+            // Cuma tukar UI Slaid 11 jadi mod "Menunggu Pemain Baru"
+            document.getElementById('winner-name-11').innerText = "MENUNGGU...";
+            document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
+            
+            // Restart polling supaya detect nama baru bila budak lain tekan
+            startBuzzerPolling(passNormal, 11);
         }
 
         async function fetchWinnerFromGAS(passLetter, slideIndex) {
@@ -1008,6 +1006,14 @@
                 let winner = localStorage.getItem('demoBuzzerWinner_' + passLetter);
                 if (winner) {
                     showBuzzerWinner(winner, slideIndex);
+                } else {
+                    // Bila winner kosong (contoh lepas tekan Rebound)
+                    if (slideIndex === 11) {
+                         document.getElementById('winner-name-11').innerText = "MENUNGGU...";
+                         document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
+                    } else if (slideIndex === 15) {
+                         document.getElementById('feud-winner-display').classList.add('hidden');
+                    }
                 }
                 return;
             }
@@ -1022,9 +1028,10 @@
                 if (data.winner) {
                     showBuzzerWinner(data.winner, slideIndex);
                 } else {
-                    // Kalau tiba-tiba null (cikgu tekan rebound)
+                    // Sama logic kalau guna API dan winner jadi kosong lepas Rebound
                     if (slideIndex === 11) {
-                         document.getElementById('winner-ui-11').classList.add('hidden');
+                         document.getElementById('winner-name-11').innerText = "MENUNGGU...";
+                         document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
                     } else if (slideIndex === 15) {
                          document.getElementById('feud-winner-display').classList.add('hidden');
                     }
@@ -1289,7 +1296,6 @@
             }
         }
 
-        // FUNGSI REBOUND FEUD
         function resetFeudBuzzer() {
             document.getElementById('feud-winner-display').classList.add('hidden');
             window.feudAnswerRevealed = false;
