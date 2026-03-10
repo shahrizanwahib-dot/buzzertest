@@ -199,7 +199,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        .real-buzzer-btn:active, .real-buzzer-btn.pressed {
+        .real-buzzer-btn:active:not(.locked), .real-buzzer-btn.pressed {
             transform: translateY(10px);
             box-shadow: 
                 inset 0 -10px 20px rgba(0,0,0,0.5),
@@ -207,6 +207,11 @@
                 0 0 0 #7f1d1d,
                 0 5px 10px rgba(0,0,0,0.5);
             background: radial-gradient(circle at 35% 35%, #dc2626, #991b1b);
+        }
+        
+        .real-buzzer-btn.locked {
+            cursor: not-allowed;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -220,13 +225,11 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl animate-popIn" style="animation-delay: 0.1s;">
-            <!-- Guru -->
             <button onclick="selectRole('guru')" class="content-box flex flex-col items-center hover:bg-emerald-50 transition-colors transform hover:-translate-y-2 hover:shadow-[12px_12px_0px_rgba(30,41,59,1)]">
                 <div class="w-24 h-24 bg-emerald-200 text-emerald-800 rounded-full border-4 border-slate-800 flex items-center justify-center mb-6"><i class="fas fa-chalkboard-teacher text-4xl"></i></div>
                 <h2 class="font-bangers text-5xl text-slate-800 mb-2 uppercase">Mod Guru</h2>
                 <p class="text-slate-600 font-bold text-lg">Papar slaid dan kawal lumba buzzer.</p>
             </button>
-            <!-- Pelajar -->
             <button onclick="selectRole('pelajar')" class="content-box flex flex-col items-center hover:bg-blue-50 transition-colors transform hover:-translate-y-2 hover:shadow-[12px_12px_0px_rgba(30,41,59,1)]">
                 <div class="w-24 h-24 bg-blue-200 text-blue-800 rounded-full border-4 border-slate-800 flex items-center justify-center mb-6"><i class="fas fa-mobile-alt text-4xl"></i></div>
                 <h2 class="font-bangers text-5xl text-slate-800 mb-2 uppercase">Mod Pelajar</h2>
@@ -268,32 +271,48 @@
                 </div>
             </div>
 
-            <!-- BUTANG BUZZER 3D & INPUT JAWAPAN -->
+            <!-- BUTANG BUZZER 3D SHJ (Kotak taip dibuang) -->
             <div id="buzzer-section" class="hidden w-full flex-col items-center animate-popIn">
-                
                 <p class="font-bangers text-emerald-600 text-4xl mb-4 animate-pulse uppercase tracking-widest">Buzzer Dibuka!</p>
                 
-                <!-- Input Menaip Pilihan -->
-                <div id="stu-answer-container" class="hidden w-full flex-col items-center mb-6 animate-popIn">
-                    <p class="text-slate-600 font-bold mb-2 uppercase tracking-widest text-xs"><i class="fas fa-keyboard text-emerald-600"></i> Ruangan Jawapan (Isi jika main Sengketa Famili)</p>
-                    <input type="text" id="stu-answer" placeholder="Taip di sini..." class="w-full p-4 border-4 border-slate-800 rounded-lg text-center text-xl uppercase font-black focus:border-emerald-500 focus:outline-none shadow-inner bg-slate-50">
-                </div>
-
                 <div class="buzzer-container">
                     <button id="main-buzzer" onclick="hitBuzzer()" class="real-buzzer-btn">
-                        <span class="font-bangers text-6xl tracking-widest">BUZZ</span>
-                        <span id="buzzer-label" class="text-sm font-bold uppercase tracking-widest mt-2">Tekan / Hantar</span>
+                        <span id="buzzer-main-text" class="font-bangers text-6xl tracking-widest">BUZZ</span>
+                        <span id="buzzer-label" class="text-sm font-bold uppercase tracking-widest mt-2">Tekan Laju-Laju!</span>
                     </button>
                 </div>
-                <button onclick="resetBuzzer()" class="mt-8 text-slate-500 font-bold text-sm underline tracking-widest uppercase hover:text-slate-800 transition">Batal / Tukar Password</button>
+                <button onclick="hardResetBuzzer()" class="mt-8 text-slate-500 font-bold text-sm underline tracking-widest uppercase hover:text-slate-800 transition">Tukar Bilik / Kunci Slaid</button>
             </div>
 
-            <!-- Success State -->
-            <div id="success-section" class="hidden w-full content-box bg-emerald-50 border-emerald-600 shadow-[8px_8px_0px_#059669] text-center animate-popIn mt-6">
-                <div class="w-20 h-20 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-check text-4xl"></i></div>
+            <!-- WAITING RESULT SECTION (Sedang menyemak) -->
+            <div id="wait-result-section" class="hidden w-full flex-col items-center animate-popIn">
+                <div class="w-20 h-20 border-8 border-slate-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
+                <h2 class="font-bangers text-4xl text-slate-700 uppercase tracking-wider text-center">Menyemak Siapa Paling Laju...</h2>
+                <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-sm">Sila tunggu sebentar.</p>
+            </div>
+
+            <!-- WINNER: TYPE ANSWER SECTION (Hanya untuk pemenang) -->
+            <div id="type-answer-section" class="hidden w-full content-box border-emerald-500 shadow-[8px_8px_0px_#059669] flex-col items-center animate-popIn">
+                <h2 class="font-bangers text-4xl md:text-5xl text-emerald-700 mb-2 uppercase">TAHNIAH! ANDA TERPANTAS</h2>
+                <p class="text-slate-600 font-bold mb-6 text-sm uppercase tracking-widest text-center">Sila taip jawapan anda sekarang.</p>
+                <input type="text" id="stu-final-answer" placeholder="Jawapan anda..." class="w-full p-4 border-4 border-slate-800 rounded-lg text-center text-3xl uppercase font-black focus:border-emerald-500 focus:outline-none shadow-inner bg-slate-50 mb-6">
+                <button onclick="submitAnswer()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-3xl rounded-lg border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Hantar Jawapan</button>
+            </div>
+
+            <!-- LOSER SECTION -->
+            <div id="loser-section" class="hidden w-full content-box border-red-500 shadow-[8px_8px_0px_#ef4444] flex-col items-center animate-popIn mt-6 text-center">
+                <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-times text-4xl"></i></div>
+                <h2 class="font-bangers text-4xl md:text-5xl mb-2 text-red-800 uppercase">ALAMAK, TERLAMBAT!</h2>
+                <p class="text-slate-700 font-bold text-lg mb-4">Pemain <span id="fastest-player-name" class="text-blue-600 font-black">NAMA</span> lebih pantas.</p>
+                <button onclick="resetToBuzzer()" class="mt-4 w-full py-4 bg-white border-4 border-slate-800 font-bangers text-2xl uppercase rounded hover:bg-slate-100 transition shadow-[4px_4px_0px_#1e293b]">Tunggu Soalan Seterusnya / Reset</button>
+            </div>
+
+            <!-- SUCCESS SECTION -->
+            <div id="success-section" class="hidden w-full content-box bg-emerald-50 border-emerald-600 shadow-[8px_8px_0px_#059669] flex-col items-center animate-popIn mt-6 text-center">
+                <div class="w-20 h-20 bg-emerald-600 text-white rounded-full flex items-center justify-center mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-check text-4xl"></i></div>
                 <h2 class="font-bangers text-5xl mb-2 text-emerald-800 uppercase">Dihantar!</h2>
-                <p class="text-slate-700 font-bold text-lg mb-4">Sila lihat skrin di hadapan kelas.</p>
-                <button onclick="resetBuzzer()" class="mt-6 w-full py-4 bg-white border-4 border-slate-800 font-bangers text-2xl uppercase rounded hover:bg-slate-100 transition shadow-[4px_4px_0px_#1e293b]">Sedia Soalan Baru</button>
+                <p class="text-slate-700 font-bold text-lg mb-4 text-center">Jawapan dipaparkan di skrin kelas.</p>
+                <button onclick="resetToBuzzer()" class="mt-6 w-full py-4 bg-white border-4 border-slate-800 font-bangers text-2xl uppercase rounded hover:bg-slate-100 transition shadow-[4px_4px_0px_#1e293b]">Tunggu Soalan Seterusnya / Reset</button>
             </div>
         </div>
     </div>
@@ -344,7 +363,6 @@
                 <h2 class="font-bangers text-6xl text-slate-800 mb-4 uppercase">Sediakan Buzzer Anda</h2>
                 <p class="text-xl text-slate-600 mb-6 font-bold">Pilih <span class="bg-slate-200 px-2 rounded border border-slate-800">Mod Pelajar</span> di telefon anda.</p>
                 
-                <!-- Kotak Input URL Baru Untuk Cikgu -->
                 <div class="mb-6 flex flex-col items-center bg-slate-50 p-4 border-2 border-slate-200 rounded-lg">
                     <label class="text-sm font-black text-blue-600 mb-2 uppercase tracking-widest"><i class="fas fa-edit"></i> Cikgu: Sila masukkan pautan (URL) kelas anda di sini</label>
                     <input type="text" id="teacher-url-input" value="https://shahrizanwahib-dot.github.io/buzzertest/" oninput="updateQRCode()" class="w-full max-w-md p-3 border-4 border-slate-800 rounded-lg text-center text-lg font-bold text-slate-700 focus:border-blue-600 outline-none">
@@ -672,7 +690,7 @@
                 <div class="w-24 h-24 bg-emerald-500 text-white rounded-full flex items-center justify-center mb-6 animate-pulse border-4 border-slate-900"><i class="fas fa-bolt text-5xl"></i></div>
                 <p class="text-emerald-400 font-bangers tracking-[0.3em] uppercase mb-4 text-3xl">Pemenang Terpantas</p>
                 <h2 id="giant-winner-name" class="text-[6rem] md:text-[8rem] font-bangers text-white uppercase mb-12 truncate w-full">NAMA</h2>
-                <button onclick="closeWinnerModal()" class="btn-nav py-4 px-10 font-bangers uppercase text-3xl bg-white text-slate-900 hover:bg-slate-200">Tutup & Minta Jawab</button>
+                <button onclick="closeWinnerModal()" class="btn-nav py-4 px-10 font-bangers uppercase text-3xl bg-white text-slate-900 hover:bg-slate-200">Tutup Skrin</button>
             </div>
         </div>
 
@@ -687,20 +705,22 @@
         // ==========================================
         // 🚀 URL GOOGLE APPS SCRIPT DIMASUKKAN DI SINI
         // ==========================================
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxVCKorz3zzyaSzsDRb4U4LQ8Dud526QrACsYLxoFZs0m2FdimhHAj2Cost74ta1UVv/exec"; 
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxfm42fmMkJloiyPhXD8sZSSIapbMfHMhqHNYzS_Ebut3oXy974pVQskIy59ZjzVnQKQw/exec"; 
 
         let currentSlide = 1;
         const totalSlides = 15;
         let pollingInterval = null;
+        let studentPollInterval = null;
         let myStudentName = "";
+        
+        let isBuzzing = false; 
+        window.feudAnswerRevealed = false;
 
-        // Fungsi Kemaskini QR Code Berdasarkan Input Cikgu
         function updateQRCode() {
             let url = document.getElementById('teacher-url-input').value.trim();
             if (!url) {
                 url = "https://shahrizanwahib-dot.github.io/buzzertest/";
             } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                // Tambah https:// kalau cikgu lupa letak supaya phone cam ni pautan website
                 url = 'https://' + url;
             }
             
@@ -710,13 +730,8 @@
             }
         }
 
-        // TUGASAN AUTO-DETECT QR CODE BERDASARKAN URL SEBENAR
-        window.addEventListener('load', () => {
-            // Kita panggil updateQRCode bila slaid pertama kali buka supaya ia jana QR default
-            updateQRCode();
-        });
+        window.addEventListener('load', () => { updateQRCode(); });
 
-        // Rawak Kod Penjana (7 Huruf Alphabets)
         function generateRandomPass(length = 7) {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             let result = '';
@@ -757,37 +772,97 @@
                 document.getElementById('status-wait').classList.add('hidden');
                 document.getElementById('buzzer-section').classList.remove('hidden');
                 document.getElementById('buzzer-section').classList.add('flex');
-                
-                // Sentiasa papar kotak menaip sebagai opsyen
-                document.getElementById('stu-answer-container').classList.remove('hidden');
-                document.getElementById('stu-answer-container').classList.add('flex');
-
             } else {
                 document.getElementById('status-wait').classList.remove('hidden');
                 document.getElementById('buzzer-section').classList.add('hidden');
                 document.getElementById('buzzer-section').classList.remove('flex');
-                
-                document.getElementById('stu-answer-container').classList.add('hidden');
-                document.getElementById('stu-answer-container').classList.remove('flex');
             }
         }
 
         async function hitBuzzer() {
+            if (isBuzzing) return; 
+            isBuzzing = true;
+
             const pass = document.getElementById('stu-pass').value.trim().toUpperCase();
-            let ans = document.getElementById('stu-answer').value.trim().toUpperCase();
-
             const btn = document.getElementById('main-buzzer');
-            btn.classList.add('pressed');
-            setTimeout(() => btn.classList.remove('pressed'), 150);
 
-            // Ikat nama dan jawapan jika budak ada menaip
-            let payloadName = myStudentName;
-            if (ans) {
-                payloadName += '|' + ans;
-            }
+            btn.classList.add('pressed', 'locked');
+            
+            // UI ke Waiting Screen
+            document.getElementById('buzzer-section').classList.add('hidden');
+            document.getElementById('buzzer-section').classList.remove('flex');
+            document.getElementById('wait-result-section').classList.remove('hidden');
+            document.getElementById('wait-result-section').classList.add('flex');
 
             if (!GAS_WEB_APP_URL) {
-                // Demo Mode Bridge
+                localStorage.setItem('demoBuzzerWinner_' + pass, myStudentName);
+                setTimeout(() => { showTypeAnswerSection(); }, 800); 
+                return;
+            }
+
+            try {
+                // 1. Hantar Nama (Buzzer sahaja)
+                const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(myStudentName)}&pass=${encodeURIComponent(pass)}`;
+                await fetch(url, { mode: 'no-cors' });
+                
+                // 2. Mula poll siapa yang dapat (Setiap 1000ms)
+                startStudentPolling(pass);
+
+            } catch(e) {
+                alert("Rangkaian bermasalah. Sila cuba lagi.");
+                resetToBuzzer();
+            }
+        }
+
+        function startStudentPolling(pass) {
+            if(studentPollInterval) clearInterval(studentPollInterval);
+            
+            studentPollInterval = setInterval(async () => {
+                try {
+                    let response = await fetch(GAS_WEB_APP_URL + "?action=check&pass=" + pass);
+                    let data = await response.json();
+                    
+                    if (data.winner) {
+                        clearInterval(studentPollInterval);
+                        let winnerName = data.winner.split('|')[0];
+                        
+                        if (winnerName === myStudentName) {
+                            showTypeAnswerSection();
+                        } else {
+                            showLoserSection(winnerName);
+                        }
+                    }
+                } catch(e) {}
+            }, 1000); 
+        }
+
+        function showTypeAnswerSection() {
+            document.getElementById('wait-result-section').classList.add('hidden');
+            document.getElementById('wait-result-section').classList.remove('flex');
+            document.getElementById('type-answer-section').classList.remove('hidden');
+            document.getElementById('type-answer-section').classList.add('flex');
+        }
+
+        function showLoserSection(winnerName) {
+            document.getElementById('wait-result-section').classList.add('hidden');
+            document.getElementById('wait-result-section').classList.remove('flex');
+            document.getElementById('fastest-player-name').innerText = winnerName;
+            document.getElementById('loser-section').classList.remove('hidden');
+            document.getElementById('loser-section').classList.add('flex');
+        }
+
+        async function submitAnswer() {
+            const pass = document.getElementById('stu-pass').value.trim().toUpperCase();
+            const ans = document.getElementById('stu-final-answer').value.trim().toUpperCase();
+            
+            if(!ans) return;
+
+            const payloadName = myStudentName + '|' + ans;
+            
+            document.getElementById('type-answer-section').classList.add('hidden');
+            document.getElementById('type-answer-section').classList.remove('flex');
+
+            if (!GAS_WEB_APP_URL) {
                 localStorage.setItem('demoBuzzerWinner_' + pass, payloadName);
                 showBuzzerSuccess();
                 return;
@@ -798,22 +873,53 @@
                 await fetch(url, { mode: 'no-cors' });
                 showBuzzerSuccess();
             } catch(e) {
-                alert("Rangkaian bermasalah.");
+                alert("Gagal menghantar jawapan.");
+                showTypeAnswerSection();
             }
         }
 
         function showBuzzerSuccess() {
-            document.getElementById('pass-section').classList.add('hidden');
-            document.getElementById('buzzer-section').classList.add('hidden');
-            document.getElementById('buzzer-section').classList.remove('flex');
             document.getElementById('success-section').classList.remove('hidden');
+            document.getElementById('success-section').classList.add('flex');
         }
 
-        function resetBuzzer() {
-            document.getElementById('stu-pass').value = '';
-            document.getElementById('stu-answer').value = ''; 
+        function resetToBuzzer() {
+            // Kembali ke skrin Buzzer untuk soalan baru (tanpa taip kod slide)
+            isBuzzing = false;
+            if(studentPollInterval) clearInterval(studentPollInterval);
+            
+            document.getElementById('wait-result-section').classList.add('hidden');
+            document.getElementById('wait-result-section').classList.remove('flex');
+            document.getElementById('type-answer-section').classList.add('hidden');
+            document.getElementById('type-answer-section').classList.remove('flex');
+            document.getElementById('loser-section').classList.add('hidden');
+            document.getElementById('loser-section').classList.remove('flex');
             document.getElementById('success-section').classList.add('hidden');
+            document.getElementById('success-section').classList.remove('flex');
+
+            const btn = document.getElementById('main-buzzer');
+            btn.classList.remove('pressed', 'locked');
+
+            document.getElementById('stu-final-answer').value = ''; 
+            
+            document.getElementById('buzzer-section').classList.remove('hidden');
+            document.getElementById('buzzer-section').classList.add('flex');
+        }
+
+        function hardResetBuzzer() {
+            // Cancel semua dan kembali ke page letak Slide Key
+            isBuzzing = false;
+            if(studentPollInterval) clearInterval(studentPollInterval);
+            document.getElementById('stu-pass').value = '';
+            document.getElementById('stu-final-answer').value = ''; 
+            
+            document.getElementById('buzzer-section').classList.add('hidden');
+            document.getElementById('buzzer-section').classList.remove('flex');
             document.getElementById('pass-section').classList.remove('hidden');
+            
+            const btn = document.getElementById('main-buzzer');
+            btn.classList.remove('pressed', 'locked');
+            
             checkPassInput();
         }
 
@@ -824,7 +930,6 @@
                 document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-purple-500";
             }
 
-            // Jana kod rawak 7 huruf
             passNormal = generateRandomPass(7);
             passFeud = generateRandomPass(7);
             
@@ -853,7 +958,6 @@
                 apiDot.className = "w-3 h-3 rounded-full bg-slate-400";
             }
 
-            // TRIGGER BUZZER PADA SLAID 11 (Cold Call Biasa)
             if (currentSlide === 11) {
                 document.getElementById('winner-ui-11').classList.add('hidden');
                 document.getElementById('wait-ui-11').style.display = 'flex';
@@ -894,9 +998,7 @@
                 
                 if (data.winner) {
                     showBuzzerWinner(data.winner, slideIndex);
-                    if(pollingInterval) clearInterval(pollingInterval);
-                    document.getElementById('api-text').innerText = "TAMAT";
-                    document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
+                    // DONT CLEAR INTERVAL YET. We wait for answer to be submitted.
                 }
             } catch (error) {
                 document.getElementById('api-text').innerText = "RALAT RANGKAIAN";
@@ -906,64 +1008,86 @@
 
         function startBuzzerPolling(passLetter, slideIndex) {
             if(pollingInterval) clearInterval(pollingInterval);
+            window.feudAnswerRevealed = false; // Reset state
             document.getElementById('api-text').innerText = "SEDIA IMBAS";
             document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-amber-500 animate-pulse";
-            pollingInterval = setInterval(() => { fetchWinnerFromGAS(passLetter, slideIndex); }, 2500);
+            
+            // LAJUKAN POLLING -> 1 SAAT!
+            pollingInterval = setInterval(() => { fetchWinnerFromGAS(passLetter, slideIndex); }, 1000);
             fetchWinnerFromGAS(passLetter, slideIndex);
         }
 
-        // Paparkan pemenang & Auto-Detect Hakim
         window.showBuzzerWinner = function(rawName, slideIndex) {
-            if(pollingInterval) clearInterval(pollingInterval);
-            
             let name = rawName;
             let ans = "";
+            let hasAnswer = false;
             
             if (rawName.includes('|')) {
                 const parts = rawName.split('|');
                 name = parts[0];
                 ans = parts[1];
+                if(ans) hasAnswer = true;
             }
 
-            if (slideIndex === 15) { // Slaid Famili Karib
+            if (slideIndex === 15) { // Slaid Famili
                 document.getElementById('feud-winner-name').innerText = name;
-                document.getElementById('feud-winner-ans').innerText = ans || "(Tiada Jawapan)";
                 document.getElementById('feud-winner-display').classList.remove('hidden');
 
-                // AUTO-DETECT HAKIM LOGIC (Dramatic Pause 1.5 saat)
-                setTimeout(() => {
-                    let matched = false;
-                    if (ans) {
-                        const cleanAns = ans.trim().toUpperCase();
-                        const currentData = feudData[currentFeudIndex];
-                        const cards = document.querySelectorAll('.flip-card');
-                        
-                        for (let i = 0; i < currentData.a.length; i++) {
-                            const expectedAns = currentData.a[i].text.toUpperCase();
+                if (!hasAnswer) {
+                    document.getElementById('feud-winner-ans').innerHTML = '<span class="text-amber-500 animate-pulse text-xl"><i class="fas fa-keyboard"></i> Sedang menaip...</span>';
+                } else {
+                    document.getElementById('feud-winner-ans').innerText = ans;
+                    if(pollingInterval) clearInterval(pollingInterval); // Stop polling
+                    document.getElementById('api-text').innerText = "TAMAT";
+                    document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
+
+                    // AUTO-DETECT
+                    if (!window.feudAnswerRevealed) {
+                        window.feudAnswerRevealed = true;
+                        setTimeout(() => {
+                            let matched = false;
+                            const cleanAns = ans.trim().toUpperCase();
+                            const currentData = feudData[currentFeudIndex];
+                            const cards = document.querySelectorAll('.flip-card');
                             
-                            // Fuzzy match sederhana: Kalau sama ATAU sebahagian daripada jawapan
-                            if (cleanAns === expectedAns || 
-                               (cleanAns.length >= 3 && expectedAns.includes(cleanAns)) ||
-                               (expectedAns.length >= 3 && cleanAns.includes(expectedAns))) {
-                                
-                                if (!cards[i].classList.contains('flipped')) {
-                                    revealCard(cards[i], currentData.a[i].points);
-                                    matched = true;
-                                    break;
+                            for (let i = 0; i < currentData.a.length; i++) {
+                                const expectedAns = currentData.a[i].text.toUpperCase();
+                                if (cleanAns === expectedAns || 
+                                   (cleanAns.length >= 3 && expectedAns.includes(cleanAns)) ||
+                                   (expectedAns.length >= 3 && cleanAns.includes(expectedAns))) {
+                                    
+                                    if (!cards[i].classList.contains('flipped')) {
+                                        revealCard(cards[i], currentData.a[i].points);
+                                        matched = true;
+                                        break;
+                                    }
                                 }
                             }
-                        }
+                            if (!matched) addStrike();
+                        }, 1500);
                     }
-                    
-                    // Kalau langsung tak match, pangkah!
-                    if (!matched) {
-                        addStrike();
-                    }
-                }, 1500);
+                }
 
-            } else {
+            } else { // Slide 11
                 document.getElementById('giant-winner-name').innerText = name;
                 document.getElementById('winner-announcement-modal').style.display = 'flex';
+                
+                let statusEl = document.getElementById('giant-winner-status');
+                if (!statusEl) {
+                    statusEl = document.createElement('p');
+                    statusEl.id = 'giant-winner-status';
+                    statusEl.className = 'text-3xl font-bangers text-amber-400 animate-pulse mt-4';
+                    document.getElementById('giant-winner-name').after(statusEl);
+                }
+
+                if (!hasAnswer) {
+                    statusEl.innerHTML = '<i class="fas fa-keyboard"></i> Sedang menaip jawapan...';
+                } else {
+                    statusEl.innerHTML = `<span class="text-white">Jawapan:</span> <span class="text-emerald-400">${ans}</span>`;
+                    if(pollingInterval) clearInterval(pollingInterval); // Stop polling
+                    document.getElementById('api-text').innerText = "TAMAT";
+                    document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
+                }
                 window.currentWinnerSlide = slideIndex;
             }
         };
@@ -1105,6 +1229,7 @@
         let strikes = 0;
 
         function loadFeudQuestion() {
+            window.feudAnswerRevealed = false;
             const data = feudData[currentFeudIndex];
             document.getElementById('feud-question').innerText = data.q;
             document.getElementById('feud-counter').innerText = `S${currentFeudIndex + 1} / ${feudData.length}`;
@@ -1121,7 +1246,7 @@
             data.a.forEach((ans, index) => {
                 const card = document.createElement('div');
                 card.className = "flip-card";
-                card.onclick = () => revealCard(card, ans.points); // Manual Override
+                card.onclick = () => revealCard(card, ans.points); 
                 
                 card.innerHTML = `
                     <div class="flip-card-inner">
@@ -1140,6 +1265,7 @@
 
         function startFeudBuzzer() {
             document.getElementById('feud-winner-display').classList.add('hidden');
+            window.feudAnswerRevealed = false;
             if (GAS_WEB_APP_URL) {
                 fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passFeud}`, {mode: 'no-cors'}).then(() => {
                     startBuzzerPolling(passFeud, 15);
@@ -1152,6 +1278,7 @@
 
         function resetFeudBuzzer() {
             document.getElementById('feud-winner-display').classList.add('hidden');
+            window.feudAnswerRevealed = false;
             if (GAS_WEB_APP_URL) {
                 fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passFeud}`, {mode: 'no-cors'}).then(() => {
                     startBuzzerPolling(passFeud, 15);
