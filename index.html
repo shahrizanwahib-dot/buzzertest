@@ -288,14 +288,14 @@
             <!-- WAITING RESULT SECTION (Sedang menyemak) -->
             <div id="wait-result-section" class="hidden w-full flex-col items-center animate-popIn">
                 <div class="w-20 h-20 border-8 border-slate-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
-                <h2 class="font-bangers text-4xl text-slate-700 uppercase tracking-wider text-center">Menyemak Siapa Paling Laju...</h2>
+                <h2 class="font-bangers text-4xl text-slate-700 uppercase tracking-wider text-center">Menghantar Isyarat...</h2>
                 <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-sm">Sila tunggu sebentar.</p>
             </div>
 
-            <!-- WINNER: TYPE ANSWER SECTION (Hanya untuk pemenang) - FIXED UI -->
+            <!-- WINNER: TYPE ANSWER SECTION (Hanya untuk pemenang) -->
             <div id="type-answer-section" class="hidden w-full content-box border-emerald-500 shadow-[8px_8px_0px_#059669] flex-col items-center animate-popIn">
                 <h2 class="font-bangers text-4xl md:text-5xl text-emerald-700 mb-2 uppercase text-center">TAHNIAH!<br>ANDA TERPANTAS</h2>
-                <!-- FIX MENAIP GELAP: Arahan yang lebih jelas supaya rujuk skrin Cikgu -->
+                <!-- Arahan yang lebih jelas supaya rujuk skrin Cikgu -->
                 <div class="bg-amber-100 border-2 border-amber-400 p-3 rounded mb-4 w-full text-center">
                     <p class="text-amber-800 font-bold text-xs uppercase tracking-widest"><i class="fas fa-eye"></i> Sila lihat skrin utama untuk soalan, kemudian taip jawapan di bawah.</p>
                 </div>
@@ -319,7 +319,7 @@
                 <p class="text-emerald-600 text-sm font-bold uppercase tracking-widest mt-4"><i class="fas fa-sync"></i> Menunggu giliran seterusnya...</p>
             </div>
 
-            <!-- ALREADY ANSWERED (LOCKED) SECTION - FIX RAJA FEUD -->
+            <!-- ALREADY ANSWERED (LOCKED) SECTION - RAJA FEUD FIX -->
             <div id="already-answered-section" class="hidden w-full content-box bg-slate-100 border-slate-500 shadow-[8px_8px_0px_#64748b] flex-col items-center animate-popIn mt-6 text-center">
                 <div class="w-20 h-20 bg-slate-300 text-slate-600 rounded-full flex items-center justify-center mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-lock text-4xl"></i></div>
                 <h2 class="font-bangers text-4xl md:text-5xl mb-2 text-slate-700 uppercase">GILIRAN TAMAT</h2>
@@ -719,28 +719,85 @@
 
     </div>
 
-    <script>
-        // ==========================================
-        // 🚀 URL GOOGLE APPS SCRIPT DIMASUKKAN DI SINI
-        // ==========================================
-        const GAS_WEB_APP_URL = ""; // Biarkan kosong untuk mod demo localStorage
+    <!-- Pemasangan Firebase Firestore (Real-Time Live Edition) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        let currentSlide = 1;
-        const totalSlides = 15;
-        let pollingInterval = null;
-        
-        // Pembolehubah Pelajar
-        let studentPollInterval = null;
-        let myStudentName = "";
-        let currentStudentPass = ""; 
-        let isBuzzing = false; 
-        
-        // Pembolehubah TLAC Lockout Rebound
-        let hasWonRound = false; 
-        
+        // Global State Variables
+        window.currentSlide = 1;
+        window.totalSlides = 15;
+        window.myStudentName = "";
+        window.currentStudentPass = "";
+        window.isBuzzing = false;
+        window.passNormal = "";
+        window.passFeud = "";
         window.feudAnswerRevealed = false;
+        
+        let auth, db, appId, currentUser;
+        let unsubscribeTeacher = null;
+        let unsubscribeStudent = null;
 
-        function updateQRCode() {
+        // --- FIREBASE INITIALIZATION ---
+        try {
+            const firebaseConfig = {
+              apiKey: "AIzaSyAQnh77DjiQEiCbzBXKe182zbyIQL2S2to",
+              authDomain: "buzzer-mega-kaji.firebaseapp.com",
+              projectId: "buzzer-mega-kaji",
+              storageBucket: "buzzer-mega-kaji.firebasestorage.app",
+              messagingSenderId: "454192859607",
+              appId: "1:454192859607:web:39104283576e1a376ea392"
+            };
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            appId = typeof __app_id !== 'undefined' ? __app_id : 'kaji-persekitaran-live';
+
+            const initAuth = async () => {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        try {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } catch (tokenError) {
+                            console.warn("Token kustom tidak cocok dengan konfigurasi Firebase Anda. Beralih ke login Anonim (Anonymous).");
+                            await signInAnonymously(auth);
+                        }
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (authError) {
+                    console.error("Autentikasi gagal:", authError);
+                }
+            };
+            initAuth();
+
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if(user) {
+                    let apiText = document.getElementById('api-text');
+                    let apiDot = document.getElementById('api-dot');
+                    if(apiText) {
+                        apiText.innerText = "LIVE (FIRESTORE)";
+                        apiDot.className = "w-3 h-3 rounded-full bg-green-500 animate-pulse";
+                    }
+                }
+            });
+        } catch (e) {
+            console.error("Gagal connect Firebase:", e);
+        }
+
+        // --- HELPER FUNCTIONS ---
+        function generateRandomPass(length = 7) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        window.updateQRCode = function() {
             let url = document.getElementById('teacher-url-input').value.trim();
             if (!url) {
                 url = "https://shahrizanwahib-dot.github.io/buzzertest/";
@@ -751,22 +808,9 @@
             if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
         }
 
-        window.addEventListener('load', () => { updateQRCode(); });
+        window.addEventListener('load', () => { window.updateQRCode(); });
 
-        function generateRandomPass(length = 7) {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            let result = '';
-            for (let i = 0; i < length; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return result;
-        }
-
-        let passNormal = "";
-        let passFeud = "";
-
-        // --- KAWALAN PERANAN ---
-        function selectRole(role) {
+        window.selectRole = function(role) {
             document.getElementById('role-screen').style.display = 'none';
             if (role === 'guru') {
                 document.getElementById('teacher-view').style.display = 'block';
@@ -776,7 +820,7 @@
             }
         }
 
-        // --- LOGIK PELAJAR: STATE CONTROLLER ---
+        // --- PELAJAR: LOGIK UI & FIREBASE ---
         function setStudentUI(activeId) {
             const sections = ['status-wait', 'buzzer-section', 'wait-result-section', 'type-answer-section', 'loser-section', 'success-section', 'already-answered-section'];
             sections.forEach(id => {
@@ -791,185 +835,147 @@
                     }
                 }
             });
-            
-            // Bila patah balik ke buzzer, buang lock effect
             if (activeId === 'buzzer-section') {
                 const btn = document.getElementById('main-buzzer');
                 btn.classList.remove('pressed', 'locked');
-                isBuzzing = false;
+                window.isBuzzing = false;
             }
         }
 
-        function joinClass() {
+        window.joinClass = function() {
             const nameInput = document.getElementById('stu-name').value.trim();
             if (!nameInput) return;
-            myStudentName = nameInput.toUpperCase();
-            document.getElementById('display-stu-name').innerText = myStudentName;
+            window.myStudentName = nameInput.toUpperCase();
+            document.getElementById('display-stu-name').innerText = window.myStudentName;
             document.getElementById('student-setup').classList.add('hidden');
             document.getElementById('student-gameplay').classList.remove('hidden');
             document.getElementById('student-gameplay').classList.add('flex');
         }
 
-        function checkPassInput() {
+        window.checkPassInput = function() {
             const pass = document.getElementById('stu-pass').value.trim().toUpperCase();
             if (pass.length >= 7) { 
-                if (currentStudentPass !== pass) {
-                    currentStudentPass = pass;
-                    // Reset kemenangan pusingan bila password berubah
-                    hasWonRound = false; 
-                    startContinuousStudentPolling(pass);
+                if (window.currentStudentPass !== pass) {
+                    window.currentStudentPass = pass;
+                    startStudentListener(pass);
                 }
             } else {
-                currentStudentPass = "";
-                stopContinuousStudentPolling();
+                window.currentStudentPass = "";
+                if (unsubscribeStudent) { unsubscribeStudent(); unsubscribeStudent = null; }
                 setStudentUI('status-wait');
             }
         }
 
-        // POLLING BERTERUSAN PELAJAR
-        function startContinuousStudentPolling(pass) {
-            stopContinuousStudentPolling();
-            if (!isBuzzing) {
-                // Check kalau dia dah pernah menang untuk password ni
-                if (hasWonRound) {
-                    setStudentUI('already-answered-section');
-                } else {
-                    setStudentUI('buzzer-section'); 
-                }
-            }
+        function startStudentListener(pass) {
+            if (unsubscribeStudent) { unsubscribeStudent(); unsubscribeStudent = null; }
+            if (!currentUser) return;
 
-            studentPollInterval = setInterval(async () => {
-                if (!GAS_WEB_APP_URL) {
-                    let demoWinner = localStorage.getItem('demoBuzzerWinner_' + pass);
-                    processStudentPollData(demoWinner);
+            setStudentUI('buzzer-section'); // Assume ready until snapshot says otherwise
+
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'buzzer_sessions', pass);
+            
+            unsubscribeStudent = onSnapshot(docRef, (docSnap) => {
+                if (!docSnap.exists()) {
+                    setStudentUI('status-wait'); // Cikgu belum buka bilik ni
                     return;
                 }
                 
-                try {
-                    let response = await fetch(GAS_WEB_APP_URL + "?action=check&pass=" + pass);
-                    let data = await response.json();
-                    processStudentPollData(data.winner);
-                } catch(e) {}
-            }, 1000); 
-        }
+                const data = docSnap.data();
+                const winner = data.winner;
+                const answer = data.answer;
+                const lockedOut = data.lockedOut || [];
 
-        function processStudentPollData(winnerData) {
-            if (!winnerData) {
-                // REBOUND BERLAKU! Cikgu dah clear data.
-                if (isBuzzing && document.getElementById('wait-result-section').classList.contains('flex')) {
-                    // Biarkan kejap (tengah loading buzz)
-                } else {
-                    // Cek kalau pelajar ni dah pernah hantar jawapan (Betul/Salah tak kisah)
-                    if (hasWonRound) {
-                        setStudentUI('already-answered-section'); // LOCKOUT!
-                    } else {
-                        setStudentUI('buzzer-section'); // Rebound normal
-                    }
-                    document.getElementById('stu-final-answer').value = ''; 
+                // Cek kalau pelajar ni dah disekat (Rebound)
+                if (lockedOut.includes(window.myStudentName) && winner !== window.myStudentName) {
+                    setStudentUI('already-answered-section');
+                    return;
                 }
-            } else {
-                // ADA PEMENANG
-                isBuzzing = false;
-                let parts = winnerData.split('|');
-                let wName = parts[0];
-                let wAns = parts[1] || "";
 
-                if (wName === myStudentName) {
-                    if (!wAns) {
+                if (winner === "") {
+                    setStudentUI('buzzer-section'); // Buka buzzer
+                } else if (winner === window.myStudentName) {
+                    window.isBuzzing = false;
+                    if (!answer) {
                         setStudentUI('type-answer-section');
                     } else {
-                        // Tandakan budak ni dah berjaya hantar satu jawapan
-                        hasWonRound = true;
                         setStudentUI('success-section');
                     }
                 } else {
-                    // Kalau orang lain menang, tapi kita belum hantar apa-apa
-                    if (!hasWonRound) {
-                        document.getElementById('fastest-player-name').innerText = wName;
-                        setStudentUI('loser-section');
-                    }
+                    window.isBuzzing = false;
+                    document.getElementById('fastest-player-name').innerText = winner;
+                    setStudentUI('loser-section');
                 }
-            }
+            }, (error) => console.error(error));
         }
 
-        function stopContinuousStudentPolling() {
-            if (studentPollInterval) {
-                clearInterval(studentPollInterval);
-                studentPollInterval = null;
-            }
-        }
-
-        async function hitBuzzer() {
-            if (isBuzzing || hasWonRound) return; 
-            isBuzzing = true;
+        window.hitBuzzer = async function() {
+            if (window.isBuzzing) return; 
+            window.isBuzzing = true;
 
             const btn = document.getElementById('main-buzzer');
             btn.classList.add('pressed', 'locked');
-            setStudentUI('wait-result-section'); 
 
-            if (!GAS_WEB_APP_URL) {
-                localStorage.setItem('demoBuzzerWinner_' + currentStudentPass, myStudentName);
+            if (!currentUser) {
+                alert("Menyambung ke pangkalan data awan. Tunggu sekejap...");
+                window.isBuzzing = false;
+                btn.classList.remove('pressed', 'locked');
                 return;
             }
 
+            setStudentUI('wait-result-section'); 
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'buzzer_sessions', window.currentStudentPass);
+
             try {
-                const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(myStudentName)}&pass=${encodeURIComponent(currentStudentPass)}`;
-                await fetch(url, { mode: 'no-cors' });
+                // Baca database, kalau kosong, cop nama terus!
+                const snap = await getDoc(docRef);
+                if (snap.exists() && snap.data().winner === "") {
+                    await updateDoc(docRef, { winner: window.myStudentName });
+                    // OnSnapshot kat atas tu yang akan handle tukar page ke "Menang", so relax je sini
+                } else {
+                    // Ada orang lagi laju
+                    window.isBuzzing = false;
+                }
             } catch(e) {
-                alert("Rangkaian bermasalah. Sila cuba lagi.");
-                isBuzzing = false;
+                alert("Ralat sambungan. Sila cuba lagi.");
+                window.isBuzzing = false;
                 setStudentUI('buzzer-section');
             }
         }
 
-        async function submitAnswer() {
+        window.submitAnswer = async function() {
             const ans = document.getElementById('stu-final-answer').value.trim().toUpperCase();
             if(!ans) return;
 
-            const payloadName = myStudentName + '|' + ans;
             setStudentUI('wait-result-section'); 
-
-            if (!GAS_WEB_APP_URL) {
-                localStorage.setItem('demoBuzzerWinner_' + currentStudentPass, payloadName);
-                // Flag round won untuk demo mode
-                hasWonRound = true;
-                return;
-            }
-
+            if (!currentUser) return;
+            
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'buzzer_sessions', window.currentStudentPass);
             try {
-                const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(payloadName)}&pass=${encodeURIComponent(currentStudentPass)}`;
-                await fetch(url, { mode: 'no-cors' });
-                // Note: hasWonRound akan diset true dalam polling function bila dia catch the update
+                await updateDoc(docRef, { answer: ans });
             } catch(e) {
-                alert("Gagal menghantar jawapan.");
+                alert("Gagal menghantar jawapan ke skrin utama.");
                 setStudentUI('type-answer-section');
             }
         }
 
-        function hardResetBuzzer() {
-            isBuzzing = false;
-            hasWonRound = false; // Reset the lockout completely
-            stopContinuousStudentPolling();
+        window.hardResetBuzzer = function() {
+            window.isBuzzing = false;
+            if (unsubscribeStudent) { unsubscribeStudent(); unsubscribeStudent = null; }
             document.getElementById('stu-pass').value = '';
             document.getElementById('stu-final-answer').value = ''; 
             setStudentUI('status-wait');
         }
 
-        // --- LOGIK GURU & POLLING ---
+        // --- GURU: LOGIK UI & FIREBASE ---
         function initTeacher() {
-            if(!GAS_WEB_APP_URL) {
-                document.getElementById('api-text').innerText = "DEMO (LOCAL)";
-                document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-purple-500";
-            }
-
-            passNormal = generateRandomPass(7);
-            passFeud = generateRandomPass(7);
+            window.passNormal = generateRandomPass(7);
+            window.passFeud = generateRandomPass(7);
             
             const pass11El = document.getElementById('prep-pass-11');
             const pass15El = document.getElementById('prep-pass-15');
             
-            if(pass11El) pass11El.innerText = passNormal;
-            if(pass15El) pass15El.innerText = passFeud;
+            if(pass11El) pass11El.innerText = window.passNormal;
+            if(pass15El) pass15El.innerText = window.passFeud;
 
             updateSlide();
             loadFeudQuestion();
@@ -977,161 +983,130 @@
 
         function updateSlide() {
             document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-            const slide = document.getElementById('slide-' + currentSlide);
+            const slide = document.getElementById('slide-' + window.currentSlide);
             if (slide) slide.classList.add('active');
             
-            document.getElementById('slideCounter').innerText = (currentSlide < 10 ? '0' + currentSlide : currentSlide) + ' / ' + totalSlides;
+            document.getElementById('slideCounter').innerText = (window.currentSlide < 10 ? '0' + window.currentSlide : window.currentSlide) + ' / ' + window.totalSlides;
 
-            if(pollingInterval) clearInterval(pollingInterval);
-            const apiText = document.getElementById('api-text');
-            const apiDot = document.getElementById('api-dot');
-            if(apiText) {
-                apiText.innerText = "KUNCI BUZZER";
-                apiDot.className = "w-3 h-3 rounded-full bg-slate-400";
-            }
-
-            if (currentSlide === 10) {
-                // Slaid Sedia Untuk Berebut (Tunjuk Password)
+            if (window.currentSlide === 10) {
                 document.getElementById('pass-container-10').classList.remove('hidden');
                 document.getElementById('pass-container-10').classList.add('inline-block');
                 document.getElementById('winner-container-10').classList.add('hidden');
                 document.getElementById('winner-container-10').classList.remove('flex');
-                
-                if (GAS_WEB_APP_URL) {
-                    fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passNormal}`, {mode: 'no-cors'}).then(() => {
-                        startBuzzerPolling(passNormal, 10);
-                    });
-                } else {
-                    localStorage.removeItem('demoBuzzerWinner_' + passNormal);
-                    startBuzzerPolling(passNormal, 10);
-                }
+                startTeacherListener(window.passNormal, 10);
             } 
-            else if (currentSlide === 11) {
-                // Masuk Slaid 11, UI pemenang akan ditunjukkan (jika ada) atau MENUNGGU
+            else if (window.currentSlide === 11) {
                 document.getElementById('winner-ui-11').classList.remove('hidden');
                 document.getElementById('winner-ui-11').classList.add('flex');
-                startBuzzerPolling(passNormal, 11);
+                startTeacherListener(window.passNormal, 11);
+            }
+            else if (window.currentSlide !== 15) {
+                // Berhenti dengar database kalau cikgu gi slide mengajar
+                if (unsubscribeTeacher) { unsubscribeTeacher(); unsubscribeTeacher = null; }
             }
         }
 
-        function changeSlide(dir) {
-            currentSlide += dir;
-            if (currentSlide < 1) currentSlide = 1;
-            if (currentSlide > totalSlides) currentSlide = totalSlides;
+        window.changeSlide = function(dir) {
+            window.currentSlide += dir;
+            if (window.currentSlide < 1) window.currentSlide = 1;
+            if (window.currentSlide > window.totalSlides) window.currentSlide = window.totalSlides;
             updateSlide();
         }
 
-        // ==========================================
-        // FUNGSI REBOUND (COLD CALL REBOUND) 1000% FIX
-        // ==========================================
-        function reboundSlide11() {
-            // Update UI dulu supaya cikgu nampak ada progress pemadaman
-            document.getElementById('winner-name-11').innerText = "MEMADAM REKOD...";
-            document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-spinner fa-spin text-amber-500"></i> Sila tunggu sebentar...';
+        // Fungsi Dengar Database (Teacher)
+        function startTeacherListener(passLetter, slideIndex) {
+            if (unsubscribeTeacher) { unsubscribeTeacher(); unsubscribeTeacher = null; }
+            if (!currentUser) return;
 
-            if (GAS_WEB_APP_URL) {
-                // Guna .then() untuk pastikan server dah betul-betul padam data lama
-                // sebelum kita mulakan radar mencari pemenang baru. Ini elak "race condition".
-                fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passNormal}`, {mode: 'no-cors'}).then(() => {
-                    document.getElementById('winner-name-11').innerText = "MENUNGGU...";
-                    document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
-                    startBuzzerPolling(passNormal, 11);
-                }).catch(() => {
-                    // Fallback kalau network lambat
-                    document.getElementById('winner-name-11').innerText = "MENUNGGU...";
-                    document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
-                    startBuzzerPolling(passNormal, 11);
-                });
-            } else {
-                localStorage.removeItem('demoBuzzerWinner_' + passNormal);
-                document.getElementById('winner-name-11').innerText = "MENUNGGU...";
-                document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
-                startBuzzerPolling(passNormal, 11);
-            }
-        }
-
-        async function fetchWinnerFromGAS(passLetter, slideIndex) {
-            if (!GAS_WEB_APP_URL) {
-                let winner = localStorage.getItem('demoBuzzerWinner_' + passLetter);
-                if (winner) {
-                    showBuzzerWinner(winner, slideIndex);
-                } else {
-                    // Bila winner kosong (contoh lepas tekan Rebound)
-                    if (slideIndex === 11) {
-                         document.getElementById('winner-name-11').innerText = "MENUNGGU...";
-                         document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
-                    } else if (slideIndex === 15) {
-                         document.getElementById('feud-winner-display').classList.add('hidden');
-                    }
-                }
-                return;
-            }
-            
-            try {
-                document.getElementById('api-text').innerText = "MENGIMBAS...";
-                document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-blue-500 animate-pulse";
-
-                let response = await fetch(GAS_WEB_APP_URL + "?action=check&pass=" + passLetter);
-                let data = await response.json();
-                
-                if (data.winner) {
-                    showBuzzerWinner(data.winner, slideIndex);
-                } else {
-                    // Sama logic kalau guna API dan winner jadi kosong lepas Rebound
-                    if (slideIndex === 11) {
-                         document.getElementById('winner-name-11').innerText = "MENUNGGU...";
-                         document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
-                    } else if (slideIndex === 15) {
-                         document.getElementById('feud-winner-display').classList.add('hidden');
-                    }
-                }
-            } catch (error) {
-                document.getElementById('api-text').innerText = "RALAT RANGKAIAN";
-                document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-red-500";
-            }
-        }
-
-        function startBuzzerPolling(passLetter, slideIndex) {
-            if(pollingInterval) clearInterval(pollingInterval);
-            window.feudAnswerRevealed = false; 
             document.getElementById('api-text').innerText = "SEDIA IMBAS";
             document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-amber-500 animate-pulse";
+            window.feudAnswerRevealed = false;
+
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'buzzer_sessions', passLetter);
             
-            // fetch berjalan lepas interval mula
-            fetchWinnerFromGAS(passLetter, slideIndex);
-            pollingInterval = setInterval(() => { fetchWinnerFromGAS(passLetter, slideIndex); }, 1000);
+            // Cipta session baru kalau takda lagi kat cloud
+            setDoc(docRef, { winner: "", answer: "", lockedOut: [] }, { merge: true }).then(() => {
+                unsubscribeTeacher = onSnapshot(docRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        if (data.winner) {
+                            showBuzzerWinner(data.winner, data.answer, slideIndex);
+                        } else {
+                            if (slideIndex === 11) {
+                                document.getElementById('winner-name-11').innerText = "MENUNGGU...";
+                                document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
+                            } else if (slideIndex === 15) {
+                                document.getElementById('feud-winner-display').classList.add('hidden');
+                            }
+                        }
+                    }
+                }, (error) => {
+                    document.getElementById('api-text').innerText = "RALAT DB";
+                    document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-red-500";
+                });
+            });
         }
 
-        window.showBuzzerWinner = function(rawName, slideIndex) {
-            let name = rawName;
-            let ans = "";
-            let hasAnswer = false;
-            
-            if (rawName.includes('|')) {
-                const parts = rawName.split('|');
-                name = parts[0];
-                ans = parts[1];
-                if(ans) hasAnswer = true;
+        // Logik REBOUND: Kunci budak yang salah (Cloud Lockout)
+        async function triggerRebound(passLetter) {
+            if (!currentUser) return;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'buzzer_sessions', passLetter);
+            try {
+                const snap = await getDoc(docRef);
+                if (snap.exists()) {
+                    let w = snap.data().winner;
+                    let locked = snap.data().lockedOut || [];
+                    // Kalau ada pemenang sebelum ni, campak dia dalam senarai hitam (lockedOut) untuk pusingan ni
+                    if (w && !locked.includes(w)) locked.push(w);
+                    await updateDoc(docRef, { winner: "", answer: "", lockedOut: locked });
+                }
+            } catch (e) {
+                console.error(e);
             }
+        }
 
+        window.reboundSlide11 = function() {
+            document.getElementById('winner-name-11').innerText = "MEMADAM REKOD...";
+            document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-spinner fa-spin text-amber-500"></i> Sila tunggu sebentar...';
+            triggerRebound(window.passNormal);
+        };
+
+        window.resetFeudBuzzer = function() {
+            document.getElementById('feud-winner-display').classList.add('hidden');
+            window.feudAnswerRevealed = false;
+            triggerRebound(window.passFeud);
+        };
+
+        window.startFeudBuzzer = async function() {
+            document.getElementById('feud-winner-display').classList.add('hidden');
+            window.feudAnswerRevealed = false;
+            if (currentUser) {
+                // Reset kaw-kaw untuk soalan feud baru (buang semua lockout)
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'buzzer_sessions', window.passFeud);
+                await setDoc(docRef, { winner: "", answer: "", lockedOut: [] });
+                startTeacherListener(window.passFeud, 15);
+            }
+        };
+
+        function showBuzzerWinner(name, ans, slideIndex) {
             if (slideIndex === 15) { 
                 document.getElementById('feud-winner-name').innerText = name;
                 document.getElementById('feud-winner-display').classList.remove('hidden');
 
-                if (!hasAnswer) {
+                if (!ans) {
                     document.getElementById('feud-winner-ans').innerHTML = '<span class="text-amber-500 animate-pulse text-xl"><i class="fas fa-keyboard"></i> Sedang menaip...</span>';
                 } else {
                     document.getElementById('feud-winner-ans').innerText = ans;
                     document.getElementById('api-text').innerText = "JAWAPAN DITERIMA";
                     document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
 
-                    // AUTO-DETECT
+                    // AUTO-DETECT LOGIC
                     if (!window.feudAnswerRevealed) {
                         window.feudAnswerRevealed = true;
                         setTimeout(() => {
                             let matched = false;
                             const cleanAns = ans.trim().toUpperCase();
-                            const currentData = feudData[currentFeudIndex];
+                            const currentData = feudData[window.currentFeudIndex];
                             const cards = document.querySelectorAll('.flip-card');
                             
                             for (let i = 0; i < currentData.a.length; i++) {
@@ -1141,17 +1116,16 @@
                                    (expectedAns.length >= 3 && cleanAns.includes(expectedAns))) {
                                     
                                     if (!cards[i].classList.contains('flipped')) {
-                                        revealCard(cards[i], currentData.a[i].points);
+                                        window.revealCard(cards[i], currentData.a[i].points);
                                         matched = true;
                                         break;
                                     }
                                 }
                             }
-                            if (!matched) addStrike();
+                            if (!matched) window.addStrike();
                         }, 1500);
                     }
                 }
-
             } 
             else if (slideIndex === 10) { 
                 document.getElementById('pass-container-10').classList.add('hidden');
@@ -1170,7 +1144,7 @@
                 document.getElementById('winner-name-11').innerText = name;
                 let statusEl = document.getElementById('typing-status-11');
                 
-                if (!hasAnswer) {
+                if (!ans) {
                     statusEl.innerHTML = '<i class="fas fa-keyboard text-amber-500 animate-pulse"></i> Menunggu jawapan ditaip...';
                 } else {
                     statusEl.innerHTML = `<span class="bg-emerald-100 text-emerald-800 px-6 py-3 rounded-lg border-4 border-emerald-500 font-bangers tracking-widest text-4xl shadow-[4px_4px_0px_#059669] inline-block mt-2">${ans}</span>`;
@@ -1180,12 +1154,12 @@
             }
         };
 
-        function toggleFullscreen() {
+        window.toggleFullscreen = function() {
             if (!document.fullscreenElement) document.documentElement.requestFullscreen();
             else if (document.exitFullscreen) document.exitFullscreen();
         }
 
-        function checkCFU(btn, isCorrect, feedbackId = null) {
+        window.checkCFU = function(btn, isCorrect, feedbackId = null) {
             const parent = btn.parentElement;
             const allBtns = parent.querySelectorAll('button');
             allBtns.forEach(b => { b.disabled = true; b.classList.add('opacity-50'); });
@@ -1294,19 +1268,19 @@
             }
         ];
 
-        let currentFeudIndex = 0;
-        let totalFeudScore = 0;
-        let strikes = 0;
+        window.currentFeudIndex = 0;
+        window.totalFeudScore = 0;
+        window.strikes = 0;
 
         function loadFeudQuestion() {
             window.feudAnswerRevealed = false;
-            const data = feudData[currentFeudIndex];
+            const data = feudData[window.currentFeudIndex];
             document.getElementById('feud-question').innerText = data.q;
-            document.getElementById('feud-counter').innerText = `S${currentFeudIndex + 1} / ${feudData.length}`;
+            document.getElementById('feud-counter').innerText = `S${window.currentFeudIndex + 1} / ${feudData.length}`;
             
-            totalFeudScore = 0;
-            strikes = 0;
-            document.getElementById('feud-total-score').innerText = totalFeudScore;
+            window.totalFeudScore = 0;
+            window.strikes = 0;
+            document.getElementById('feud-total-score').innerText = window.totalFeudScore;
             updateStrikeDisplay();
             document.getElementById('feud-winner-display').classList.add('hidden');
 
@@ -1316,7 +1290,7 @@
             data.a.forEach((ans, index) => {
                 const card = document.createElement('div');
                 card.className = "flip-card";
-                card.onclick = () => revealCard(card, ans.points); 
+                card.onclick = () => window.revealCard(card, ans.points); 
                 
                 card.innerHTML = `
                     <div class="flip-card-inner">
@@ -1333,37 +1307,11 @@
             });
         }
 
-        function startFeudBuzzer() {
-            document.getElementById('feud-winner-display').classList.add('hidden');
-            window.feudAnswerRevealed = false;
-            if (GAS_WEB_APP_URL) {
-                fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passFeud}`, {mode: 'no-cors'}).then(() => {
-                    startBuzzerPolling(passFeud, 15);
-                });
-            } else {
-                localStorage.removeItem('demoBuzzerWinner_' + passFeud);
-                startBuzzerPolling(passFeud, 15);
-            }
-        }
-
-        function resetFeudBuzzer() {
-            document.getElementById('feud-winner-display').classList.add('hidden');
-            window.feudAnswerRevealed = false;
-            if (GAS_WEB_APP_URL) {
-                fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passFeud}`, {mode: 'no-cors'}).then(() => {
-                    startBuzzerPolling(passFeud, 15);
-                });
-            } else {
-                localStorage.removeItem('demoBuzzerWinner_' + passFeud);
-                startBuzzerPolling(passFeud, 15);
-            }
-        }
-
-        function revealCard(cardElement, points) {
+        window.revealCard = function(cardElement, points) {
             if (!cardElement.classList.contains('flipped')) {
                 cardElement.classList.add('flipped');
-                totalFeudScore += points;
-                animateScore(totalFeudScore);
+                window.totalFeudScore += points;
+                animateScore(window.totalFeudScore);
             }
         }
 
@@ -1376,9 +1324,9 @@
             }, 300);
         }
 
-        function addStrike() {
-            if (strikes < 3) {
-                strikes++;
+        window.addStrike = function() {
+            if (window.strikes < 3) {
+                window.strikes++;
                 updateStrikeDisplay();
                 const board = document.querySelector('.feud-board');
                 board.style.borderColor = '#ef4444';
@@ -1390,7 +1338,7 @@
             const display = document.getElementById('strike-display');
             let content = '';
             for(let i=0; i<3; i++) {
-                if(i < strikes) {
+                if(i < window.strikes) {
                     content += `<span class="strike-x animate-popIn">X</span>`;
                 } else {
                     content += `<span class="text-slate-700 opacity-20">X</span>`;
@@ -1399,16 +1347,16 @@
             display.innerHTML = content;
         }
 
-        function nextFeud() {
-            if (currentFeudIndex < feudData.length - 1) {
-                currentFeudIndex++;
+        window.nextFeud = function() {
+            if (window.currentFeudIndex < feudData.length - 1) {
+                window.currentFeudIndex++;
                 loadFeudQuestion();
             }
         }
 
-        function prevFeud() {
-            if (currentFeudIndex > 0) {
-                currentFeudIndex--;
+        window.prevFeud = function() {
+            if (window.currentFeudIndex > 0) {
+                window.currentFeudIndex--;
                 loadFeudQuestion();
             }
         }
@@ -1416,9 +1364,9 @@
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             if (document.getElementById('teacher-view').style.display !== 'none') {
-                if(e.key === 'ArrowRight') { e.preventDefault(); changeSlide(1); }
-                if(e.key === 'ArrowLeft') changeSlide(-1);
-                if(e.key.toLowerCase() === 'f') toggleFullscreen();
+                if(e.key === 'ArrowRight') { e.preventDefault(); window.changeSlide(1); }
+                if(e.key === 'ArrowLeft') window.changeSlide(-1);
+                if(e.key.toLowerCase() === 'f') window.toggleFullscreen();
             }
         });
 
