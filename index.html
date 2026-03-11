@@ -292,10 +292,13 @@
                 <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-sm">Sila tunggu sebentar.</p>
             </div>
 
-            <!-- WINNER: TYPE ANSWER SECTION (Hanya untuk pemenang) -->
+            <!-- WINNER: TYPE ANSWER SECTION (Hanya untuk pemenang) - FIXED UI -->
             <div id="type-answer-section" class="hidden w-full content-box border-emerald-500 shadow-[8px_8px_0px_#059669] flex-col items-center animate-popIn">
                 <h2 class="font-bangers text-4xl md:text-5xl text-emerald-700 mb-2 uppercase text-center">TAHNIAH!<br>ANDA TERPANTAS</h2>
-                <p class="text-slate-600 font-bold mb-6 text-sm uppercase tracking-widest text-center mt-2">Sila taip jawapan anda sekarang.</p>
+                <!-- FIX MENAIP GELAP: Arahan yang lebih jelas supaya rujuk skrin Cikgu -->
+                <div class="bg-amber-100 border-2 border-amber-400 p-3 rounded mb-4 w-full text-center">
+                    <p class="text-amber-800 font-bold text-xs uppercase tracking-widest"><i class="fas fa-eye"></i> Sila lihat skrin utama untuk soalan, kemudian taip jawapan di bawah.</p>
+                </div>
                 <input type="text" id="stu-final-answer" placeholder="Jawapan anda..." class="w-full p-4 border-4 border-slate-800 rounded-lg text-center text-3xl uppercase font-black focus:border-emerald-500 focus:outline-none shadow-inner bg-slate-50 mb-6">
                 <button onclick="submitAnswer()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-3xl rounded-lg border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Hantar Jawapan</button>
             </div>
@@ -313,7 +316,15 @@
                 <div class="w-20 h-20 bg-emerald-600 text-white rounded-full flex items-center justify-center mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-check text-4xl"></i></div>
                 <h2 class="font-bangers text-5xl mb-2 text-emerald-800 uppercase">Dihantar!</h2>
                 <p class="text-slate-700 font-bold text-lg mb-4 text-center">Jawapan dipaparkan di skrin kelas.</p>
-                <p class="text-emerald-600 text-sm font-bold uppercase tracking-widest mt-4"><i class="fas fa-sync"></i> Menunggu pusingan seterusnya...</p>
+                <p class="text-emerald-600 text-sm font-bold uppercase tracking-widest mt-4"><i class="fas fa-sync"></i> Menunggu giliran seterusnya...</p>
+            </div>
+
+            <!-- ALREADY ANSWERED (LOCKED) SECTION - FIX RAJA FEUD -->
+            <div id="already-answered-section" class="hidden w-full content-box bg-slate-100 border-slate-500 shadow-[8px_8px_0px_#64748b] flex-col items-center animate-popIn mt-6 text-center">
+                <div class="w-20 h-20 bg-slate-300 text-slate-600 rounded-full flex items-center justify-center mb-4 border-4 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-lock text-4xl"></i></div>
+                <h2 class="font-bangers text-4xl md:text-5xl mb-2 text-slate-700 uppercase">GILIRAN TAMAT</h2>
+                <p class="text-slate-600 font-bold text-sm mb-4 text-center">Anda telah mencuba menjawab soalan ini. Sila beri peluang kepada rakan lain untuk pusingan Rebound.</p>
+                <button onclick="hardResetBuzzer()" class="mt-4 text-blue-600 font-bold text-xs underline tracking-widest uppercase hover:text-blue-800 transition">Soalan Seterusnya (Kunci Baru)</button>
             </div>
         </div>
     </div>
@@ -537,9 +548,12 @@
                     <p class="text-slate-800 font-bold mt-2 bg-white/50 px-4 py-1 rounded border-2 border-slate-900 uppercase tracking-widest text-sm">Cikgu: Sila ke slaid sebelah</p>
                 </div>
 
-                <div class="p-6 bg-red-50 border-4 border-red-600 rounded-xl max-w-2xl mx-auto text-left mt-2">
-                    <p class="text-red-700 font-black uppercase text-xl mb-2"><i class="fas fa-exclamation-triangle"></i> Arahan</p>
-                    <p class="text-red-800 font-bold text-lg">Pemain terpantas akan dipilih di sini. Sila ke Slaid 11 selepas nama anda tertera.</p>
+                <div class="p-6 bg-red-50 border-4 border-red-600 rounded-xl max-w-2xl mx-auto text-left mt-2 flex gap-4">
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-600 mt-1"></i>
+                    <div>
+                        <p class="text-red-700 font-black uppercase text-xl mb-1">Arahan Pantas</p>
+                        <p class="text-red-800 font-bold">Siapa paling laju tekan akan dipilih di sini. Belum perlu jawab lagi, tunggu cikgu tukar ke <span class="underline">Slaid 11</span> untuk lihat soalan.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -721,6 +735,9 @@
         let currentStudentPass = ""; 
         let isBuzzing = false; 
         
+        // Pembolehubah TLAC Lockout Rebound
+        let hasWonRound = false; 
+        
         window.feudAnswerRevealed = false;
 
         function updateQRCode() {
@@ -761,7 +778,7 @@
 
         // --- LOGIK PELAJAR: STATE CONTROLLER ---
         function setStudentUI(activeId) {
-            const sections = ['status-wait', 'buzzer-section', 'wait-result-section', 'type-answer-section', 'loser-section', 'success-section'];
+            const sections = ['status-wait', 'buzzer-section', 'wait-result-section', 'type-answer-section', 'loser-section', 'success-section', 'already-answered-section'];
             sections.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
@@ -798,6 +815,8 @@
             if (pass.length >= 7) { 
                 if (currentStudentPass !== pass) {
                     currentStudentPass = pass;
+                    // Reset kemenangan pusingan bila password berubah
+                    hasWonRound = false; 
                     startContinuousStudentPolling(pass);
                 }
             } else {
@@ -810,7 +829,14 @@
         // POLLING BERTERUSAN PELAJAR
         function startContinuousStudentPolling(pass) {
             stopContinuousStudentPolling();
-            if (!isBuzzing) setStudentUI('buzzer-section'); 
+            if (!isBuzzing) {
+                // Check kalau dia dah pernah menang untuk password ni
+                if (hasWonRound) {
+                    setStudentUI('already-answered-section');
+                } else {
+                    setStudentUI('buzzer-section'); 
+                }
+            }
 
             studentPollInterval = setInterval(async () => {
                 if (!GAS_WEB_APP_URL) {
@@ -833,7 +859,12 @@
                 if (isBuzzing && document.getElementById('wait-result-section').classList.contains('flex')) {
                     // Biarkan kejap (tengah loading buzz)
                 } else {
-                    setStudentUI('buzzer-section');
+                    // Cek kalau pelajar ni dah pernah hantar jawapan (Betul/Salah tak kisah)
+                    if (hasWonRound) {
+                        setStudentUI('already-answered-section'); // LOCKOUT!
+                    } else {
+                        setStudentUI('buzzer-section'); // Rebound normal
+                    }
                     document.getElementById('stu-final-answer').value = ''; 
                 }
             } else {
@@ -847,11 +878,16 @@
                     if (!wAns) {
                         setStudentUI('type-answer-section');
                     } else {
+                        // Tandakan budak ni dah berjaya hantar satu jawapan
+                        hasWonRound = true;
                         setStudentUI('success-section');
                     }
                 } else {
-                    document.getElementById('fastest-player-name').innerText = wName;
-                    setStudentUI('loser-section');
+                    // Kalau orang lain menang, tapi kita belum hantar apa-apa
+                    if (!hasWonRound) {
+                        document.getElementById('fastest-player-name').innerText = wName;
+                        setStudentUI('loser-section');
+                    }
                 }
             }
         }
@@ -864,7 +900,7 @@
         }
 
         async function hitBuzzer() {
-            if (isBuzzing) return; 
+            if (isBuzzing || hasWonRound) return; 
             isBuzzing = true;
 
             const btn = document.getElementById('main-buzzer');
@@ -895,12 +931,15 @@
 
             if (!GAS_WEB_APP_URL) {
                 localStorage.setItem('demoBuzzerWinner_' + currentStudentPass, payloadName);
+                // Flag round won untuk demo mode
+                hasWonRound = true;
                 return;
             }
 
             try {
                 const url = `${GAS_WEB_APP_URL}?action=buzz&name=${encodeURIComponent(payloadName)}&pass=${encodeURIComponent(currentStudentPass)}`;
                 await fetch(url, { mode: 'no-cors' });
+                // Note: hasWonRound akan diset true dalam polling function bila dia catch the update
             } catch(e) {
                 alert("Gagal menghantar jawapan.");
                 setStudentUI('type-answer-section');
@@ -909,6 +948,7 @@
 
         function hardResetBuzzer() {
             isBuzzing = false;
+            hasWonRound = false; // Reset the lockout completely
             stopContinuousStudentPolling();
             document.getElementById('stu-pass').value = '';
             document.getElementById('stu-final-answer').value = ''; 
@@ -985,20 +1025,29 @@
         // FUNGSI REBOUND (COLD CALL REBOUND) 1000% FIX
         // ==========================================
         function reboundSlide11() {
-            // Clear Data API/Local Storage
+            // Update UI dulu supaya cikgu nampak ada progress pemadaman
+            document.getElementById('winner-name-11').innerText = "MEMADAM REKOD...";
+            document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-spinner fa-spin text-amber-500"></i> Sila tunggu sebentar...';
+
             if (GAS_WEB_APP_URL) {
-                fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passNormal}`, {mode: 'no-cors'});
+                // Guna .then() untuk pastikan server dah betul-betul padam data lama
+                // sebelum kita mulakan radar mencari pemenang baru. Ini elak "race condition".
+                fetch(`${GAS_WEB_APP_URL}?action=reset&pass=${passNormal}`, {mode: 'no-cors'}).then(() => {
+                    document.getElementById('winner-name-11').innerText = "MENUNGGU...";
+                    document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
+                    startBuzzerPolling(passNormal, 11);
+                }).catch(() => {
+                    // Fallback kalau network lambat
+                    document.getElementById('winner-name-11').innerText = "MENUNGGU...";
+                    document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
+                    startBuzzerPolling(passNormal, 11);
+                });
             } else {
                 localStorage.removeItem('demoBuzzerWinner_' + passNormal);
+                document.getElementById('winner-name-11').innerText = "MENUNGGU...";
+                document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
+                startBuzzerPolling(passNormal, 11);
             }
-            
-            // FIX TERBESAR: JANGAN changeSlide(-1). Kita KEKAL di Slaid 11!
-            // Cuma tukar UI Slaid 11 jadi mod "Menunggu Pemain Baru"
-            document.getElementById('winner-name-11').innerText = "MENUNGGU...";
-            document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-satellite-dish text-amber-500 animate-pulse"></i> Sedia untuk pemain seterusnya...';
-            
-            // Restart polling supaya detect nama baru bila budak lain tekan
-            startBuzzerPolling(passNormal, 11);
         }
 
         async function fetchWinnerFromGAS(passLetter, slideIndex) {
@@ -1048,8 +1097,9 @@
             document.getElementById('api-text').innerText = "SEDIA IMBAS";
             document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-amber-500 animate-pulse";
             
-            pollingInterval = setInterval(() => { fetchWinnerFromGAS(passLetter, slideIndex); }, 1000);
+            // fetch berjalan lepas interval mula
             fetchWinnerFromGAS(passLetter, slideIndex);
+            pollingInterval = setInterval(() => { fetchWinnerFromGAS(passLetter, slideIndex); }, 1000);
         }
 
         window.showBuzzerWinner = function(rawName, slideIndex) {
