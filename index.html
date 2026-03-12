@@ -32,7 +32,7 @@
             display: none;
             height: 100vh;
             width: 100vw;
-            padding: 2rem; /* Ruang lebih besar tanpa border atas */
+            padding: 2rem;
             animation: slideFade 0.4s ease-in-out;
             position: absolute;
             top: 0; left: 0;
@@ -79,8 +79,8 @@
             background: white;
             border: 2px solid var(--dark);
             box-shadow: 6px 6px 0px rgba(30, 41, 59, 1);
-            padding: 3rem; /* Padding dibesarkan */
-            border-radius: 16px; /* Lebih bulat */
+            padding: 3rem;
+            border-radius: 16px;
         }
 
         /* Family Feud Board Styles */
@@ -94,7 +94,7 @@
 
         .flip-card {
             background-color: transparent;
-            height: 90px; /* Dibesarkan sikit */
+            height: 90px;
             perspective: 1000px;
             cursor: default;
         }
@@ -273,7 +273,6 @@
             </div>
 
             <div id="pass-section" class="w-full animate-popIn">
-                <!-- Status & Screens Controller by JS -->
                 <div id="status-wait" class="mb-8 flex flex-col items-center">
                     <div class="w-16 h-16 border-4 border-slate-200 border-t-emerald-600 rounded-full animate-spin mb-4"></div>
                     <h2 class="font-bangers text-3xl text-slate-600 uppercase tracking-wider">Menunggu Arahan Guru...</h2>
@@ -347,7 +346,6 @@
                     <button onclick="exitVIP()" class="text-slate-400 hover:text-red-400 font-bold transition-colors" title="Keluar VIP"><i class="fas fa-times text-2xl"></i></button>
                 </div>
                 
-                <!-- Slaid 11 Cheat -->
                 <div class="w-full mb-8">
                     <h3 class="font-bangers text-2xl text-emerald-400 mb-3 uppercase tracking-widest">Slaid 11: Terjemahan</h3>
                     <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-slate-200">
@@ -361,7 +359,6 @@
                     </div>
                 </div>
 
-                <!-- Cabaran Kosa Kata Cheat -->
                 <div class="w-full">
                     <h3 class="font-bangers text-2xl text-blue-400 mb-3 uppercase tracking-widest">Slaid 15: Cabaran Kosa Kata</h3>
                     <div id="vip-feud-list" class="space-y-4 max-h-[50vh] overflow-y-auto pr-3 pb-3">
@@ -369,8 +366,6 @@
                     </div>
                 </div>
             </div>
-            <!-- TAMAT VIP SECTION -->
-
         </div>
     </div>
 
@@ -379,9 +374,8 @@
     <div id="teacher-view" class="hidden h-full w-full relative">
         
         <!-- Tetapan & Navigasi Guru (Floating Bottom - Menggantikan Nav Bar Atas) -->
-        <div id="floating-controls" class="fixed bottom-6 left-6 right-6 flex justify-between items-end z-50 pointer-events-none">
+        <div id="floating-controls" class="fixed bottom-6 left-6 right-6 flex justify-between items-end z-50 pointer-events-none hidden">
             
-            <!-- Kiri: Status API & Counter -->
             <div class="flex flex-col gap-3 pointer-events-auto">
                 <div id="slideCounter" class="bg-white text-slate-800 px-5 py-2 rounded-xl font-bold text-lg border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] w-max">01 / 15</div>
                 <div id="api-status" class="flex items-center gap-3 bg-white px-5 py-2.5 rounded-xl border-2 border-slate-800 font-bold text-xs text-slate-600 uppercase shadow-[4px_4px_0px_#1e293b] w-max">
@@ -389,7 +383,6 @@
                 </div>
             </div>
 
-            <!-- Kanan: Kawalan Slide & Fullscreen -->
             <div class="flex gap-4 pointer-events-auto">
                 <button onclick="changeSlide(-1)" id="btnPrev" class="w-16 h-16 bg-white border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] rounded-full text-2xl hover:bg-slate-100 flex items-center justify-center text-slate-800 transition-transform hover:-translate-y-1"><i class="fas fa-arrow-left"></i></button>
                 <button onclick="changeSlide(1)" id="btnNext" class="h-16 px-8 bg-blue-600 text-white font-bangers text-3xl uppercase tracking-widest border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] rounded-full hover:bg-blue-500 flex items-center justify-center transition-transform hover:-translate-y-1">Seterusnya <i class="fas fa-arrow-right ml-3"></i></button>
@@ -608,11 +601,11 @@
         <!-- SLIDE 11: SOALAN BUZZER -->
         <div class="slide items-center justify-center relative" id="slide-11">
             <!-- Papan Kunci Aktif -->
-            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-400 px-8 py-3 rounded-xl font-bangers text-4xl tracking-widest border-2 border-slate-700 shadow-[0_8px_0_#0f172a] z-50 animate-popIn">
+            <div class="absolute top-24 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-400 px-8 py-3 rounded-xl font-bangers text-4xl tracking-widest border-2 border-slate-700 shadow-[0_8px_0_#0f172a] z-50 animate-popIn">
                 KOD AKTIF: <span id="current-pass-11">ABCDEFG</span>
             </div>
 
-            <div class="content-box max-w-5xl w-full border-2 border-blue-600 shadow-[8px_8px_0px_#2563eb] text-center mt-12">
+            <div class="content-box max-w-5xl w-full border-2 border-blue-600 shadow-[8px_8px_0px_#2563eb] text-center mt-20">
                 <div class="inline-block px-6 py-2 bg-blue-600 text-white rounded-full font-black uppercase tracking-[0.2em] mb-8 text-base">Ujian Terjemahan Pantas</div>
                 
                 <h2 class="font-bangers text-5xl md:text-6xl mb-8 text-slate-900 leading-tight">
@@ -682,7 +675,6 @@
         <div class="slide items-center justify-center bg-slate-900" id="slide-15">
             <div class="w-full max-w-6xl flex flex-col items-center">
                 
-                <!-- Display Kod Rawak Feud -->
                 <div class="mb-6 text-center animate-popIn">
                     <div class="inline-block bg-slate-800 border-2 border-emerald-400 text-emerald-400 px-5 py-2 rounded-xl mb-4 shadow-[4px_4px_0px_rgba(0,0,0,0.5)]">
                         <span class="font-bold uppercase tracking-widest text-sm">Kod Akses Semasa: </span>
@@ -694,20 +686,17 @@
                     <p class="text-xl font-bold text-slate-300 uppercase tracking-[0.2em] mt-3 border-b-2 border-slate-600 pb-2 inline-block">Ujian Ingatan Melalui Pengesanan Automatik</p>
                 </div>
 
-                <!-- Soalan & Markah -->
                 <div class="w-full flex justify-between items-center mb-6 px-4">
                     <div class="bg-blue-900 text-white p-6 border-4 border-yellow-400 rounded-2xl shadow-[0_0_20px_rgba(37,99,235,0.5)] flex-1 text-center mr-8">
                         <h2 id="feud-question" class="text-3xl font-bold leading-tight">Soalan akan dipaparkan di ruangan ini...</h2>
                     </div>
                     
-                    <!-- Papan Markah Total -->
                     <div class="bg-slate-800 border-4 border-slate-600 rounded-2xl p-4 flex flex-col items-center w-40 shrink-0 shadow-lg">
                         <p class="text-slate-400 font-bold uppercase text-xs mb-2 tracking-widest">Markah Terkumpul</p>
                         <p id="feud-total-score" class="font-bangers text-5xl text-yellow-400">0</p>
                     </div>
                 </div>
 
-                <!-- Paparan Pemenang & Jawapan Ditaip (Auto) -->
                 <div class="w-full flex flex-col items-center justify-center relative mb-6">
                     <div id="feud-winner-display" class="hidden w-full max-w-2xl bg-slate-100 border-4 border-emerald-500 rounded-xl p-4 text-center animate-popIn z-10 shadow-[6px_6px_0px_#059669]">
                         <p class="text-emerald-700 font-bold uppercase tracking-widest text-sm mb-2"><i class="fas fa-bolt"></i> Jawapan Daripada:</p>
@@ -719,12 +708,9 @@
                     </div>
                 </div>
 
-                <!-- Papan Jawapan (Board) -->
                 <div class="feud-board w-full grid grid-cols-2 gap-4 mb-6" id="feud-board-container">
-                    <!-- Jawapan dijana oleh JS -->
                 </div>
 
-                <!-- Kawalan Navigasi Guru & Strike -->
                 <div class="w-full flex justify-between items-center bg-slate-800 p-4 rounded-xl border-2 border-slate-700 shadow-lg">
                     <div class="flex gap-4">
                         <button onclick="prevFeud()" class="btn-nav bg-slate-700 border-slate-600 text-xl font-bangers w-12 h-12 flex items-center justify-center rounded-lg hover:bg-slate-600"><i class="fas fa-chevron-left"></i></button>
@@ -734,7 +720,6 @@
                     
                     <div class="flex items-center gap-4">
                         <div id="strike-display" class="flex gap-4 font-bangers text-5xl tracking-widest min-w-[120px] justify-center text-slate-700">
-                            <!-- X X X appear here -->
                         </div>
                     </div>
                 </div>
@@ -759,13 +744,12 @@
 
     </div>
 
-    <!-- Pemasangan Firebase Firestore (Real-Time Live Edition) -->
+    <!-- Pemasangan Firebase Firestore -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global State Variables
         window.currentSlide = 1;
         window.totalSlides = 15;
         window.myStudentName = "";
@@ -792,10 +776,9 @@
                 if (window.currentSlide === slideIndex) {
                     window.triggerRobustRebound(slideIndex);
                 }
-            }, 1500); // 1.5 saat delay pantas
+            }, 1500); 
         };
 
-        // --- FIREBASE INITIALIZATION ---
         try {
             const firebaseConfig = {
               apiKey: "AIzaSyAQnh77DjiQEiCbzBXKe182zbyIQL2S2to",
@@ -816,7 +799,6 @@
                         try {
                             await signInWithCustomToken(auth, __initial_auth_token);
                         } catch (tokenError) {
-                            console.warn("Token kustom tidak sepadan. Mod Log Masuk Tanpa Nama (Anonymous) diaktifkan.");
                             await signInAnonymously(auth);
                         }
                     } else {
@@ -843,7 +825,6 @@
             console.error("Gagal berhubung ke pangkalan data:", e);
         }
 
-        // --- HELPER FUNCTIONS ---
         function generateRandomPass(length = 7) {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             let result = '';
@@ -900,12 +881,10 @@
             }
         }
 
-        // Allow 'Enter' key to verify password
         document.getElementById('teacher-pass-input').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') verifyTeacherAuth();
         });
 
-        // --- PELAJAR: LOGIK UI & FIREBASE ---
         function setStudentUI(activeId) {
             const sections = ['status-wait', 'buzzer-section', 'wait-result-section', 'type-answer-section', 'loser-section', 'success-section', 'already-answered-section', 'vip-section'];
             
@@ -915,7 +894,7 @@
                     if (id === activeId) {
                         el.classList.remove('hidden');
                         if (id !== 'status-wait' && id !== 'vip-section') el.classList.add('flex');
-                        if (id === 'vip-section') el.classList.add('flex'); // Pastikan flex-col berfungsi
+                        if (id === 'vip-section') el.classList.add('flex');
                     } else {
                         el.classList.add('hidden');
                         el.classList.remove('flex');
@@ -923,7 +902,6 @@
                 }
             });
 
-            // Sembunyikan ruangan password jika masuk ke mod VIP
             if (activeId === 'vip-section') {
                 document.getElementById('pass-section').classList.add('hidden');
                 document.getElementById('student-header').classList.add('hidden');
@@ -954,7 +932,6 @@
         window.checkPassInput = function() {
             const pass = document.getElementById('stu-pass').value.trim().toUpperCase();
             
-            // --- VIP ACCESS BACKDOOR KHAS UNTUK IZAN ---
             if (pass === '987') {
                 document.getElementById('stu-pass').value = ''; 
                 if (unsubscribeStudent) { unsubscribeStudent(); unsubscribeStudent = null; }
@@ -1197,6 +1174,7 @@
             
             await setDoc(newDocRef, { winner: "", answer: "", lockedOut: newLockedOut });
 
+            // LOGIK FIX SLAID 11 (RESET UI TANPA TUKAR SLAID)
             if (slideIndex === 11) {
                 window.passNormal = newPass;
                 document.getElementById('prep-pass-11').innerText = newPass;
@@ -1207,8 +1185,12 @@
                 void badge.offsetWidth; 
                 badge.classList.add('animate-popIn');
                 
-                document.getElementById('winner-ui-11').classList.add('hidden');
-                document.getElementById('winner-ui-11').classList.remove('flex');
+                // RESET UI Balik ke keadaan asal
+                document.getElementById('winner-ui-11').classList.remove('hidden');
+                document.getElementById('winner-ui-11').classList.add('flex');
+                document.getElementById('typing-status-11').innerHTML = '<i class="fas fa-keyboard text-amber-500 animate-pulse"></i> Menunggu jawapan dihantar...';
+                document.getElementById('winner-name-11').innerText = "NAMA";
+                
                 startTeacherListener(newPass, 11);
 
             } else if (slideIndex === 15) {
@@ -1247,7 +1229,6 @@
                             const currentData = feudData[window.currentFeudIndex];
                             const cards = document.querySelectorAll('.flip-card');
                             
-                            // SEMAKAN BERSAMA SINONIM
                             const matchedAns = currentData.a.find(a => 
                                 a.syn.some(s => cleanAns === s || (cleanAns.length >= 3 && cleanAns.includes(s)) || (s.length >= 3 && s.includes(cleanAns)))
                             );
@@ -1305,7 +1286,6 @@
                 } else {
                     const cleanAns = ans.trim().toUpperCase();
                     
-                    // SEMAKAN BERSAMA SINONIM (SLAID 11)
                     const subjectSyn = ["IBU", "EMAK", "MAMA", "BONDA", "UMMI", "MA", "MAMMY"];
                     const verbSyn = ["MASAK", "MEMASAK", "MENYEDIAKAN"];
                     const timeSyn = ["PETANG", "SENJA"];
@@ -1329,7 +1309,6 @@
                     document.getElementById('api-text').innerText = "JAWAPAN SALAH";
                     document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-red-500";
                     
-                    // Papar modal dan auto-rebound pantas
                     window.showWrongModalAndRebound(11);
                 }
             }
@@ -1454,7 +1433,6 @@
         window.totalFeudScore = 0;
         window.strikes = 0;
 
-        // Fungsi Populate VIP (Diperbaharui dengan paparan Sinonim)
         window.populateVIP = function() {
             const list = document.getElementById('vip-feud-list');
             list.innerHTML = '';
