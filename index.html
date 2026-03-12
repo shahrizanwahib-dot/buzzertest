@@ -32,7 +32,7 @@
             display: none;
             height: 100vh;
             width: 100vw;
-            padding: 4.5rem 3rem 2rem 3rem; /* Dikurangkan supaya tak membazir space */
+            padding: 2rem; /* Ruang lebih besar tanpa border atas */
             animation: slideFade 0.4s ease-in-out;
             position: absolute;
             top: 0; left: 0;
@@ -58,7 +58,7 @@
         .btn-nav {
             background: var(--dark);
             color: white;
-            padding: 0.5rem 1.5rem; /* Dikecilkan */
+            padding: 0.5rem 1.5rem;
             font-weight: 800;
             transition: all 0.2s;
             border: 2px solid var(--dark);
@@ -77,16 +77,16 @@
 
         .content-box {
             background: white;
-            border: 2px solid var(--dark); /* Dikurangkan dari 4px */
-            box-shadow: 4px 4px 0px rgba(30, 41, 59, 1); /* Dikurangkan dari 8px */
-            padding: 2rem; /* Dikurangkan dari 2.5rem */
-            border-radius: 12px;
+            border: 2px solid var(--dark);
+            box-shadow: 6px 6px 0px rgba(30, 41, 59, 1);
+            padding: 3rem; /* Padding dibesarkan */
+            border-radius: 16px; /* Lebih bulat */
         }
 
-        /* Family Feud Board Styles - DBP Version (Cabaran Kosa Kata) */
+        /* Family Feud Board Styles */
         .feud-board {
             background: radial-gradient(circle, #2563eb, #1e3a8a);
-            border: 6px solid #fbbf24; /* Dikurangkan dari 12px */
+            border: 6px solid #fbbf24;
             border-radius: 20px;
             box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 6px 6px 0px rgba(30, 41, 59, 1);
             padding: 1.5rem;
@@ -94,7 +94,7 @@
 
         .flip-card {
             background-color: transparent;
-            height: 80px; /* Dikecilkan sikit */
+            height: 90px; /* Dibesarkan sikit */
             perspective: 1000px;
             cursor: default;
         }
@@ -120,20 +120,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #fbbf24; /* Dikurangkan dari 4px */
+            border: 3px solid #fbbf24;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        /* Muka Kad (Menghadap Bawah / Face Down) */
         .flip-card-front {
             background: linear-gradient(to bottom, #1e40af, #1e3a8a);
             color: #fbbf24;
         }
         
         .flip-card-front .number-circle {
-            width: 50px;
-            height: 35px;
+            width: 60px;
+            height: 40px;
             background-color: #1e3a8a;
             border: 2px solid #fbbf24;
             border-radius: 50%;
@@ -141,16 +140,15 @@
             align-items: center;
             justify-content: center;
             font-family: 'Bangers', cursive;
-            font-size: 1.5rem;
+            font-size: 2rem;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* Muka Kad (Menghadap Atas / Face Up) */
         .flip-card-back {
             background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
             color: #1e293b;
             transform: rotateX(180deg);
-            padding: 0 1rem;
+            padding: 0 1.5rem;
             display: flex;
             justify-content: space-between;
         }
@@ -164,8 +162,8 @@
         /* Buzzer 3D Styles */
         .buzzer-container {
             position: relative;
-            width: 200px; /* Dikecilkan */
-            height: 200px; /* Dikecilkan */
+            width: 200px;
+            height: 200px;
             margin: 0 auto;
             border-radius: 50%;
             background: var(--dark);
@@ -178,8 +176,8 @@
         }
 
         .real-buzzer-btn {
-            width: 160px; /* Dikecilkan */
-            height: 160px; /* Dikecilkan */
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             background: radial-gradient(circle at 35% 35%, #ef4444, #b91c1c);
             box-shadow: 
@@ -219,36 +217,36 @@
 
     <!-- ================= 1. PEMILIHAN PERANAN ================= -->
     <div id="role-screen" class="absolute inset-0 z-[100] flex flex-col items-center justify-center p-6 bg-slate-200" style="background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px;">
-        <div class="content-box max-w-4xl w-full text-center mb-8 animate-popIn">
-            <h1 class="font-bangers text-6xl md:text-[6rem] text-slate-800 uppercase leading-none mb-4">Ulangkaji <span class="text-emerald-600">Tatabahasa</span></h1>
-            <p class="text-xl font-bold text-slate-600 bg-slate-100 inline-block px-6 py-2 border-2 border-slate-800 rounded">Edisi Ulang Kaji Asas</p>
+        <div class="content-box max-w-5xl w-full text-center mb-10 animate-popIn">
+            <h1 class="font-bangers text-[7rem] md:text-[8rem] text-slate-800 uppercase leading-none mb-4">Ulangkaji <span class="text-emerald-600">Tatabahasa</span></h1>
+            <p class="text-2xl font-bold text-slate-600 bg-slate-100 inline-block px-8 py-3 border-2 border-slate-800 rounded">Edisi Ulang Kaji Asas</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl animate-popIn" style="animation-delay: 0.1s;">
-            <button onclick="selectRole('guru')" class="content-box flex flex-col items-center hover:bg-emerald-50 transition-colors transform hover:-translate-y-2 hover:shadow-[6px_6px_0px_rgba(30,41,59,1)]">
-                <div class="w-20 h-20 bg-emerald-200 text-emerald-800 rounded-full border-2 border-slate-800 flex items-center justify-center mb-4"><i class="fas fa-chalkboard-teacher text-3xl"></i></div>
-                <h2 class="font-bangers text-4xl text-slate-800 mb-2 uppercase">Mod Guru</h2>
-                <p class="text-slate-600 font-bold text-base text-center">Papar slaid dan kawal sistem pemikir pantas secara langsung.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl animate-popIn" style="animation-delay: 0.1s;">
+            <button onclick="selectRole('guru')" class="content-box flex flex-col items-center hover:bg-emerald-50 transition-colors transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_rgba(30,41,59,1)]">
+                <div class="w-24 h-24 bg-emerald-200 text-emerald-800 rounded-full border-2 border-slate-800 flex items-center justify-center mb-6"><i class="fas fa-chalkboard-teacher text-4xl"></i></div>
+                <h2 class="font-bangers text-5xl text-slate-800 mb-2 uppercase">Mod Guru</h2>
+                <p class="text-slate-600 font-bold text-lg text-center">Papar slaid dan kawal sistem pemikir pantas secara langsung.</p>
             </button>
-            <button onclick="selectRole('pelajar')" class="content-box flex flex-col items-center hover:bg-blue-50 transition-colors transform hover:-translate-y-2 hover:shadow-[6px_6px_0px_rgba(30,41,59,1)]">
-                <div class="w-20 h-20 bg-blue-200 text-blue-800 rounded-full border-2 border-slate-800 flex items-center justify-center mb-4"><i class="fas fa-mobile-alt text-3xl"></i></div>
-                <h2 class="font-bangers text-4xl text-slate-800 mb-2 uppercase">Mod Pelajar</h2>
-                <p class="text-slate-600 font-bold text-base text-center">Gunakan peranti mudah alih sebagai butang fizikal interaktif.</p>
+            <button onclick="selectRole('pelajar')" class="content-box flex flex-col items-center hover:bg-blue-50 transition-colors transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_rgba(30,41,59,1)]">
+                <div class="w-24 h-24 bg-blue-200 text-blue-800 rounded-full border-2 border-slate-800 flex items-center justify-center mb-6"><i class="fas fa-mobile-alt text-4xl"></i></div>
+                <h2 class="font-bangers text-5xl text-slate-800 mb-2 uppercase">Mod Pelajar</h2>
+                <p class="text-slate-600 font-bold text-lg text-center">Gunakan peranti mudah alih sebagai butang fizikal interaktif.</p>
             </button>
         </div>
 
         <!-- Modal Kata Laluan Guru (Custom UI) -->
         <div id="teacher-auth-modal" class="hidden absolute inset-0 z-[110] flex-col items-center justify-center p-6 bg-slate-900/80 backdrop-blur-sm">
-            <div class="content-box max-w-sm w-full text-center animate-popIn">
-                <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full border-2 border-slate-800 flex items-center justify-center mx-auto mb-4"><i class="fas fa-lock text-2xl"></i></div>
-                <h2 class="font-bangers text-3xl text-slate-800 mb-2 uppercase">Akses Keselamatan Guru</h2>
-                <p class="text-slate-600 text-sm mb-4 font-bold">Sila masukkan kata laluan untuk meneruskan.</p>
-                <input type="password" id="teacher-pass-input" placeholder="****" class="w-full p-3 border-2 border-slate-800 rounded-lg mb-4 text-center text-3xl tracking-widest font-black focus:border-emerald-500 focus:outline-none bg-slate-50">
-                <div class="flex gap-2">
-                    <button onclick="cancelTeacherAuth()" class="flex-1 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg border-2 border-transparent transition-colors">Batal</button>
-                    <button onclick="verifyTeacherAuth()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg border-2 border-slate-800 shadow-[2px_2px_0px_#1e293b] hover:translate-y-0.5 hover:shadow-none transition-all">Sahkan</button>
+            <div class="content-box max-w-md w-full text-center animate-popIn">
+                <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full border-2 border-slate-800 flex items-center justify-center mx-auto mb-6"><i class="fas fa-lock text-4xl"></i></div>
+                <h2 class="font-bangers text-4xl text-slate-800 mb-2 uppercase">Akses Keselamatan</h2>
+                <p class="text-slate-600 text-base mb-6 font-bold">Sila masukkan kata laluan guru.</p>
+                <input type="password" id="teacher-pass-input" placeholder="****" class="w-full p-4 border-2 border-slate-800 rounded-lg mb-6 text-center text-4xl tracking-widest font-black focus:border-emerald-500 focus:outline-none bg-slate-50">
+                <div class="flex gap-4">
+                    <button onclick="cancelTeacherAuth()" class="flex-1 py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-lg rounded-lg border-2 border-transparent transition-colors">Batal</button>
+                    <button onclick="verifyTeacherAuth()" class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg rounded-lg border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all">Sahkan</button>
                 </div>
-                <p id="teacher-auth-error" class="text-red-600 font-bold text-xs mt-3 hidden animate-pulse">Kata laluan tidak sah! Sila cuba lagi.</p>
+                <p id="teacher-auth-error" class="text-red-600 font-bold text-sm mt-4 hidden animate-pulse">Kata laluan tidak sah! Sila cuba lagi.</p>
             </div>
         </div>
     </div>
@@ -258,104 +256,104 @@
         
         <!-- Setup Nama -->
         <div id="student-setup" class="content-box w-full max-w-md animate-popIn">
-            <h2 class="font-bangers text-4xl mb-4 text-slate-800 uppercase">Daftar Masuk</h2>
-            <p class="text-slate-600 mb-6 font-bold text-base">Sila masukkan nama pendek anda.</p>
-            <input type="text" id="stu-name" placeholder="Cth: IMRAN" class="w-full p-4 border-2 border-slate-800 rounded-lg mb-6 text-center text-2xl uppercase font-black focus:border-emerald-500 focus:outline-none bg-slate-50">
-            <button onclick="joinClass()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-2xl rounded-lg border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Masuk Kelas</button>
+            <h2 class="font-bangers text-5xl mb-4 text-slate-800 uppercase">Daftar Masuk</h2>
+            <p class="text-slate-600 mb-6 font-bold text-lg">Sila masukkan nama pendek anda.</p>
+            <input type="text" id="stu-name" placeholder="Cth: IMRAN" class="w-full p-5 border-2 border-slate-800 rounded-lg mb-6 text-center text-3xl uppercase font-black focus:border-emerald-500 focus:outline-none bg-slate-50">
+            <button onclick="joinClass()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-3xl rounded-lg border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Masuk Kelas</button>
         </div>
 
         <!-- Gameplay Area -->
         <div id="student-gameplay" class="hidden w-full max-w-md flex-col items-center pb-12">
-            <div id="student-header" class="mb-6 w-full content-box p-3 flex items-center gap-4">
-                <div class="w-12 h-12 bg-emerald-100 border-2 border-slate-800 text-emerald-600 rounded-full flex items-center justify-center text-lg"><i class="fas fa-user"></i></div>
+            <div id="student-header" class="mb-6 w-full content-box p-4 flex items-center gap-4">
+                <div class="w-14 h-14 bg-emerald-100 border-2 border-slate-800 text-emerald-600 rounded-full flex items-center justify-center text-xl"><i class="fas fa-user"></i></div>
                 <div class="text-left">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pemain Semasa</p>
-                    <h3 id="display-stu-name" class="font-bangers text-2xl text-slate-800 uppercase tracking-wider">NAMA</h3>
+                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Pemain Semasa</p>
+                    <h3 id="display-stu-name" class="font-bangers text-3xl text-slate-800 uppercase tracking-wider">NAMA</h3>
                 </div>
             </div>
 
             <div id="pass-section" class="w-full animate-popIn">
                 <!-- Status & Screens Controller by JS -->
-                <div id="status-wait" class="mb-6 flex flex-col items-center">
-                    <div class="w-12 h-12 border-4 border-slate-200 border-t-emerald-600 rounded-full animate-spin mb-4"></div>
-                    <h2 class="font-bangers text-2xl text-slate-600 uppercase tracking-wider">Menunggu Arahan Guru...</h2>
+                <div id="status-wait" class="mb-8 flex flex-col items-center">
+                    <div class="w-16 h-16 border-4 border-slate-200 border-t-emerald-600 rounded-full animate-spin mb-4"></div>
+                    <h2 class="font-bangers text-3xl text-slate-600 uppercase tracking-wider">Menunggu Arahan Guru...</h2>
                 </div>
                 
-                <div class="content-box p-6 w-full mb-8">
-                    <p class="text-xs font-black text-slate-500 mb-3 uppercase tracking-widest">Kata Laluan Slaid</p>
-                    <input type="text" id="stu-pass" maxlength="10" placeholder="Cth: ABCDEFG" oninput="checkPassInput()" class="w-full h-20 text-center text-3xl md:text-4xl font-bangers uppercase border-2 border-slate-800 rounded-xl focus:border-emerald-500 focus:outline-none bg-slate-50 text-emerald-700 tracking-widest">
+                <div class="content-box p-8 w-full mb-8">
+                    <p class="text-sm font-black text-slate-500 mb-4 uppercase tracking-widest">Kata Laluan Slaid</p>
+                    <input type="text" id="stu-pass" maxlength="10" placeholder="Cth: ABCDEFG" oninput="checkPassInput()" class="w-full h-24 text-center text-4xl md:text-5xl font-bangers uppercase border-2 border-slate-800 rounded-xl focus:border-emerald-500 focus:outline-none bg-slate-50 text-emerald-700 tracking-widest">
                 </div>
             </div>
 
             <!-- BUTANG BUZZER 3D -->
             <div id="buzzer-section" class="hidden w-full flex-col items-center animate-popIn">
-                <p class="font-bangers text-emerald-600 text-3xl mb-4 animate-pulse uppercase tracking-widest">Butang Diaktifkan!</p>
+                <p class="font-bangers text-emerald-600 text-4xl mb-6 animate-pulse uppercase tracking-widest">Butang Diaktifkan!</p>
                 
                 <div class="buzzer-container">
                     <button id="main-buzzer" onclick="hitBuzzer()" class="real-buzzer-btn">
-                        <span id="buzzer-main-text" class="font-bangers text-5xl tracking-widest">BUZZ</span>
-                        <span id="buzzer-label" class="text-xs font-bold uppercase tracking-widest mt-1">Tekan Segera!</span>
+                        <span id="buzzer-main-text" class="font-bangers text-6xl tracking-widest">BUZZ</span>
+                        <span id="buzzer-label" class="text-sm font-bold uppercase tracking-widest mt-2">Tekan Segera!</span>
                     </button>
                 </div>
-                <button onclick="hardResetBuzzer()" class="mt-8 text-slate-500 font-bold text-xs underline tracking-widest uppercase hover:text-slate-800 transition">Batal / Kata Laluan Baharu</button>
+                <button onclick="hardResetBuzzer()" class="mt-10 text-slate-500 font-bold text-sm underline tracking-widest uppercase hover:text-slate-800 transition">Batal / Kata Laluan Baharu</button>
             </div>
 
             <!-- WAITING RESULT SECTION -->
             <div id="wait-result-section" class="hidden w-full flex-col items-center animate-popIn">
-                <div class="w-16 h-16 border-4 border-slate-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
-                <h2 class="font-bangers text-3xl text-slate-700 uppercase tracking-wider text-center">Menyemak Kelajuan...</h2>
-                <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-xs">Sila tunggu sebentar.</p>
+                <div class="w-20 h-20 border-4 border-slate-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
+                <h2 class="font-bangers text-4xl text-slate-700 uppercase tracking-wider text-center">Menyemak Kelajuan...</h2>
+                <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-sm">Sila tunggu sebentar.</p>
             </div>
 
             <!-- WINNER: TYPE ANSWER SECTION -->
             <div id="type-answer-section" class="hidden w-full content-box border-emerald-500 shadow-[6px_6px_0px_#059669] flex-col items-center animate-popIn">
-                <h2 class="font-bangers text-3xl md:text-4xl text-emerald-700 mb-2 uppercase text-center">TAHNIAH!<br>ANDA TERPANTAS</h2>
-                <div class="bg-amber-100 border-2 border-amber-400 p-3 rounded mb-4 w-full text-center">
-                    <p class="text-amber-800 font-bold text-[10px] uppercase tracking-widest"><i class="fas fa-eye"></i> Sila teliti soalan di skrin utama, kemudian taip jawapan di bawah.</p>
+                <h2 class="font-bangers text-4xl md:text-5xl text-emerald-700 mb-4 uppercase text-center">TAHNIAH!<br>ANDA TERPANTAS</h2>
+                <div class="bg-amber-100 border-2 border-amber-400 p-4 rounded mb-6 w-full text-center">
+                    <p class="text-amber-800 font-bold text-xs uppercase tracking-widest"><i class="fas fa-eye"></i> Sila teliti soalan di skrin utama, kemudian taip jawapan di bawah.</p>
                 </div>
-                <input type="text" id="stu-final-answer" placeholder="Jawapan anda..." class="w-full p-4 border-2 border-slate-800 rounded-lg text-center text-2xl uppercase font-black focus:border-emerald-500 focus:outline-none shadow-inner bg-slate-50 mb-6">
-                <button onclick="submitAnswer()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-2xl rounded-lg border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Hantar Jawapan</button>
+                <input type="text" id="stu-final-answer" placeholder="Jawapan anda..." class="w-full p-5 border-2 border-slate-800 rounded-lg text-center text-3xl uppercase font-black focus:border-emerald-500 focus:outline-none shadow-inner bg-slate-50 mb-8">
+                <button onclick="submitAnswer()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bangers text-3xl rounded-lg border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] hover:translate-y-1 hover:shadow-none transition-all uppercase tracking-widest">Hantar Jawapan</button>
             </div>
 
             <!-- LOSER SECTION -->
             <div id="loser-section" class="hidden w-full content-box border-red-500 shadow-[6px_6px_0px_#ef4444] flex-col items-center animate-popIn mt-6 text-center">
-                <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-times text-3xl"></i></div>
-                <h2 class="font-bangers text-3xl md:text-4xl mb-2 text-red-800 uppercase">MAAF, ANDA TERLEWAT!</h2>
-                <p class="text-slate-700 font-bold text-base mb-4">Pemain <span id="fastest-player-name" class="text-blue-600 font-black">NAMA</span> bertindak lebih pantas.</p>
-                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2 animate-pulse"><i class="fas fa-satellite-dish"></i> Rakan anda sedang menjawab...</p>
-                <button onclick="hardResetBuzzer()" class="mt-4 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 font-bold rounded-lg uppercase tracking-widest border-2 border-red-300 transition-all text-xs"><i class="fas fa-redo"></i> Sedia Untuk Kata Laluan Baharu</button>
+                <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-6 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-times text-4xl"></i></div>
+                <h2 class="font-bangers text-4xl md:text-5xl mb-4 text-red-800 uppercase">MAAF, ANDA TERLEWAT!</h2>
+                <p class="text-slate-700 font-bold text-lg mb-6">Pemain <span id="fastest-player-name" class="text-blue-600 font-black">NAMA</span> bertindak lebih pantas.</p>
+                <p class="text-slate-500 text-sm font-bold uppercase tracking-widest mt-2 animate-pulse"><i class="fas fa-satellite-dish"></i> Rakan anda sedang menjawab...</p>
+                <button onclick="hardResetBuzzer()" class="mt-6 px-6 py-3 bg-red-100 hover:bg-red-200 text-red-800 font-bold rounded-lg uppercase tracking-widest border-2 border-red-300 transition-all text-sm"><i class="fas fa-redo"></i> Sedia Untuk Kata Laluan Baharu</button>
             </div>
 
             <!-- SUCCESS SECTION -->
             <div id="success-section" class="hidden w-full content-box bg-emerald-50 border-emerald-600 shadow-[6px_6px_0px_#059669] flex-col items-center animate-popIn mt-6 text-center">
-                <div class="w-16 h-16 bg-emerald-600 text-white rounded-full flex items-center justify-center mb-4 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-check text-3xl"></i></div>
-                <h2 class="font-bangers text-4xl mb-2 text-emerald-800 uppercase">Berjaya Dihantar!</h2>
-                <p class="text-slate-700 font-bold text-base mb-4 text-center">Sila semak ketepatan jawapan di skrin kelas.</p>
-                <button onclick="hardResetBuzzer()" class="mt-4 px-4 py-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-900 font-bold rounded-lg uppercase tracking-widest border-2 border-emerald-400 transition-all text-xs"><i class="fas fa-forward"></i> Sedia Untuk Soalan Seterusnya</button>
+                <div class="w-20 h-20 bg-emerald-600 text-white rounded-full flex items-center justify-center mb-6 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-check text-4xl"></i></div>
+                <h2 class="font-bangers text-5xl mb-4 text-emerald-800 uppercase">Berjaya Dihantar!</h2>
+                <p class="text-slate-700 font-bold text-lg mb-6 text-center">Sila semak ketepatan jawapan di skrin kelas.</p>
+                <button onclick="hardResetBuzzer()" class="mt-6 px-6 py-3 bg-emerald-200 hover:bg-emerald-300 text-emerald-900 font-bold rounded-lg uppercase tracking-widest border-2 border-emerald-400 transition-all text-sm"><i class="fas fa-forward"></i> Sedia Untuk Soalan Seterusnya</button>
             </div>
 
             <!-- ALREADY ANSWERED (LOCKED) SECTION -->
             <div id="already-answered-section" class="hidden w-full content-box bg-slate-100 border-slate-500 shadow-[6px_6px_0px_#64748b] flex-col items-center animate-popIn mt-6 text-center">
-                <div class="w-16 h-16 bg-slate-300 text-slate-600 rounded-full flex items-center justify-center mb-4 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-lock text-3xl"></i></div>
-                <h2 class="font-bangers text-3xl md:text-4xl mb-2 text-slate-700 uppercase">GILIRAN DITAMATKAN</h2>
-                <p class="text-slate-600 font-bold text-xs mb-4 text-center">Anda telah memberi jawapan yang kurang tepat. Berikan peluang kepada rakan lain untuk sesi lantunan semula (Rebound).</p>
-                <button onclick="hardResetBuzzer()" class="mt-4 text-blue-600 font-bold text-[10px] underline tracking-widest uppercase hover:text-blue-800 transition">Kembali Ke Halaman Utama</button>
+                <div class="w-20 h-20 bg-slate-300 text-slate-600 rounded-full flex items-center justify-center mb-6 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b]"><i class="fas fa-lock text-4xl"></i></div>
+                <h2 class="font-bangers text-4xl md:text-5xl mb-4 text-slate-700 uppercase">GILIRAN DITAMATKAN</h2>
+                <p class="text-slate-600 font-bold text-sm mb-6 text-center">Anda telah memberi jawapan yang kurang tepat. Berikan peluang kepada rakan lain untuk sesi lantunan semula (Rebound).</p>
+                <button onclick="hardResetBuzzer()" class="mt-6 text-blue-600 font-bold text-xs underline tracking-widest uppercase hover:text-blue-800 transition">Kembali Ke Halaman Utama</button>
             </div>
 
             <!-- VIP SECTION (CHEAT SHEET Khas Guru) -->
             <div id="vip-section" class="hidden w-full content-box bg-slate-900 border-amber-500 shadow-[6px_6px_0px_#f59e0b] flex-col items-center animate-popIn text-left">
-                <div class="w-full flex justify-between items-center mb-4 border-b-2 border-slate-700 pb-3">
-                    <h2 class="font-bangers text-2xl md:text-3xl text-amber-400 uppercase tracking-widest"><i class="fas fa-crown text-amber-500"></i> Akses VIP</h2>
-                    <button onclick="exitVIP()" class="text-slate-400 hover:text-red-400 font-bold transition-colors" title="Keluar VIP"><i class="fas fa-times text-xl"></i></button>
+                <div class="w-full flex justify-between items-center mb-6 border-b-2 border-slate-700 pb-4">
+                    <h2 class="font-bangers text-3xl md:text-4xl text-amber-400 uppercase tracking-widest"><i class="fas fa-crown text-amber-500"></i> Akses VIP</h2>
+                    <button onclick="exitVIP()" class="text-slate-400 hover:text-red-400 font-bold transition-colors" title="Keluar VIP"><i class="fas fa-times text-2xl"></i></button>
                 </div>
                 
                 <!-- Slaid 11 Cheat -->
-                <div class="w-full mb-6">
-                    <h3 class="font-bangers text-xl text-emerald-400 mb-2 uppercase tracking-widest">Slaid 11: Terjemahan</h3>
-                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-slate-200">
-                        <p class="font-bold text-sm mb-2">"My mother is cooking in the evening."</p>
-                        <p class="text-[10px] text-slate-400 uppercase tracking-widest mb-1">Kata Kunci Diterima (Termasuk Sinonim):</p>
-                        <ul class="list-disc ml-4 text-emerald-300 font-bold text-xs">
+                <div class="w-full mb-8">
+                    <h3 class="font-bangers text-2xl text-emerald-400 mb-3 uppercase tracking-widest">Slaid 11: Terjemahan</h3>
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-slate-200">
+                        <p class="font-bold text-base mb-3">"My mother is cooking in the evening."</p>
+                        <p class="text-xs text-slate-400 uppercase tracking-widest mb-2">Kata Kunci Diterima (Termasuk Sinonim):</p>
+                        <ul class="list-disc ml-5 text-emerald-300 font-bold text-sm space-y-1">
                             <li>Subjek: IBU, EMAK, MAMA, BONDA, UMMI, MA</li>
                             <li>Kata Kerja: MASAK, MEMASAK, MENYEDIAKAN</li>
                             <li>Masa: PETANG, SENJA</li>
@@ -365,8 +363,8 @@
 
                 <!-- Cabaran Kosa Kata Cheat -->
                 <div class="w-full">
-                    <h3 class="font-bangers text-xl text-blue-400 mb-2 uppercase tracking-widest">Slaid 15: Cabaran Kosa Kata</h3>
-                    <div id="vip-feud-list" class="space-y-3 max-h-[50vh] overflow-y-auto pr-2 pb-2">
+                    <h3 class="font-bangers text-2xl text-blue-400 mb-3 uppercase tracking-widest">Slaid 15: Cabaran Kosa Kata</h3>
+                    <div id="vip-feud-list" class="space-y-4 max-h-[50vh] overflow-y-auto pr-3 pb-3">
                         <!-- Populated by JS -->
                     </div>
                 </div>
@@ -380,72 +378,74 @@
     <!-- ================= 3. ANTARAMUKA GURU (PRESENTASI) ================= -->
     <div id="teacher-view" class="hidden h-full w-full relative">
         
-        <!-- Navigasi Guru Atas -->
-        <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-2 bg-white border-b-2 border-slate-800 shadow-sm">
-            <div class="flex items-center gap-4">
-                <div class="font-bangers text-3xl text-slate-800 uppercase tracking-wider drop-shadow-sm">
-                    Mega <span class="text-emerald-600">Ulang Kaji</span>
+        <!-- Tetapan & Navigasi Guru (Floating Bottom - Menggantikan Nav Bar Atas) -->
+        <div id="floating-controls" class="fixed bottom-6 left-6 right-6 flex justify-between items-end z-50 pointer-events-none">
+            
+            <!-- Kiri: Status API & Counter -->
+            <div class="flex flex-col gap-3 pointer-events-auto">
+                <div id="slideCounter" class="bg-white text-slate-800 px-5 py-2 rounded-xl font-bold text-lg border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] w-max">01 / 15</div>
+                <div id="api-status" class="flex items-center gap-3 bg-white px-5 py-2.5 rounded-xl border-2 border-slate-800 font-bold text-xs text-slate-600 uppercase shadow-[4px_4px_0px_#1e293b] w-max">
+                    <span class="w-3 h-3 rounded-full bg-slate-400" id="api-dot"></span> <span id="api-text">Mod Siap Sedia</span>
                 </div>
-                <div id="slideCounter" class="bg-slate-100 text-slate-800 px-3 py-1 rounded-md font-bold text-sm border-2 border-slate-800 shadow-inner">01 / 15</div>
             </div>
-            <div class="flex items-center gap-3">
-                <div id="api-status" class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded border-2 border-slate-800 font-bold text-xs text-slate-600 uppercase">
-                    <span class="w-2.5 h-2.5 rounded-full bg-slate-400" id="api-dot"></span> <span id="api-text">Mod Siap Sedia</span>
-                </div>
-                <button onclick="changeSlide(-1)" id="btnPrev" class="btn-nav"><i class="fas fa-arrow-left"></i></button>
-                <button onclick="changeSlide(1)" id="btnNext" class="btn-nav font-bangers uppercase tracking-widest text-lg">Seterusnya <i class="fas fa-arrow-right ml-1"></i></button>
+
+            <!-- Kanan: Kawalan Slide & Fullscreen -->
+            <div class="flex gap-4 pointer-events-auto">
+                <button onclick="changeSlide(-1)" id="btnPrev" class="w-16 h-16 bg-white border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] rounded-full text-2xl hover:bg-slate-100 flex items-center justify-center text-slate-800 transition-transform hover:-translate-y-1"><i class="fas fa-arrow-left"></i></button>
+                <button onclick="changeSlide(1)" id="btnNext" class="h-16 px-8 bg-blue-600 text-white font-bangers text-3xl uppercase tracking-widest border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] rounded-full hover:bg-blue-500 flex items-center justify-center transition-transform hover:-translate-y-1">Seterusnya <i class="fas fa-arrow-right ml-3"></i></button>
+                <button onclick="toggleFullscreen()" class="w-16 h-16 bg-white border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] rounded-full text-2xl hover:bg-slate-100 flex items-center justify-center text-slate-800 transition-transform hover:-translate-y-1"><i class="fas fa-expand-alt"></i></button>
             </div>
-        </nav>
+        </div>
 
         <!-- KANDUNGAN SLAID ASAL (1 hingga 14) -->
         <!-- SLIDE 1: HERO -->
         <div class="slide active items-center justify-center text-center" id="slide-1">
-            <div class="max-w-5xl space-y-6 z-10">
-                <h1 class="font-bangers text-[7rem] leading-none uppercase text-slate-800">
+            <div class="max-w-6xl space-y-8 z-10">
+                <h1 class="font-bangers text-[8rem] md:text-[10rem] leading-none uppercase text-slate-800 drop-shadow-lg">
                     Sesi <span class="text-emerald-600">Ulang Kaji</span>
                 </h1>
-                <p class="text-2xl font-bold bg-amber-200 border-2 border-slate-800 inline-block px-6 py-2 transform -rotate-2 shadow-[4px_4px_0px_#1e293b]">
+                <p class="text-3xl font-bold bg-amber-200 border-4 border-slate-800 inline-block px-8 py-4 transform -rotate-2 shadow-[6px_6px_0px_#1e293b]">
                     Fokus Utama: Pengenalan Diri, Masa & Keluarga
                 </p>
-                <div class="pt-6">
-                    <button onclick="changeSlide(1)" class="btn-nav text-xl px-10 py-3 font-bangers uppercase shadow-[4px_4px_0px_#1e293b]">Mula Belajar</button>
+                <div class="pt-10">
+                    <button onclick="changeSlide(1)" class="btn-nav text-3xl px-12 py-5 font-bangers uppercase shadow-[6px_6px_0px_#1e293b]">Mula Belajar</button>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 2: QR CODE -->
         <div class="slide items-center justify-center text-center" id="slide-2">
-            <div class="content-box max-w-2xl w-full mx-auto">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-600 text-white rounded font-bold uppercase tracking-widest mb-6 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] text-sm">
+            <div class="content-box max-w-3xl w-full mx-auto">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-blue-600 text-white rounded font-bold uppercase tracking-widest mb-8 border-2 border-slate-800 shadow-[4px_4px_0px_#1e293b] text-base">
                     <i class="fas fa-link"></i> Penyambungan Peranti Pintar
                 </div>
-                <h2 class="font-bangers text-5xl text-slate-800 mb-4 uppercase">Sediakan Peranti Anda</h2>
-                <p class="text-lg text-slate-600 mb-4 font-bold">Pilih <span class="bg-slate-200 px-2 rounded border border-slate-800">Mod Pelajar</span> di telefon pintar masing-masing.</p>
+                <h2 class="font-bangers text-6xl text-slate-800 mb-6 uppercase">Sediakan Peranti Anda</h2>
+                <p class="text-2xl text-slate-600 mb-6 font-bold">Pilih <span class="bg-slate-200 px-3 py-1 rounded border-2 border-slate-800 text-slate-800">Mod Pelajar</span> di telefon pintar masing-masing.</p>
                 
-                <div class="mb-4 flex flex-col items-center bg-slate-50 p-3 border-2 border-slate-200 rounded-lg">
-                    <label class="text-xs font-black text-blue-600 mb-2 uppercase tracking-widest"><i class="fas fa-edit"></i> Guru: Sila sahkan pautan (URL) kelas</label>
-                    <input type="text" id="teacher-url-input" value="https://shahrizanwahib-dot.github.io/buzzertest/" oninput="updateQRCode()" class="w-full max-w-sm p-2 border-2 border-slate-800 rounded-lg text-center text-base font-bold text-slate-700 focus:border-blue-600 outline-none">
+                <div class="mb-6 flex flex-col items-center bg-slate-50 p-4 border-2 border-slate-200 rounded-xl">
+                    <label class="text-sm font-black text-blue-600 mb-3 uppercase tracking-widest"><i class="fas fa-edit"></i> Guru: Sila sahkan pautan (URL) kelas</label>
+                    <input type="text" id="teacher-url-input" value="https://shahrizanwahib-dot.github.io/buzzertest/" oninput="updateQRCode()" class="w-full max-w-lg p-3 border-2 border-slate-800 rounded-lg text-center text-xl font-bold text-slate-700 focus:border-blue-600 outline-none">
                 </div>
 
-                <div class="bg-white p-4 border-2 border-slate-800 shadow-[6px_6px_0px_#1e293b] inline-block mb-2">
-                    <img id="join-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https%3A%2F%2Fshahrizanwahib-dot.github.io%2Fbuzzertest%2F" class="w-48 h-48 mx-auto" alt="Sila tunggu...">
+                <div class="bg-white p-6 border-4 border-slate-800 shadow-[8px_8px_0px_#1e293b] inline-block mb-4">
+                    <img id="join-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https%3A%2F%2Fshahrizanwahib-dot.github.io%2Fbuzzertest%2F" class="w-56 h-56 mx-auto" alt="Sila tunggu...">
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 3: OBJEKTIF -->
         <div class="slide items-center justify-center" id="slide-3">
-            <div class="content-box max-w-4xl w-full">
-                <h2 class="font-bangers text-5xl mb-6 uppercase text-center border-b-2 border-slate-800 pb-3">Misi Ulang Kaji Kita</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-lg font-bold text-slate-700">
-                    <div class="flex flex-col items-center text-center gap-3 bg-slate-50 p-4 border-2 border-slate-200 rounded">
-                        <i class="fas fa-user-circle text-4xl text-blue-600 mb-1"></i> Pengenalan Diri & Ucapan
+            <div class="content-box max-w-5xl w-full">
+                <h2 class="font-bangers text-6xl mb-10 uppercase text-center border-b-4 border-slate-800 pb-4">Misi Ulang Kaji Kita</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-2xl font-bold text-slate-700">
+                    <div class="flex flex-col items-center text-center gap-4 bg-slate-50 p-8 border-2 border-slate-200 rounded-xl">
+                        <i class="fas fa-user-circle text-6xl text-blue-600 mb-2"></i> Pengenalan Diri & Ucapan
                     </div>
-                    <div class="flex flex-col items-center text-center gap-3 bg-slate-50 p-4 border-2 border-slate-200 rounded">
-                        <i class="fas fa-clock text-4xl text-emerald-600 mb-1"></i> Masa & Waktu
+                    <div class="flex flex-col items-center text-center gap-4 bg-slate-50 p-8 border-2 border-slate-200 rounded-xl">
+                        <i class="fas fa-clock text-6xl text-emerald-600 mb-2"></i> Masa & Waktu
                     </div>
-                    <div class="flex flex-col items-center text-center gap-3 bg-slate-50 p-4 border-2 border-slate-200 rounded">
-                        <i class="fas fa-paw text-4xl text-amber-600 mb-1"></i> Keluarga & Haiwan
+                    <div class="flex flex-col items-center text-center gap-4 bg-slate-50 p-8 border-2 border-slate-200 rounded-xl">
+                        <i class="fas fa-paw text-6xl text-amber-600 mb-2"></i> Keluarga & Haiwan
                     </div>
                 </div>
             </div>
@@ -453,23 +453,23 @@
 
         <!-- SLIDE 4: TOPIK 1 -->
         <div class="slide items-center justify-center" id="slide-4">
-            <div class="content-box max-w-5xl w-full">
-                <div class="inline-block bg-blue-600 text-white font-bangers text-xl px-5 py-1.5 rounded-full mb-4">Modul 1</div>
-                <h2 class="font-bangers text-5xl uppercase mb-6"><i class="fas fa-user-circle text-blue-600"></i> Pengenalan Diri & Ucapan</h2>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-slate-50 p-5 border-2 border-slate-800 rounded-xl">
-                        <h3 class="font-bangers text-2xl text-slate-700 mb-3 border-b-2 border-slate-300 pb-2">Kosa Kata Asas</h3>
-                        <ul class="space-y-2 text-lg font-bold text-slate-600">
+            <div class="content-box max-w-6xl w-full">
+                <div class="inline-block bg-blue-600 text-white font-bangers text-2xl px-6 py-2 rounded-full mb-6">Modul 1</div>
+                <h2 class="font-bangers text-6xl uppercase mb-8"><i class="fas fa-user-circle text-blue-600"></i> Pengenalan Diri & Ucapan</h2>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="bg-slate-50 p-8 border-2 border-slate-800 rounded-2xl">
+                        <h3 class="font-bangers text-3xl text-slate-700 mb-4 border-b-2 border-slate-300 pb-3">Kosa Kata Asas</h3>
+                        <ul class="space-y-4 text-2xl font-bold text-slate-600">
                             <li><span class="text-blue-600">Selamat pagi</span> = Good morning</li>
                             <li><span class="text-blue-600">Apa khabar?</span> = How are you?</li>
                             <li><span class="text-blue-600">Khabar baik</span> = I am fine</li>
                             <li><span class="text-blue-600">Terima kasih</span> = Thank you</li>
                         </ul>
                     </div>
-                    <div class="bg-blue-50 p-5 border-2 border-slate-800 rounded-xl shadow-[4px_4px_0px_#1e3a8a]">
-                        <h3 class="font-bangers text-2xl text-slate-700 mb-3 border-b-2 border-slate-300 pb-2">Struktur Ayat</h3>
-                        <p class="text-lg font-bold mb-3">"Nama saya Adam. Saya berasal dari Malaysia."</p>
-                        <p class="text-lg font-bold">"Saya tinggal di kawasan bandar yang sibuk."</p>
+                    <div class="bg-blue-50 p-8 border-2 border-slate-800 rounded-2xl shadow-[6px_6px_0px_#1e3a8a]">
+                        <h3 class="font-bangers text-3xl text-slate-700 mb-4 border-b-2 border-slate-300 pb-3">Struktur Ayat</h3>
+                        <p class="text-2xl font-bold mb-4">"Nama saya Adam. Saya berasal dari Malaysia."</p>
+                        <p class="text-2xl font-bold">"Saya tinggal di kawasan bandar yang sibuk."</p>
                     </div>
                 </div>
             </div>
@@ -477,39 +477,39 @@
 
         <!-- SLIDE 5: CFU 1 -->
         <div class="slide items-center justify-center text-center" id="slide-5">
-            <div class="content-box max-w-3xl w-full">
-                <h2 class="font-bangers text-4xl text-amber-600 uppercase mb-6">Semakan Kefahaman (CFU)</h2>
-                <div class="bg-slate-100 p-6 rounded border-2 border-slate-300 mb-6">
-                    <p class="text-2xl font-bold text-slate-800">Situasi: Rakan anda bertanya, "Apa khabar, Ali?"</p>
+            <div class="content-box max-w-4xl w-full">
+                <h2 class="font-bangers text-5xl text-amber-600 uppercase mb-8">Semakan Kefahaman (CFU)</h2>
+                <div class="bg-slate-100 p-8 rounded-xl border-2 border-slate-300 mb-8">
+                    <p class="text-3xl font-bold text-slate-800">Situasi: Rakan anda bertanya, "Apa khabar, Ali?"</p>
                 </div>
-                <p class="text-xl mb-4 font-bold text-slate-600 uppercase">Apakah respons yang paling sesuai?</p>
-                <div class="flex flex-col gap-3 max-w-md mx-auto">
-                    <button onclick="checkCFU(this, true, 'cfu-1')" class="cfu-btn px-5 py-3 bg-white border-2 border-slate-800 text-xl font-bold hover:bg-emerald-100 shadow-[4px_4px_0px_#1e293b]">"Khabar baik, terima kasih."</button>
-                    <button onclick="checkCFU(this, false)" class="cfu-btn px-5 py-3 bg-white border-2 border-slate-800 text-xl font-bold hover:bg-red-100 shadow-[4px_4px_0px_#1e293b]">"Nama saya Ali."</button>
+                <p class="text-2xl mb-6 font-bold text-slate-600 uppercase">Apakah respons yang paling sesuai?</p>
+                <div class="flex flex-col gap-4 max-w-2xl mx-auto">
+                    <button onclick="checkCFU(this, true, 'cfu-1')" class="cfu-btn px-6 py-4 bg-white border-2 border-slate-800 text-2xl font-bold hover:bg-emerald-100 shadow-[4px_4px_0px_#1e293b] rounded-xl">"Khabar baik, terima kasih."</button>
+                    <button onclick="checkCFU(this, false)" class="cfu-btn px-6 py-4 bg-white border-2 border-slate-800 text-2xl font-bold hover:bg-red-100 shadow-[4px_4px_0px_#1e293b] rounded-xl">"Nama saya Ali."</button>
                 </div>
-                <div id="cfu-1" class="mt-5 text-xl font-bold hidden text-emerald-600">Tepat Sekali!</div>
+                <div id="cfu-1" class="mt-8 text-3xl font-bold hidden text-emerald-600">Tepat Sekali!</div>
             </div>
         </div>
 
         <!-- SLIDE 6: TOPIK 2 -->
         <div class="slide items-center justify-center" id="slide-6">
-            <div class="content-box max-w-5xl w-full">
-                <div class="inline-block bg-emerald-600 text-white font-bangers text-xl px-5 py-1.5 rounded-full mb-4">Modul 2</div>
-                <h2 class="font-bangers text-5xl uppercase mb-6"><i class="fas fa-clock text-emerald-600"></i> Masa & Waktu</h2>
-                <div class="grid grid-cols-2 gap-6 items-center">
-                    <div class="bg-emerald-50 p-5 border-2 border-slate-800 rounded-xl shadow-[4px_4px_0px_#065f46]">
-                        <ul class="space-y-3 text-lg font-bold text-slate-700">
-                            <li><i class="fas fa-sun text-amber-500 w-6"></i> <strong>Pagi</strong> (Morning)</li>
-                            <li><i class="fas fa-cloud-sun text-orange-500 w-6"></i> <strong>Tengah hari</strong> (Afternoon / Noon)</li>
-                            <li><i class="fas fa-sunset text-red-500 w-6"></i> <strong>Petang</strong> (Evening)</li>
-                            <li><i class="fas fa-moon text-indigo-500 w-6"></i> <strong>Malam</strong> (Night)</li>
+            <div class="content-box max-w-6xl w-full">
+                <div class="inline-block bg-emerald-600 text-white font-bangers text-2xl px-6 py-2 rounded-full mb-6">Modul 2</div>
+                <h2 class="font-bangers text-6xl uppercase mb-8"><i class="fas fa-clock text-emerald-600"></i> Masa & Waktu</h2>
+                <div class="grid grid-cols-2 gap-8 items-center">
+                    <div class="bg-emerald-50 p-8 border-2 border-slate-800 rounded-2xl shadow-[6px_6px_0px_#065f46]">
+                        <ul class="space-y-5 text-2xl font-bold text-slate-700">
+                            <li><i class="fas fa-sun text-amber-500 w-8"></i> <strong>Pagi</strong> (Morning)</li>
+                            <li><i class="fas fa-cloud-sun text-orange-500 w-8"></i> <strong>Tengah hari</strong> (Afternoon / Noon)</li>
+                            <li><i class="fas fa-sunset text-red-500 w-8"></i> <strong>Petang</strong> (Evening)</li>
+                            <li><i class="fas fa-moon text-indigo-500 w-8"></i> <strong>Malam</strong> (Night)</li>
                         </ul>
                     </div>
-                    <div class="bg-slate-50 p-5 border-2 border-slate-800 rounded-xl">
-                        <h3 class="font-bangers text-2xl text-slate-700 mb-3">Cara Sebut Masa</h3>
-                        <p class="text-lg font-bold mb-2">08:00 = Pukul lapan</p>
-                        <p class="text-lg font-bold mb-2">08:15 = Pukul lapan <span class="text-emerald-600">suku</span></p>
-                        <p class="text-lg font-bold mb-2">08:30 = Pukul lapan <span class="text-emerald-600">setengah</span></p>
+                    <div class="bg-slate-50 p-8 border-2 border-slate-800 rounded-2xl">
+                        <h3 class="font-bangers text-3xl text-slate-700 mb-5">Cara Sebut Masa</h3>
+                        <p class="text-2xl font-bold mb-3">08:00 = Pukul lapan</p>
+                        <p class="text-2xl font-bold mb-3">08:15 = Pukul lapan <span class="text-emerald-600">suku</span></p>
+                        <p class="text-2xl font-bold mb-3">08:30 = Pukul lapan <span class="text-emerald-600">setengah</span></p>
                     </div>
                 </div>
             </div>
@@ -517,42 +517,42 @@
 
         <!-- SLIDE 7: CFU 2 -->
         <div class="slide items-center justify-center text-center" id="slide-7">
-            <div class="content-box max-w-3xl w-full">
-                <h2 class="font-bangers text-4xl text-amber-600 uppercase mb-6">Semakan Kefahaman (CFU)</h2>
-                <div class="bg-slate-100 p-6 rounded border-2 border-slate-300 mb-6">
-                    <p class="text-5xl font-bangers text-slate-800 tracking-widest">02:30 PM</p>
+            <div class="content-box max-w-4xl w-full">
+                <h2 class="font-bangers text-5xl text-amber-600 uppercase mb-8">Semakan Kefahaman (CFU)</h2>
+                <div class="bg-slate-100 p-8 rounded-xl border-2 border-slate-300 mb-8">
+                    <p class="text-7xl font-bangers text-slate-800 tracking-widest">02:30 PM</p>
                 </div>
-                <p class="text-xl mb-4 font-bold text-slate-600 uppercase">Bagaimanakah waktu ini disebut dalam bahasa Melayu?</p>
-                <div class="flex flex-col gap-3 max-w-md mx-auto">
-                    <button onclick="checkCFU(this, false)" class="cfu-btn px-5 py-3 bg-white border-2 border-slate-800 text-xl font-bold hover:bg-red-100 shadow-[4px_4px_0px_#1e293b]">Pukul dua tiga puluh pagi</button>
-                    <button onclick="checkCFU(this, true, 'cfu-2')" class="cfu-btn px-5 py-3 bg-white border-2 border-slate-800 text-xl font-bold hover:bg-emerald-100 shadow-[4px_4px_0px_#1e293b]">Pukul dua setengah petang</button>
+                <p class="text-2xl mb-6 font-bold text-slate-600 uppercase">Bagaimanakah waktu ini disebut dalam bahasa Melayu?</p>
+                <div class="flex flex-col gap-4 max-w-2xl mx-auto">
+                    <button onclick="checkCFU(this, false)" class="cfu-btn px-6 py-4 bg-white border-2 border-slate-800 text-2xl font-bold hover:bg-red-100 shadow-[4px_4px_0px_#1e293b] rounded-xl">Pukul dua tiga puluh pagi</button>
+                    <button onclick="checkCFU(this, true, 'cfu-2')" class="cfu-btn px-6 py-4 bg-white border-2 border-slate-800 text-2xl font-bold hover:bg-emerald-100 shadow-[4px_4px_0px_#1e293b] rounded-xl">Pukul dua setengah petang</button>
                 </div>
-                <div id="cfu-2" class="mt-5 text-xl font-bold hidden text-emerald-600">Tepat Sekali!</div>
+                <div id="cfu-2" class="mt-8 text-3xl font-bold hidden text-emerald-600">Tepat Sekali!</div>
             </div>
         </div>
 
         <!-- SLIDE 8: TOPIK 3 -->
         <div class="slide items-center justify-center" id="slide-8">
-            <div class="content-box max-w-5xl w-full">
-                <div class="inline-block bg-amber-600 text-white font-bangers text-xl px-5 py-1.5 rounded-full mb-4">Modul 3</div>
-                <h2 class="font-bangers text-5xl uppercase mb-6"><i class="fas fa-paw text-amber-600"></i> Keluarga & Haiwan Peliharaan</h2>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-slate-50 p-5 border-2 border-slate-800 rounded-xl">
-                        <h3 class="font-bangers text-2xl text-slate-700 mb-3 border-b-2 border-slate-300 pb-2">Ahli Keluarga (Family)</h3>
-                        <div class="grid grid-cols-2 gap-3 text-lg font-bold text-slate-600">
-                            <div><i class="fas fa-male text-blue-500"></i> Bapa</div>
-                            <div><i class="fas fa-female text-pink-500"></i> Ibu</div>
-                            <div><i class="fas fa-user text-blue-400"></i> Abang / Adik</div>
-                            <div><i class="fas fa-user text-pink-400"></i> Kakak / Adik</div>
+            <div class="content-box max-w-6xl w-full">
+                <div class="inline-block bg-amber-600 text-white font-bangers text-2xl px-6 py-2 rounded-full mb-6">Modul 3</div>
+                <h2 class="font-bangers text-6xl uppercase mb-8"><i class="fas fa-paw text-amber-600"></i> Keluarga & Haiwan Peliharaan</h2>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="bg-slate-50 p-8 border-2 border-slate-800 rounded-2xl">
+                        <h3 class="font-bangers text-3xl text-slate-700 mb-5 border-b-2 border-slate-300 pb-3">Ahli Keluarga (Family)</h3>
+                        <div class="grid grid-cols-2 gap-5 text-2xl font-bold text-slate-600">
+                            <div><i class="fas fa-male text-blue-500 w-6"></i> Bapa</div>
+                            <div><i class="fas fa-female text-pink-500 w-6"></i> Ibu</div>
+                            <div><i class="fas fa-user text-blue-400 w-6"></i> Abang / Adik</div>
+                            <div><i class="fas fa-user text-pink-400 w-6"></i> Kakak / Adik</div>
                         </div>
                     </div>
-                    <div class="bg-amber-50 p-5 border-2 border-slate-800 rounded-xl shadow-[4px_4px_0px_#b45309]">
-                        <h3 class="font-bangers text-2xl text-slate-700 mb-3">Haiwan (Pets)</h3>
-                        <ul class="space-y-2 text-lg font-bold text-slate-700">
-                            <li><i class="fas fa-cat"></i> Kucing (Cat)</li>
-                            <li><i class="fas fa-dog"></i> Anjing (Dog)</li>
-                            <li><i class="fas fa-fish"></i> Ikan (Fish)</li>
-                            <li><i class="fas fa-dove"></i> Burung (Bird)</li>
+                    <div class="bg-amber-50 p-8 border-2 border-slate-800 rounded-2xl shadow-[6px_6px_0px_#b45309]">
+                        <h3 class="font-bangers text-3xl text-slate-700 mb-5">Haiwan (Pets)</h3>
+                        <ul class="space-y-4 text-2xl font-bold text-slate-700">
+                            <li><i class="fas fa-cat w-8"></i> Kucing (Cat)</li>
+                            <li><i class="fas fa-dog w-8"></i> Anjing (Dog)</li>
+                            <li><i class="fas fa-fish w-8"></i> Ikan (Fish)</li>
+                            <li><i class="fas fa-dove w-8"></i> Burung (Bird)</li>
                         </ul>
                     </div>
                 </div>
@@ -561,45 +561,45 @@
 
         <!-- SLIDE 9: CFU 3 -->
         <div class="slide items-center justify-center text-center" id="slide-9">
-            <div class="content-box max-w-3xl w-full">
-                <h2 class="font-bangers text-4xl text-amber-600 uppercase mb-6">Lengkapkan Ayat</h2>
-                <div class="bg-slate-100 p-6 rounded border-2 border-slate-300 mb-6">
-                    <p class="text-2xl font-bold text-slate-800">"Keluarga saya membela seekor ____________ yang sangat comel dan gemar memakan ikan pada waktu petang."</p>
+            <div class="content-box max-w-4xl w-full">
+                <h2 class="font-bangers text-5xl text-amber-600 uppercase mb-8">Lengkapkan Ayat</h2>
+                <div class="bg-slate-100 p-8 rounded-xl border-2 border-slate-300 mb-8">
+                    <p class="text-3xl font-bold text-slate-800 leading-relaxed">"Keluarga saya membela seekor ____________ yang sangat comel dan gemar memakan ikan pada waktu petang."</p>
                 </div>
-                <div class="flex flex-col gap-3 max-w-md mx-auto">
-                    <button onclick="checkCFU(this, true, 'cfu-3')" class="cfu-btn px-5 py-3 bg-white border-2 border-slate-800 text-xl font-bold hover:bg-emerald-100 shadow-[4px_4px_0px_#1e293b]">Kucing</button>
-                    <button onclick="checkCFU(this, false)" class="cfu-btn px-5 py-3 bg-white border-2 border-slate-800 text-xl font-bold hover:bg-red-100 shadow-[4px_4px_0px_#1e293b]">Burung</button>
+                <div class="flex flex-col gap-4 max-w-2xl mx-auto">
+                    <button onclick="checkCFU(this, true, 'cfu-3')" class="cfu-btn px-6 py-4 bg-white border-2 border-slate-800 text-2xl font-bold hover:bg-emerald-100 shadow-[4px_4px_0px_#1e293b] rounded-xl">Kucing</button>
+                    <button onclick="checkCFU(this, false)" class="cfu-btn px-6 py-4 bg-white border-2 border-slate-800 text-2xl font-bold hover:bg-red-100 shadow-[4px_4px_0px_#1e293b] rounded-xl">Burung</button>
                 </div>
-                <div id="cfu-3" class="mt-5 text-xl font-bold hidden text-emerald-600">Tepat Sekali! Kucing menggemari ikan.</div>
+                <div id="cfu-3" class="mt-8 text-3xl font-bold hidden text-emerald-600">Tepat Sekali! Kucing menggemari ikan.</div>
             </div>
         </div>
 
         <!-- SLIDE 10: KUNCI BUZZER (PREP) -->
         <div class="slide items-center justify-center text-center" id="slide-10">
-            <div class="content-box max-w-3xl w-full border-2 border-slate-800 shadow-[6px_6px_0px_#1e293b]">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-slate-900 text-white rounded font-bold uppercase tracking-widest mb-6 text-xs">
+            <div class="content-box max-w-4xl w-full border-4 border-slate-800 shadow-[8px_8px_0px_#1e293b]">
+                <div class="inline-flex items-center gap-3 px-6 py-2 bg-slate-900 text-white rounded font-bold uppercase tracking-widest mb-8 text-sm">
                     <i class="fas fa-lock text-amber-400"></i> Persediaan Ujian Kepantasan
                 </div>
-                <h2 class="font-bangers text-5xl text-slate-900 mb-4 uppercase">Bersedia Untuk Berebut!</h2>
-                <p class="text-xl font-bold text-slate-600 mb-6">Sila pastikan kod rawak ini dimasukkan ke dalam peranti anda:</p>
+                <h2 class="font-bangers text-7xl text-slate-900 mb-6 uppercase">Bersedia Untuk Berebut!</h2>
+                <p class="text-2xl font-bold text-slate-600 mb-8">Sila pastikan kod rawak ini dimasukkan ke dalam peranti anda:</p>
                 
                 <!-- Kotak Password -->
-                <div id="pass-container-10" class="bg-amber-300 p-6 rounded-xl border-4 border-slate-900 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] inline-block mb-8 transform -rotate-2 transition-all">
-                    <span id="prep-pass-11" class="text-[4rem] md:text-[5rem] font-bangers text-slate-900 leading-none drop-shadow-md tracking-widest">ABCDEFG</span>
+                <div id="pass-container-10" class="bg-amber-300 p-8 rounded-2xl border-4 border-slate-900 shadow-[6px_6px_0px_rgba(0,0,0,0.2)] inline-block mb-10 transform -rotate-2 transition-all">
+                    <span id="prep-pass-11" class="text-[5rem] md:text-[6rem] font-bangers text-slate-900 leading-none drop-shadow-md tracking-widest">ABCDEFG</span>
                 </div>
                 
                 <!-- Kotak Nama Pemenang -->
-                <div id="winner-container-10" class="hidden bg-emerald-400 p-6 rounded-xl border-4 border-slate-900 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] mb-8 transform rotate-2 flex-col items-center animate-popIn">
-                    <p class="text-slate-900 font-black uppercase tracking-widest text-lg mb-1"><i class="fas fa-bolt"></i> Terpantas!</p>
-                    <span id="winner-name-10" class="text-[4rem] md:text-[5rem] font-bangers text-slate-900 leading-none drop-shadow-md tracking-widest uppercase">NAMA</span>
-                    <p class="text-slate-800 font-bold mt-2 bg-white/50 px-3 py-1 rounded border border-slate-900 uppercase tracking-widest text-xs">Perhatian: Sila ke slaid yang seterusnya</p>
+                <div id="winner-container-10" class="hidden bg-emerald-400 p-8 rounded-2xl border-4 border-slate-900 shadow-[6px_6px_0px_rgba(0,0,0,0.2)] mb-10 transform rotate-2 flex-col items-center animate-popIn">
+                    <p class="text-slate-900 font-black uppercase tracking-widest text-xl mb-2"><i class="fas fa-bolt"></i> Terpantas!</p>
+                    <span id="winner-name-10" class="text-[5rem] md:text-[6rem] font-bangers text-slate-900 leading-none drop-shadow-md tracking-widest uppercase">NAMA</span>
+                    <p class="text-slate-800 font-bold mt-3 bg-white/50 px-4 py-2 rounded border border-slate-900 uppercase tracking-widest text-sm">Perhatian: Sila ke slaid yang seterusnya</p>
                 </div>
 
-                <div class="p-4 bg-red-50 border-2 border-red-600 rounded-xl max-w-xl mx-auto text-left flex gap-3">
-                    <i class="fas fa-exclamation-triangle text-3xl text-red-600 mt-1"></i>
+                <div class="p-6 bg-red-50 border-2 border-red-600 rounded-xl max-w-2xl mx-auto text-left flex gap-4">
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-600 mt-1"></i>
                     <div>
-                        <p class="text-red-700 font-black uppercase text-lg mb-1">Arahan Pelaksanaan</p>
-                        <p class="text-red-800 font-bold text-sm">Taip *kata laluan* dan bersedia di atas butang pemikir. Nantikan paparan soalan di Slaid 11 sebelum bertindak!</p>
+                        <p class="text-red-700 font-black uppercase text-xl mb-2">Arahan Pelaksanaan</p>
+                        <p class="text-red-800 font-bold text-lg">Taip *kata laluan* dan bersedia di atas butang pemikir. Nantikan paparan soalan di Slaid 11 sebelum bertindak!</p>
                     </div>
                 </div>
             </div>
@@ -608,26 +608,26 @@
         <!-- SLIDE 11: SOALAN BUZZER -->
         <div class="slide items-center justify-center relative" id="slide-11">
             <!-- Papan Kunci Aktif -->
-            <div class="absolute top-24 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-400 px-6 py-2 rounded-xl font-bangers text-3xl tracking-widest border-2 border-slate-700 shadow-[0_6px_0_#0f172a] z-50 animate-popIn">
+            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-400 px-8 py-3 rounded-xl font-bangers text-4xl tracking-widest border-2 border-slate-700 shadow-[0_8px_0_#0f172a] z-50 animate-popIn">
                 KOD AKTIF: <span id="current-pass-11">ABCDEFG</span>
             </div>
 
-            <div class="content-box max-w-4xl w-full border-2 border-blue-600 shadow-[6px_6px_0px_#2563eb] text-center mt-20">
-                <div class="inline-block px-5 py-1.5 bg-blue-600 text-white rounded-full font-black uppercase tracking-[0.2em] mb-6 text-sm">Ujian Terjemahan Pantas</div>
+            <div class="content-box max-w-5xl w-full border-2 border-blue-600 shadow-[8px_8px_0px_#2563eb] text-center mt-12">
+                <div class="inline-block px-6 py-2 bg-blue-600 text-white rounded-full font-black uppercase tracking-[0.2em] mb-8 text-base">Ujian Terjemahan Pantas</div>
                 
-                <h2 class="font-bangers text-4xl md:text-5xl mb-6 text-slate-900 leading-tight">
+                <h2 class="font-bangers text-5xl md:text-6xl mb-8 text-slate-900 leading-tight">
                     Terjemahkan ayat ini ke dalam bahasa Melayu: <br><br>
-                    <span class="text-amber-600 bg-amber-50 px-4 py-2 border-2 border-amber-600 rounded inline-block mt-2">"My mother is cooking in the evening."</span>
+                    <span class="text-amber-600 bg-amber-50 px-6 py-3 border-4 border-amber-600 rounded-xl inline-block mt-4">"My mother is cooking in the evening."</span>
                 </h2>
                 
                 <!-- Status Pemenang Menjawab -->
-                <div id="winner-ui-11" class="hidden flex-col items-center w-full mt-4 animate-popIn">
-                    <div class="text-center bg-slate-50 px-8 py-6 rounded-xl border-2 border-emerald-600 w-full max-w-2xl shadow-[6px_6px_0px_#059669] mx-auto relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500 animate-pulse"></div>
-                        <p class="text-xs font-black text-emerald-700 uppercase tracking-widest mb-1"><i class="fas fa-user-edit"></i> Pemain Menjawab</p>
-                        <h2 id="winner-name-11" class="font-bangers text-[3rem] text-slate-900 uppercase leading-none truncate mb-4">NAMA</h2>
+                <div id="winner-ui-11" class="hidden flex-col items-center w-full mt-6 animate-popIn">
+                    <div class="text-center bg-slate-50 px-10 py-8 rounded-2xl border-4 border-emerald-600 w-full max-w-3xl shadow-[8px_8px_0px_#059669] mx-auto relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-emerald-500 animate-pulse"></div>
+                        <p class="text-sm font-black text-emerald-700 uppercase tracking-widest mb-2"><i class="fas fa-user-edit"></i> Pemain Menjawab</p>
+                        <h2 id="winner-name-11" class="font-bangers text-[4rem] text-slate-900 uppercase leading-none truncate mb-6">NAMA</h2>
                         
-                        <div id="typing-status-11" class="text-xl font-bold text-slate-600 bg-white p-3 rounded-lg border-2 border-slate-300">
+                        <div id="typing-status-11" class="text-2xl font-bold text-slate-600 bg-white p-4 rounded-xl border-2 border-slate-300">
                             <i class="fas fa-keyboard text-amber-500 animate-pulse"></i> Menunggu jawapan dihantar...
                         </div>
                     </div>
@@ -637,30 +637,30 @@
 
         <!-- SLIDE 12: PENULISAN PENDEK -->
         <div class="slide items-center justify-center" id="slide-12">
-            <div class="content-box max-w-4xl w-full text-center">
-                <h2 class="font-bangers text-6xl uppercase mb-6 text-emerald-700">Latihan Penulisan</h2>
-                <p class="text-2xl font-bold mb-5">Bina satu ayat yang menceritakan aktiviti harian keluarga anda.</p>
-                <div class="bg-slate-100 p-5 border-l-4 border-emerald-600 text-left text-lg font-bold space-y-2">
-                    <p>Syarat penulisan:</p>
-                    <p>✓ Mesti mengandungi unsur MASA (Contoh: Pada waktu petang).</p>
-                    <p>✓ Mesti melibatkan AHLI KELUARGA (Contoh: Bapa / Ibu).</p>
-                    <p>✓ Menggunakan kata hubung "DAN".</p>
+            <div class="content-box max-w-5xl w-full text-center">
+                <h2 class="font-bangers text-7xl uppercase mb-8 text-emerald-700">Latihan Penulisan</h2>
+                <p class="text-3xl font-bold mb-8">Bina satu ayat yang menceritakan aktiviti harian keluarga anda.</p>
+                <div class="bg-slate-100 p-8 border-l-8 border-emerald-600 text-left text-2xl font-bold space-y-4 rounded-r-xl">
+                    <p class="text-slate-800">Syarat penulisan:</p>
+                    <p class="text-slate-600">✓ Mesti mengandungi unsur MASA (Contoh: Pada waktu petang).</p>
+                    <p class="text-slate-600">✓ Mesti melibatkan AHLI KELUARGA (Contoh: Bapa / Ibu).</p>
+                    <p class="text-slate-600">✓ Menggunakan kata hubung "DAN".</p>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 13: REFLEKSI -->
         <div class="slide items-center justify-center" id="slide-13">
-            <div class="content-box max-w-4xl w-full text-center">
-                <h2 class="font-bangers text-6xl uppercase mb-6">Sesi Refleksi</h2>
-                <div class="grid grid-cols-2 gap-6 text-left">
-                    <div class="p-6 border-2 border-slate-300 rounded">
-                        <p class="text-xl font-bangers text-slate-400 mb-2">Dahulu saya berfikir...</p>
-                        <p class="text-lg font-bold">Agak sukar untuk mengingati kosa kata asas berkaitan keluarga dan masa.</p>
+            <div class="content-box max-w-6xl w-full text-center">
+                <h2 class="font-bangers text-7xl uppercase mb-10">Sesi Refleksi</h2>
+                <div class="grid grid-cols-2 gap-8 text-left">
+                    <div class="p-8 border-2 border-slate-300 rounded-2xl">
+                        <p class="text-2xl font-bangers text-slate-400 mb-4 tracking-wider">Dahulu saya berfikir...</p>
+                        <p class="text-2xl font-bold text-slate-700 leading-relaxed">Agak sukar untuk mengingati kosa kata asas berkaitan keluarga dan masa.</p>
                     </div>
-                    <div class="p-6 border-2 border-emerald-600 bg-emerald-50 shadow-[4px_4px_0px_#059669] rounded">
-                        <p class="text-xl font-bangers text-emerald-700 mb-2">Kini saya mengetahui...</p>
-                        <p class="text-lg font-bold">Saya mampu mengaplikasikan kosa kata ini untuk membina ayat mudah tentang rutin kehidupan harian.</p>
+                    <div class="p-8 border-4 border-emerald-600 bg-emerald-50 shadow-[6px_6px_0px_#059669] rounded-2xl">
+                        <p class="text-2xl font-bangers text-emerald-700 mb-4 tracking-wider">Kini saya mengetahui...</p>
+                        <p class="text-2xl font-bold text-slate-800 leading-relaxed">Saya mampu mengaplikasikan kosa kata ini untuk membina ayat mudah tentang rutin kehidupan harian.</p>
                     </div>
                 </div>
             </div>
@@ -668,72 +668,72 @@
 
         <!-- SLIDE 14: EXIT TICKET -->
         <div class="slide items-center justify-center" id="slide-14">
-            <div class="content-box max-w-3xl w-full text-center">
-                <h2 class="font-bangers text-6xl uppercase mb-6 text-blue-700 underline">Tiket Keluar</h2>
-                <p class="text-2xl font-bold mb-6">Berikan satu ucapan selamat yang paling sesuai dilafazkan pada pukul 9.00 malam.</p>
-                <textarea class="w-full h-24 border-2 border-slate-800 p-3 text-lg font-bold outline-none rounded" placeholder="Jawapan anda di sini..."></textarea>
-                <button onclick="changeSlide(1)" class="btn-nav text-xl px-8 py-3 font-bangers uppercase mt-4">Selesai</button>
+            <div class="content-box max-w-4xl w-full text-center">
+                <h2 class="font-bangers text-7xl uppercase mb-8 text-blue-700 underline">Tiket Keluar</h2>
+                <p class="text-3xl font-bold mb-8 text-slate-800">Berikan satu ucapan selamat yang paling sesuai dilafazkan pada pukul 9.00 malam.</p>
+                <textarea class="w-full h-32 border-2 border-slate-800 p-5 text-2xl font-bold outline-none rounded-xl" placeholder="Jawapan anda di sini..."></textarea>
+                <button onclick="changeSlide(1)" class="btn-nav text-2xl px-10 py-4 font-bangers uppercase mt-6 rounded-xl">Selesai</button>
             </div>
         </div>
 
         <!-- ========================================== -->
         <!-- SLIDE 15: CABARAN KOSA KATA (FAMILY FEUD)  -->
         <!-- ========================================== -->
-        <div class="slide items-center justify-center bg-slate-900" id="slide-15" style="padding-top: 5rem;">
-            <div class="w-full max-w-5xl flex flex-col items-center">
+        <div class="slide items-center justify-center bg-slate-900" id="slide-15">
+            <div class="w-full max-w-6xl flex flex-col items-center">
                 
                 <!-- Display Kod Rawak Feud -->
-                <div class="mb-4 text-center animate-popIn">
-                    <div class="inline-block bg-slate-800 border-2 border-emerald-400 text-emerald-400 px-4 py-1.5 rounded-lg mb-2 shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">
-                        <span class="font-bold uppercase tracking-widest text-xs">Kod Akses Semasa: </span>
-                        <span id="prep-pass-15" class="font-bangers text-2xl tracking-widest">ABCDEFG</span>
+                <div class="mb-6 text-center animate-popIn">
+                    <div class="inline-block bg-slate-800 border-2 border-emerald-400 text-emerald-400 px-5 py-2 rounded-xl mb-4 shadow-[4px_4px_0px_rgba(0,0,0,0.5)]">
+                        <span class="font-bold uppercase tracking-widest text-sm">Kod Akses Semasa: </span>
+                        <span id="prep-pass-15" class="font-bangers text-4xl tracking-widest ml-2">ABCDEFG</span>
                     </div>
-                    <h1 class="font-bangers text-[4rem] text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] leading-none uppercase tracking-widest">
+                    <h1 class="font-bangers text-[5rem] md:text-[6rem] text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] leading-none uppercase tracking-widest">
                         Cabaran Kosa Kata
                     </h1>
-                    <p class="text-lg font-bold text-slate-300 uppercase tracking-[0.2em] mt-1 border-b-2 border-slate-600 pb-1 inline-block">Ujian Ingatan Melalui Pengesanan Automatik</p>
+                    <p class="text-xl font-bold text-slate-300 uppercase tracking-[0.2em] mt-3 border-b-2 border-slate-600 pb-2 inline-block">Ujian Ingatan Melalui Pengesanan Automatik</p>
                 </div>
 
                 <!-- Soalan & Markah -->
-                <div class="w-full flex justify-between items-center mb-4 px-4">
-                    <div class="bg-blue-900 text-white p-4 border-2 border-yellow-400 rounded-xl shadow-[0_0_15px_rgba(37,99,235,0.5)] flex-1 text-center mr-6">
-                        <h2 id="feud-question" class="text-2xl font-bold leading-tight">Soalan akan dipaparkan di ruangan ini...</h2>
+                <div class="w-full flex justify-between items-center mb-6 px-4">
+                    <div class="bg-blue-900 text-white p-6 border-4 border-yellow-400 rounded-2xl shadow-[0_0_20px_rgba(37,99,235,0.5)] flex-1 text-center mr-8">
+                        <h2 id="feud-question" class="text-3xl font-bold leading-tight">Soalan akan dipaparkan di ruangan ini...</h2>
                     </div>
                     
                     <!-- Papan Markah Total -->
-                    <div class="bg-slate-800 border-2 border-slate-600 rounded-xl p-2 flex flex-col items-center w-32 shrink-0">
-                        <p class="text-slate-400 font-bold uppercase text-[10px] mb-1 tracking-widest">Markah Terkumpul</p>
-                        <p id="feud-total-score" class="font-bangers text-4xl text-yellow-400">0</p>
+                    <div class="bg-slate-800 border-4 border-slate-600 rounded-2xl p-4 flex flex-col items-center w-40 shrink-0 shadow-lg">
+                        <p class="text-slate-400 font-bold uppercase text-xs mb-2 tracking-widest">Markah Terkumpul</p>
+                        <p id="feud-total-score" class="font-bangers text-5xl text-yellow-400">0</p>
                     </div>
                 </div>
 
                 <!-- Paparan Pemenang & Jawapan Ditaip (Auto) -->
-                <div class="w-full flex flex-col items-center justify-center relative mb-4">
-                    <div id="feud-winner-display" class="hidden w-full max-w-xl bg-slate-100 border-2 border-emerald-500 rounded-lg p-2 text-center animate-popIn z-10 shadow-[4px_4px_0px_#059669]">
-                        <p class="text-emerald-700 font-bold uppercase tracking-widest text-[10px] mb-1"><i class="fas fa-bolt"></i> Jawapan Daripada:</p>
-                        <h3 id="feud-winner-name" class="font-bangers text-3xl text-slate-900 uppercase">NAMA</h3>
-                        <div class="bg-white border-2 border-slate-300 rounded p-1.5 mt-1.5">
-                            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-0.5">Status Jawapan:</p>
-                            <p id="feud-winner-ans" class="font-bangers text-2xl text-emerald-600 tracking-wider">SEDANG MENAIP...</p>
+                <div class="w-full flex flex-col items-center justify-center relative mb-6">
+                    <div id="feud-winner-display" class="hidden w-full max-w-2xl bg-slate-100 border-4 border-emerald-500 rounded-xl p-4 text-center animate-popIn z-10 shadow-[6px_6px_0px_#059669]">
+                        <p class="text-emerald-700 font-bold uppercase tracking-widest text-sm mb-2"><i class="fas fa-bolt"></i> Jawapan Daripada:</p>
+                        <h3 id="feud-winner-name" class="font-bangers text-4xl text-slate-900 uppercase">NAMA</h3>
+                        <div class="bg-white border-2 border-slate-300 rounded-lg p-3 mt-3">
+                            <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">Status Jawapan:</p>
+                            <p id="feud-winner-ans" class="font-bangers text-3xl text-emerald-600 tracking-wider">SEDANG MENAIP...</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Papan Jawapan (Board) -->
-                <div class="feud-board w-full grid grid-cols-2 gap-3 mb-4" id="feud-board-container">
+                <div class="feud-board w-full grid grid-cols-2 gap-4 mb-6" id="feud-board-container">
                     <!-- Jawapan dijana oleh JS -->
                 </div>
 
                 <!-- Kawalan Navigasi Guru & Strike -->
-                <div class="w-full flex justify-between items-center bg-slate-800 p-3 rounded-lg border-2 border-slate-700">
-                    <div class="flex gap-3">
-                        <button onclick="prevFeud()" class="btn-nav bg-slate-700 border-slate-600 text-base font-bangers"><i class="fas fa-chevron-left"></i></button>
-                        <div id="feud-counter" class="bg-slate-900 text-slate-300 font-bangers text-lg px-3 py-1 rounded border border-slate-700 flex items-center">S1 / 10</div>
-                        <button onclick="nextFeud()" class="btn-nav bg-blue-600 border-blue-800 text-base font-bangers hover:bg-blue-500">Peralihan Soalan <i class="fas fa-chevron-right ml-1"></i></button>
+                <div class="w-full flex justify-between items-center bg-slate-800 p-4 rounded-xl border-2 border-slate-700 shadow-lg">
+                    <div class="flex gap-4">
+                        <button onclick="prevFeud()" class="btn-nav bg-slate-700 border-slate-600 text-xl font-bangers w-12 h-12 flex items-center justify-center rounded-lg hover:bg-slate-600"><i class="fas fa-chevron-left"></i></button>
+                        <div id="feud-counter" class="bg-slate-900 text-slate-300 font-bangers text-2xl px-5 py-2 rounded-lg border border-slate-700 flex items-center">S1 / 10</div>
+                        <button onclick="nextFeud()" class="btn-nav bg-blue-600 border-blue-800 text-xl font-bangers hover:bg-blue-500 rounded-lg flex items-center px-6">Peralihan Soalan <i class="fas fa-chevron-right ml-2"></i></button>
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <div id="strike-display" class="flex gap-3 font-bangers text-4xl tracking-widest min-w-[100px] justify-center text-slate-700">
+                        <div id="strike-display" class="flex gap-4 font-bangers text-5xl tracking-widest min-w-[120px] justify-center text-slate-700">
                             <!-- X X X appear here -->
                         </div>
                     </div>
@@ -742,23 +742,18 @@
             </div>
         </div>
 
-        <!-- Tetapan & Fullscreen -->
-        <div class="fixed bottom-6 right-6 flex gap-3 z-50">
-            <button onclick="toggleFullscreen()" class="w-12 h-12 bg-white border-2 border-slate-800 shadow-[2px_2px_0px_#1e293b] rounded-full text-xl hover:bg-slate-100"><i class="fas fa-expand-alt"></i></button>
-        </div>
-
         <!-- Modal Salah / Rebound Automatik -->
         <div id="wrong-modal" class="absolute inset-0 z-[100] hidden flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl p-4">
             <div class="text-center mb-6 animate-popIn text-white">
-                <h2 class="font-bangers text-[6rem] tracking-tighter uppercase text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)] leading-none">TIDAK TEPAT!</h2>
-                <p class="text-slate-300 font-bold uppercase tracking-widest mt-3 text-lg bg-red-900/50 px-5 py-1.5 rounded-full border border-red-500/50 inline-block">Sistem dibuka semula secara automatik dalam 1.5 saat...</p>
+                <h2 class="font-bangers text-[7rem] md:text-[8rem] tracking-tighter uppercase text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)] leading-none">TIDAK TEPAT!</h2>
+                <p class="text-slate-300 font-bold uppercase tracking-widest mt-4 text-xl bg-red-900/50 px-6 py-2 rounded-full border border-red-500/50 inline-block">Sistem dibuka semula secara automatik dalam 1.5 saat...</p>
             </div>
-            <div class="relative w-full max-w-2xl aspect-video bg-black rounded-xl border-4 border-white/10 shadow-2xl overflow-hidden animate-popIn" style="animation-delay: 0.1s;">
+            <div class="relative w-full max-w-3xl aspect-video bg-black rounded-2xl border-4 border-white/10 shadow-2xl overflow-hidden animate-popIn" style="animation-delay: 0.1s;">
                 <img src="https://media.giphy.com/media/xT5LMPj8P20jjOqZ5C/giphy.gif" class="w-full h-full object-cover" alt="GIF Jawapan Salah">
             </div>
             <div class="mt-8 flex flex-col items-center animate-popIn" style="animation-delay: 0.2s;">
-                <div class="w-10 h-10 border-4 border-slate-700 border-t-red-500 rounded-full animate-spin mb-3"></div>
-                <p class="text-red-500 font-black tracking-widest uppercase text-xs animate-pulse">Lantunan Semula Automatik...</p>
+                <div class="w-12 h-12 border-4 border-slate-700 border-t-red-500 rounded-full animate-spin mb-4"></div>
+                <p class="text-red-500 font-black tracking-widest uppercase text-sm animate-pulse">Lantunan Semula Automatik...</p>
             </div>
         </div>
 
@@ -896,6 +891,7 @@
                 document.getElementById('teacher-auth-modal').classList.remove('flex');
                 document.getElementById('role-screen').style.display = 'none';
                 document.getElementById('teacher-view').style.display = 'block';
+                document.getElementById('floating-controls').classList.remove('hidden');
                 initTeacher();
             } else {
                 document.getElementById('teacher-auth-error').classList.remove('hidden');
@@ -1237,7 +1233,7 @@
                 document.getElementById('feud-winner-display').classList.remove('hidden');
 
                 if (!ans) {
-                    document.getElementById('feud-winner-ans').innerHTML = '<span class="text-amber-500 animate-pulse text-xl"><i class="fas fa-keyboard"></i> Sedang menaip...</span>';
+                    document.getElementById('feud-winner-ans').innerHTML = '<span class="text-amber-500 animate-pulse text-2xl"><i class="fas fa-keyboard"></i> Sedang menaip...</span>';
                 } else {
                     document.getElementById('feud-winner-ans').innerText = ans;
                     document.getElementById('api-text').innerText = "JAWAPAN DITERIMA";
@@ -1320,15 +1316,15 @@
 
                     if (hasSubject && hasVerb && hasTime) {
                     statusEl.innerHTML = `
-                        <span class="bg-emerald-100 text-emerald-800 px-6 py-3 rounded-lg border-2 border-emerald-500 font-bangers tracking-widest text-3xl shadow-[4px_4px_0px_#059669] inline-block mt-2">${ans}</span>
-                        <div class="mt-4 text-emerald-600 font-bangers text-3xl animate-bounce"><i class="fas fa-check-circle"></i> TEPAT SEKALI!</div>
+                        <span class="bg-emerald-100 text-emerald-800 px-8 py-4 rounded-xl border-4 border-emerald-500 font-bangers tracking-widest text-4xl shadow-[6px_6px_0px_#059669] inline-block mt-3">${ans}</span>
+                        <div class="mt-6 text-emerald-600 font-bangers text-4xl animate-bounce"><i class="fas fa-check-circle"></i> TEPAT SEKALI!</div>
                     `;
                     document.getElementById('api-text').innerText = "JAWAPAN TEPAT";
                     document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-green-500";
                 } else {
                     statusEl.innerHTML = `
-                        <span class="bg-red-100 text-red-800 px-6 py-3 rounded-lg border-2 border-red-500 font-bangers tracking-widest text-3xl shadow-[4px_4px_0px_#7f1d1d] inline-block mt-2" style="text-decoration: line-through;">${ans}</span>
-                        <div class="mt-4 text-red-600 font-bangers text-2xl animate-pulse"><i class="fas fa-times-circle"></i> JAWAPAN KURANG TEPAT!</div>
+                        <span class="bg-red-100 text-red-800 px-8 py-4 rounded-xl border-4 border-red-500 font-bangers tracking-widest text-4xl shadow-[6px_6px_0px_#7f1d1d] inline-block mt-3" style="text-decoration: line-through;">${ans}</span>
+                        <div class="mt-6 text-red-600 font-bangers text-3xl animate-pulse"><i class="fas fa-times-circle"></i> JAWAPAN KURANG TEPAT!</div>
                     `;
                     document.getElementById('api-text').innerText = "JAWAPAN SALAH";
                     document.getElementById('api-dot').className = "w-3 h-3 rounded-full bg-red-500";
